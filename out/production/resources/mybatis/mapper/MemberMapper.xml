@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohho.valetparking.domains.member.repository.MemberMapper">
+
+    <insert id="newUserJoin"  parameterType="com.ohho.valetparking.domains.member.entity.Join">
+
+        INSERT INTO users (
+                nickname
+                , email
+                , `password`
+                , department)
+        VALUES(
+                #{nickname}
+                ,#{email}
+                ,#{password}
+                ,#{department}
+        )
+
+    </insert>
+
+    <insert id="newAdminJoin"  parameterType="com.ohho.valetparking.domains.member.entity.Join">
+
+        INSERT INTO admins (
+                nickname
+                , email
+                , `password`
+                , department)
+        VALUES(
+                #{nickname}
+                ,#{email}
+                ,#{password}
+                ,#{department}
+        )
+
+    </insert>
+
+    <select id="mailCheck" parameterType="string" resultType="Boolean">
+
+        SELECT EXISTS(
+                    SELECT *
+                    FROM(
+                        SELECT email
+                                FROM users
+                                UNION ALL
+                                SELECT email
+                                FROM admins) AS x
+                    WHERE email = #{email}
+        )
+
+    </select>
+
+    <select id="getPassword" parameterType="string" resultType="string">
+        SELECT password
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+</mapper>
