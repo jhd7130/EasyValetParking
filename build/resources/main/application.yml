@@ -1,14 +1,19 @@
 
 # database
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
-        url: jdbc:mysql://localhost:3306/easyvalet?characterEncoding=utf8
-        username: atoms
-        password: atomlab123!
-        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:log4jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=utf8
+        username: atom
+        password: Easyvalet123!
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#com.mysql.cj.jdbc.Driver
 
 # mybatis
 mybatis:
   config: mybatis-config.xml
-  type-aliases-package: com.example.demo.model
+  type-aliases-package: com.ohho.valetparking.domains.*
   mapper-locations: mybatis/mapper/*.xml
