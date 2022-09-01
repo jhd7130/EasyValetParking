@@ -34,6 +34,7 @@ public class MemberController {
     @PostMapping("/member")
     public ResponseEntity signUp( @RequestBody JoinRequest joinRequest){
             log.info("JOin : ={}" , joinRequest);
+            memberService.emailValidation(joinRequest.getEmail());
             memberService.join(joinRequest);
         return new ResponseEntity(HttpStatus.OK);
     }

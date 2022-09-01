@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.ohho.valetparking.member.service.MemberServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-08-19T07:14:26" hostname="jeonghuiduui-MacBookPro.local" time="0.284">
-  <properties/>
-  <testcase name="회원가입 기능 테스트" classname="com.ohho.valetparking.member.service.MemberServiceTest" time="0.284"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

@@ -55,7 +55,7 @@ tasks.named('test') {
 }
 
 bootJar{
-	archiveBaseName = '-'
+	archiveBaseName = 'base'
 	archiveFileName = 'easyvalet.jar'
-	archiveVersion = '0.0.1'
+	archiveVersion = '0.0.2'
 }

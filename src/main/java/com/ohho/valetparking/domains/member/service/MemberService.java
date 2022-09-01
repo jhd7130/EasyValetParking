@@ -39,6 +39,7 @@ public class MemberService {
     @Transactional
     public boolean join(JoinRequest joinRequest) throws IllegalStateException,IllegalArgumentException {
         log.info("[MemberService] Join() join parameter :: ={}",joinRequest.toString());
+
         Join join = Join.builder(joinRequest)
                         .password(passwordEncoder.encode(joinRequest.getPassword()))
                         .build();
@@ -47,11 +48,10 @@ public class MemberService {
         return true;
     }
 
-    public boolean emailValidation(String email){
-
+    public void emailValidation(String email){
+        log.info("email = {}",email);
+        if(memberMapper.mailCheck(email)) throw new SignUpFailException("이메일 중복");
         // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
-        return memberMapper.mailCheck(email);
-
     }
 
     public void signIn(SignIn signIn) {
@@ -89,7 +89,6 @@ public class MemberService {
     @Transactional
     private void addMember(Join join) {
         int result = 0;
-
         if ( join.isAdmin() ) {
             result = memberMapper.newAdminJoin(join);
         }else {
