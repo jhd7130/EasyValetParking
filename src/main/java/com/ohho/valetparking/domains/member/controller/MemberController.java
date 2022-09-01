@@ -33,6 +33,7 @@ public class MemberController {
 
     @PostMapping("/member")
     public ResponseEntity signUp( @RequestBody JoinRequest joinRequest){
+            log.info("JOin : ={}" , joinRequest);
             memberService.join(joinRequest);
         return new ResponseEntity(HttpStatus.OK);
     }

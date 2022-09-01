@@ -6,10 +6,10 @@ spring:
       matching-strategy: ant_path_matcher
 
   datasource:
-        url: jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        url: jdbc:log4jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=utf8
         username: atom
         password: Easyvalet123!
-        driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 #com.mysql.cj.jdbc.Driver
 
 # mybatis
