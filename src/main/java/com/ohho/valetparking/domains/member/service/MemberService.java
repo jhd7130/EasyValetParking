@@ -48,7 +48,7 @@ public class MemberService {
     }
 
     public void signIn(SignIn signIn) {
-        // 로그인
+        // 비밀번호 확인
         passwordMatch(signIn);
         // 회원의 email로 id를 조회하고 로그인 기록 테이블에 기록 남긴다.
         recordSignIn(signIn);
