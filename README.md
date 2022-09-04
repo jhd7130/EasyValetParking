@@ -8,5 +8,4 @@
 [(한글번역은 여기)](https://newwisdom.tistory.com/96)
 
 ## ERD
-![EasyValet](https://user-images.githubusercontent.com/78134917/184526187-cd0d6fa4-3c6f-4dbd-8c87-3d301004ac92.png)
-
+![스크린샷 2022-09-04 오후 5 39 49](https://user-images.githubusercontent.com/78134917/188305084-caa91b83-7dfc-43a5-978d-b67f1e807725.png)
