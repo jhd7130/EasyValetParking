@@ -34,8 +34,7 @@
 
     </insert>
 
-    <select id="mailCheck" parameterType="string" resultType="Boolean">
-
+    <select id="mailCheck" parameterType="string" resultType="boolean">
         SELECT EXISTS(
                     SELECT *
                     FROM(
@@ -46,7 +45,6 @@
                                 FROM admins) AS x
                     WHERE email = #{email}
         )
-
     </select>
 
     <select id="getPassword" parameterType="string" resultType="string">
@@ -55,4 +53,22 @@
         WHERE email = #{email}
     </select>
 
+    <select id="getMemberId" parameterType="string" resultType="long">
+        SELECT id
+        FROM users
+        WHERE email = #{email}
+    </select>
+
+    <insert id="recordSignInHistory"  parameterType="com.ohho.valetparking.domains.member.entity.LoginHistory">
+    INSERT INTO login_history(
+        users_id
+        ,admin_yn
+        ,login_at
+    )
+    VALUES(
+        #{id}
+        , #{isAdmin}
+        , now()
+    )
+    </insert>
 </mapper>

@@ -13,6 +13,7 @@ import lombok.ToString;
 public class SignIn {
     private final  String email;
     private final  String password;
+    // 0이 사용자 1이 관리자
     private final int department;
 
     private SignIn(SignInBuilder signInBuilder) {

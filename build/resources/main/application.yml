@@ -7,6 +7,7 @@ spring:
 
   datasource:
         url: jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        # url: jdbc:log4jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
         username: atom
         password: Easyvalet123!
         driver-class-name: com.mysql.cj.jdbc.Driver
