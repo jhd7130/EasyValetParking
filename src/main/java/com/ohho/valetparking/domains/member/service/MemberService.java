@@ -64,14 +64,7 @@ public class MemberService {
         long id = memberMapper.getMemberId(signIn.getEmail());
         LoginHistory loginHistory = new LoginHistory(id,signIn.getDepartment());
 
-        if(signIn.isAdmin()){
-            memberMapper.recordSignInHistory(loginHistory);
-        }
-
-        if(!signIn.isAdmin()) {
-            memberMapper.recordSignInHistory(loginHistory);
-        }
-
+        memberMapper.recordSignInHistory(loginHistory);
     }
 
 

@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TicketReqeust {
-    private  String ticket_number;
+    private  int ticket_number;
     private  String car_number;
     private  String parking_area;
 }
