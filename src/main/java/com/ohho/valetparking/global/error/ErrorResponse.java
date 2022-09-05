@@ -9,11 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-/**
- * Role :
- * Responsibility :
- * Cooperation with :
- **/
+
 @Getter // 시리얼라이즈가 필요한 객체일 경우에는 Getter 메서드가 꼭 필요하다.
 @ToString
 public class ErrorResponse implements Serializable {

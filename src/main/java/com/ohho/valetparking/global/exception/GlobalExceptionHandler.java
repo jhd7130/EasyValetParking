@@ -1,5 +1,6 @@
 package com.ohho.valetparking.global.exception;
 
+import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.global.error.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -33,4 +34,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                   .build()
                                     );
     }
+    @ExceptionHandler(SignInFailException.class)
+    protected ResponseEntity<ErrorResponse> handleSignInFailException(SignUpFailException e) {
+        log.info("GlobalExceptionHandler :: SignUpFailException = {} ", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body(
+                                     ErrorResponse.builder()
+                                                  .code("Sign-In Fail")
+                                                  .message(e.getMessage())
+                                                  .status(HttpStatus.BAD_REQUEST)
+                                                  .build()
+                                    );
+    }
+
 }

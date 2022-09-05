@@ -1,6 +1,8 @@
 package com.ohho.valetparking.domains.parking.controller;
 
 import com.ohho.valetparking.domains.parking.entity.TicketReqeust;
+import com.ohho.valetparking.domains.parking.service.TicketService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +17,9 @@ import javax.servlet.http.HttpServletRequest;
  **/
 @RestController
 @Slf4j
+@AllArgsConstructor
 public class TicketController {
+    private final TicketService ticketService;
 
     @PostMapping("/ticket")
     public ResponseEntity ticketRegister(@RequestBody TicketReqeust ticketReqeust, HttpServletRequest request){
