@@ -27,6 +27,7 @@ public class TicketService {
     private final MemberMapper memberMapper;
 
     // 반환 없이 globalException을 적용하는 것 자체가 너무 spring에 의조하는 것은 아닌지.
+    // 냄새가 많이 난다. 리펙토링 필요. 2022.06.03
     @Transactional
     public void register(Ticket ticket) {
             log.info("[TicketService] register ::: ticket = {} ",ticket);

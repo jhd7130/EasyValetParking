@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.member.controller;
 
+import com.ohho.valetparking.domains.member.domain.Vip;
 import com.ohho.valetparking.domains.member.dto.JoinRequest;
 import com.ohho.valetparking.domains.member.dto.SignInRequest;
 import com.ohho.valetparking.domains.member.domain.User;
@@ -53,11 +54,9 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
-
     /**
      * 요청 형식 : HOST/member/test@test.com
      * @param email
-     * @return
      */
     @GetMapping(value = "/member/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity duplicationCheck( @PathVariable("email") String email ){
@@ -73,11 +72,23 @@ public class MemberController {
     public ResponseEntity userList(){
 
         log.info("[MemberController] userList :::: entracing success");
-        List<User> userList = memberService.userList();
+        List<User> userList = memberService.getUserList();
 
         return ResponseEntity.status(HttpStatus.OK)
                              .body(userList);
+
     }
+
+    @GetMapping(value = "/vip/{vipName}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Vip>> getVip(@PathVariable String vipName ) {
+        log.info("[MemberController] :::: vipName = {}",vipName);
+
+        memberService.getVip(vipName);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(memberService.getVip(vipName));
+    }
+
 
 
 

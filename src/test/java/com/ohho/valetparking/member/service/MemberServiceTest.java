@@ -24,22 +24,18 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
-
     @Mock
     MemberService memberService;
-
     @Mock
     MemberMapper memberMapper;
-
     @Mock
     PasswordEncoder passwordEncoder;
-
     @Test
     @DisplayName("회원가입 기능 테스트")
     void 회원가입() {
         // 테스트 실패 이유 못찾음
         // given
-        JoinRequest joinRequest = new JoinRequest("1","1","1","1","1");
+        JoinRequest joinRequest = new JoinRequest("1","1","1",1,"1");
         // when
         when(memberService.join(joinRequest)).thenReturn(true);
         // then
@@ -55,20 +51,5 @@ public class MemberServiceTest {
         //then
         assertThat(passwordEncoder.matches("test1234",test));
     }
-
-    @Test
-    void 비밀번호_매칭테스트(){
-        //given
-        SignIn sign = SignIn.builder(new SignInRequest("test3@maver.com","test1234",1))
-                            .build();
-
-        //when
-//        when(memberService.passwordMatch(sign)).thenReturn(true);
-//
-//        //then
-//        assertThat(memberService.passwordMatch(sign)).isTrue();
-    }
-
-
 
 }
