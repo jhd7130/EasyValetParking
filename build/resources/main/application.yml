@@ -4,6 +4,12 @@ server:
     encoding:
       charset: UTF-8
       force: true
+
+logging:
+  level:
+    hello:
+      springmvc: debug
+
 # database
 spring:
   mvc:
@@ -16,7 +22,12 @@ spring:
         username: atom
         password: Easyvalet123!
         driver-class-name: com.mysql.cj.jdbc.Driver
-#com.mysql.cj.jdbc.Driver
+        # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+
+
+  output:
+    ansi:
+      enabled: always
 
 # mybatis
 mybatis:
