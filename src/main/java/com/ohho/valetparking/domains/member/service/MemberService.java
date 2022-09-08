@@ -48,7 +48,9 @@ public class MemberService {
 
     public void emailValidation(String email){
         log.info("email = {}",email);
-        if(memberMapper.mailCheck(email)) throw new SignUpFailException("이메일 중복");
+        if(memberMapper.mailCheck(email)) {
+            throw new SignUpFailException("이메일 중복");
+        }
         // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
     }
 
@@ -59,7 +61,9 @@ public class MemberService {
         recordSignIn(signIn);
     }
 
-
+    public List<User> getUserList() {
+        return memberMapper.userList();
+    }
 
 
     // -----------------------------------------  sub method  -------------------------------------------------
@@ -95,7 +99,6 @@ public class MemberService {
     @Transactional
     private void addMember(Join join) {
         log.info("Join ::: join ={}", join);
-
         int result = 0;
 
         if ( join.isAdmin() ) {
@@ -104,14 +107,13 @@ public class MemberService {
             result = memberMapper.newUserJoin(join);
         }
 
-        if(result != 1){
+        if ( result != 1 ) {
             throw new SignUpFailException("회원가입에 실패했습니다.");
         }
-
     }
 
-    public List<User> userList() {
-        return memberMapper.userList();
+    public List<Vip> getVip(String vipName) {
+        return memberMapper.getVip(vipName);
     }
 }
 

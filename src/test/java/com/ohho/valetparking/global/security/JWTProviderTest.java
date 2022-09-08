@@ -13,18 +13,11 @@ import static org.assertj.core.api.Assertions.*;
  * Cooperation with :
  **/
 public class JWTProviderTest {
-
-    private SignIn sign;
-
-    @BeforeEach
-    void 테스트_베이스_세팅(){
-        sign = SignIn.builder(new SignInRequest("test3@maver.com","test1234",1))
-                     .build();
-    }
-
     @Test
     void 토큰_생성_성공_테스트() throws InterruptedException {
          // given
+        final SignIn sign = SignIn.builder(new SignInRequest("test3@maver.com","test1234",1))
+                .build();
         String token = JWTProvider.accessTokenCreate(sign);
         assertThat(token).isNotNull();
     }
@@ -32,7 +25,9 @@ public class JWTProviderTest {
     @Test
     void 토큰_생성후_유효성테스트(){
     // given
-        String token = JWTProvider.accessTokenCreate(sign);
+        final SignIn sign = SignIn.builder(new SignInRequest("test3@maver.com","test1234",1))
+                .build();
+        final String token = JWTProvider.accessTokenCreate(sign);
     // when
         assertThat(JWTProvider.isValid(token))
                   .isTrue();

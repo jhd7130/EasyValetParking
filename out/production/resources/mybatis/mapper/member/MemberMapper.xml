@@ -92,4 +92,11 @@
         AND department != 0
     </select>
 
+
+    <select id="getVip" parameterType="string" resultType="com.ohho.valetparking.domains.member.domain.Vip">
+        SELECT `id`, `name`, `car_number`, `type`, `uniqueness`
+            FROM vip
+        WHERE name like  CONCAT('%', #{vipName}, '%')
+    </select>
+
 </mapper>

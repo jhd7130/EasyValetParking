@@ -3,6 +3,7 @@ package com.ohho.valetparking.domains.member.repository;
 import com.ohho.valetparking.domains.member.domain.User;
 import com.ohho.valetparking.domains.member.domain.Join;
 import com.ohho.valetparking.domains.member.domain.LoginHistory;
+import com.ohho.valetparking.domains.member.domain.Vip;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface MemberMapper {
     List<User> userList();
 
     long getAdminId(String email);
+
+    List<Vip> getVip(String vipName);
 }

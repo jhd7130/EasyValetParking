@@ -26,15 +26,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  **/
 @WebMvcTest(controllers = TicketController.class
             , excludeAutoConfiguration = SecurityAutoConfiguration.class ) // spring security에서 제외 시키기 위한 작업
-
-
 public class TicketControllerTest {
-
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-
     @MockBean
     private TicketService ticketService;
 
@@ -59,9 +55,10 @@ public class TicketControllerTest {
                 mockMvc.perform(MockMvcRequestBuilders.post("/ticket")
                                                       .content(objectMapper.writeValueAsString(ticketReqeust))
                                                       .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect((e)-> Assertions.assertTrue(e.getResolvedException().getClass().isAssignableFrom(MethodArgumentNotValidException.class))
+                        .andExpect( e -> Assertions.assertTrue(e.getResolvedException()
+                                                                .getClass()
+                                                                .isAssignableFrom(MethodArgumentNotValidException.class))
                         )
                         .andReturn();
     }
-
 }
