@@ -52,6 +52,7 @@ public class MemberController {
     public ResponseEntity changePassword(){
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
     }
 
     /**
@@ -70,13 +71,12 @@ public class MemberController {
 
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity userList(){
-
         log.info("[MemberController] userList :::: entracing success");
+
         List<User> userList = memberService.getUserList();
 
         return ResponseEntity.status(HttpStatus.OK)
                              .body(userList);
-
     }
 
     @GetMapping(value = "/vip/{vipName}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,8 +88,4 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(memberService.getVip(vipName));
     }
-
-
-
-
 }
