@@ -2,24 +2,24 @@ package com.ohho.valetparking.global.error;
 
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 @Getter // 시리얼라이즈가 필요한 객체일 경우에는 Getter 메서드가 꼭 필요하다.
 @ToString
 public class ErrorResponse implements Serializable {
-
-    LocalDateTime localDateTime = LocalDateTime.now();
+    @DateTimeFormat(pattern = "yyyy-MM-dd 'T'HH:mm:ss")
+    private final String localDateTime;
     private final String code;
     private final String message;
     private final HttpStatus status;
 
     private ErrorResponse(ErrorBuilder errorBuilder) {
+        this.localDateTime = LocalDateTime.now().toString();
         this.code = errorBuilder.code;
         this.message = errorBuilder.message;
         this.status = errorBuilder.status;

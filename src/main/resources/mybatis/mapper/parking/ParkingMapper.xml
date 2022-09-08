@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohho.valetparking.domains.parking.repository.ParkingMapper">
+
+    <!-- 입차중인 차량 조회 시 입차시간과 출차시간이 같다는 조건이 필요하다. -->
+    <insert id="parkingRegister"  parameterType="hashmap">
+        INSERT INTO `parking_record`(
+                            `member_id`,
+                            `ticket_id`,
+                            `vip_id`,
+                            `entrance_at`,
+                            `exit_at`,
+                            `status`
+        )
+        VALUES(
+                        #{managerId}
+                        ,#{ticketId}
+                        ,#{vipId}
+                        ,NOW()
+                        ,NOW()
+                        ,0
+        )
+    </insert>
+
+
+</mapper>

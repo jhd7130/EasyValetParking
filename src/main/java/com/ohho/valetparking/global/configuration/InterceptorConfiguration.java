@@ -19,6 +19,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new AuthLoginInterceptor())
                 .addPathPatterns("*")
                 .excludePathPatterns("/member/*")
-                .excludePathPatterns("/swagger-ui/*");
+                .excludePathPatterns("/swagger-ui/*")
+                .excludePathPatterns("/ticket");
     }
 }
