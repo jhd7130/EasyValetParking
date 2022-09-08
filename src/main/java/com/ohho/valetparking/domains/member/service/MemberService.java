@@ -1,6 +1,8 @@
 package com.ohho.valetparking.domains.member.service;
 
-import com.ohho.valetparking.domains.member.entity.*;
+import com.ohho.valetparking.domains.member.dto.JoinRequest;
+import com.ohho.valetparking.domains.member.domain.User;
+import com.ohho.valetparking.domains.member.domain.*;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
@@ -9,6 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * 2022 08 22
@@ -61,30 +66,38 @@ public class MemberService {
     @Transactional
     private void recordSignIn(SignIn signIn) {
         log.info("signIn ={}" , signIn);
-        long id = memberMapper.getMemberId(signIn.getEmail());
-        LoginHistory loginHistory = new LoginHistory(id,signIn.getDepartment());
+        long memberId = 0 ;
+        if(signIn.isAdmin()){
+            memberId = memberMapper.getAdminId(signIn.getEmail());
+        }else{
+            memberId = memberMapper.getMemberId(signIn.getEmail());
+        }
+
+        LoginHistory loginHistory = new LoginHistory(memberId,signIn.getDepartment());
 
         memberMapper.recordSignInHistory(loginHistory);
     }
 
-
-    public boolean passwordMatch(SignIn signIn) {
+    // admin인지 확인해야함
+    public void passwordMatch(SignIn signIn) {
         log.info("MemberService :: SignIn :: = {} ",signIn);
-        String password= signIn.getPassword();
-        String passwordFormDb = memberMapper.getPassword(signIn.getEmail());
 
-        if(passwordFormDb == null) throw new SignInFailException("이메일을 다시 입력해주세요.");
+        String password= signIn.getPassword();
+        // 유저/멤버에서 통합 조회 후 db에 패스워드가 있는지 가져온다.
+        String passwordFormDb = Optional.ofNullable(memberMapper.getPassword(signIn.getEmail()))
+                                        .orElseThrow(() -> new SignInFailException("이메일을 다시 입력해주세요."));
 
         if(!passwordEncoder.matches(password,passwordFormDb)){
             throw new SignInFailException("비밀번호를 다시 입력해주세요.");
         }
-
-        return true;
     }
 
     @Transactional
     private void addMember(Join join) {
+        log.info("Join ::: join ={}", join);
+
         int result = 0;
+
         if ( join.isAdmin() ) {
             result = memberMapper.newAdminJoin(join);
         }else {
@@ -95,6 +108,10 @@ public class MemberService {
             throw new SignUpFailException("회원가입에 실패했습니다.");
         }
 
+    }
+
+    public List<User> userList() {
+        return memberMapper.userList();
     }
 }
 

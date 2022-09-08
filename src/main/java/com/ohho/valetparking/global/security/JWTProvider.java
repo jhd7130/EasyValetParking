@@ -1,12 +1,10 @@
 package com.ohho.valetparking.global.security;
 
 
-import com.ohho.valetparking.domains.member.entity.SignIn;
-import com.ohho.valetparking.domains.member.entity.SignInRequest;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.ohho.valetparking.domains.member.domain.SignIn;
+import com.ohho.valetparking.domains.member.dto.SignInRequest;
+import com.ohho.valetparking.global.error.exception.TokenExpiredException;
+import io.jsonwebtoken.*;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -87,11 +85,18 @@ public class JWTProvider {
     }
 
     private static Claims getClaimsFormToken(String token) {
-        return Jwts.parserBuilder()
-                   .setSigningKey(DatatypeConverter.parseBase64Binary(SECREAT_KEY))
-                   .build()
-                   .parseClaimsJws(token)
-                   .getBody();
+        try{
+
+            Claims claims = Jwts.parserBuilder()
+                                .setSigningKey(DatatypeConverter.parseBase64Binary(SECREAT_KEY))
+                                .build()
+                                .parseClaimsJws(token)
+                                .getBody();
+            return claims;
+
+        }catch (ExpiredJwtException e){
+            throw new TokenExpiredException("토큰이 만료되었습니다.");
+        }
     }
 
     public static String getEmailInFromToken(String token) {

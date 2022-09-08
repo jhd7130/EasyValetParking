@@ -1,13 +1,9 @@
 package com.ohho.valetparking.global.security;
 
-import com.ohho.valetparking.domains.member.entity.JoinRequest;
-import com.ohho.valetparking.domains.member.entity.SignIn;
-import com.ohho.valetparking.domains.member.entity.SignInRequest;
-import org.assertj.core.api.Assertions;
+import com.ohho.valetparking.domains.member.domain.SignIn;
+import com.ohho.valetparking.domains.member.dto.SignInRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.lang.reflect.Method;
 
 import static org.assertj.core.api.Assertions.*;
 
