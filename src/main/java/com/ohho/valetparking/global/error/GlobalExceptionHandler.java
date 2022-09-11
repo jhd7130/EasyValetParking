@@ -3,7 +3,6 @@ package com.ohho.valetparking.global.error;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
-import com.ohho.valetparking.global.error.ErrorResponse;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
