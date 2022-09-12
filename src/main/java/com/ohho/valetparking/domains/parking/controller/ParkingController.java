@@ -28,10 +28,5 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-    @GetMapping("/exit-requests")
-    public ResponseEntity getExitRequestList(){
-        List list =new ArrayList();
-        list.add("ExitList : 리스트로 반환 될꺼야");
-        return ResponseEntity.status(HttpStatus.OK).body(list);
-    }
+
 }

@@ -2,6 +2,7 @@ package com.ohho.valetparking.global.error;
 
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
+import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +64,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                     );
     }
     @ExceptionHandler(TicketDuplicateException.class)
-    protected ResponseEntity<ErrorResponse> TicketDuplicateException(TicketDuplicateException e) {
+    protected ResponseEntity<ErrorResponse> TicketDuplicateException( TicketDuplicateException e ) {
         log.info("GlobalExceptionHandler :: TicketDuplicateException = {} ", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                              .body(
@@ -76,9 +77,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
 
+
+    @ExceptionHandler(FailExitRegistrationException.class)
+    protected ResponseEntity<Object> handleFailExitRegistrationException( FailExitRegistrationException ex ) {
+        log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}",ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder()
+                        .code("Parameter")
+                        .message(ex.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
+                        .build()
+                );
+    }
+
+
+
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid( MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request ) {
         log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(ErrorResponse.builder()

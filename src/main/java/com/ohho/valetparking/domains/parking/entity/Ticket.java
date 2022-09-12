@@ -14,7 +14,6 @@ import java.util.Objects;
 @Getter
 @ToString
 public class Ticket {
-
     private final String email;
     private final int ticketNumber;
     private final String carNumber;

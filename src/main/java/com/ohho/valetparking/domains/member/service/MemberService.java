@@ -1,8 +1,8 @@
 package com.ohho.valetparking.domains.member.service;
 
 import com.ohho.valetparking.domains.member.dto.JoinRequest;
-import com.ohho.valetparking.domains.member.domain.User;
-import com.ohho.valetparking.domains.member.domain.*;
+import com.ohho.valetparking.domains.member.entity.User;
+import com.ohho.valetparking.domains.member.entity.*;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;

@@ -1,7 +1,7 @@
 package com.ohho.valetparking.global.security;
 
 
-import com.ohho.valetparking.domains.member.domain.SignIn;
+import com.ohho.valetparking.domains.member.entity.SignIn;
 import com.ohho.valetparking.domains.member.dto.SignInRequest;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
