@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Getter // 시리얼라이즈가 필요한 객체일 경우에는 Getter 메서드가 꼭 필요하다.
 @ToString
-public class ErrorResponse implements Serializable {
+public class ErrorResponse {
     @DateTimeFormat(pattern = "yyyy-MM-dd 'T'HH:mm:ss")
     private final String localDateTime;
     private final String code;

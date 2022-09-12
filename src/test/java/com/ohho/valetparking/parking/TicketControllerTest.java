@@ -17,6 +17,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -29,11 +34,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class TicketControllerTest {
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private ObjectMapper objectMapper;
+
     @MockBean
     private TicketService ticketService;
 
+
+    @Test
+    void apiresponseTest() throws Exception{
+        // given
+        final TicketReqeust ticketReqeust = new TicketReqeust(1234,"","B201","테스트");
+        // when
+          mockMvc.perform(MockMvcRequestBuilders.get("/ticket/test/3")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(content().string("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\"" + ",\"success\":true,\"data\":\"3\",\"errorResponse\":null}"))
+                        .andDo(print());
+
+    }
     @Test
     void 파킹_티켓_추가_실패_statusTest() throws Exception{
     // given
