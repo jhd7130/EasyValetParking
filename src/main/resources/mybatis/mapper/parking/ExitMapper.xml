@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohho.valetparking.domains.parking.repository.ExitMapper">
+
+    <insert id="registerExit"  parameterType="com.ohho.valetparking.domains.parking.entity.Exit">
+        INSERT INTO `exit_request`
+                (`parking_id`,
+                `requester_id`,
+                `type`)
+        VALUES
+             (
+                 #{memberId},
+                 #{parkingRecordId},
+                 #{exitType}
+             )
+    </insert>
+
+
+</mapper>

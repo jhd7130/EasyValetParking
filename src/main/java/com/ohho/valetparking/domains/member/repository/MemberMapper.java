@@ -1,9 +1,9 @@
 package com.ohho.valetparking.domains.member.repository;
 
-import com.ohho.valetparking.domains.member.domain.User;
-import com.ohho.valetparking.domains.member.domain.Join;
-import com.ohho.valetparking.domains.member.domain.LoginHistory;
-import com.ohho.valetparking.domains.member.domain.Vip;
+import com.ohho.valetparking.domains.member.entity.User;
+import com.ohho.valetparking.domains.member.entity.Join;
+import com.ohho.valetparking.domains.member.entity.LoginHistory;
+import com.ohho.valetparking.domains.member.entity.Vip;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

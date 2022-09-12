@@ -1,4 +1,4 @@
-package com.ohho.valetparking.domains.member.domain;
+package com.ohho.valetparking.domains.member.entity;
 
 import com.ohho.valetparking.domains.member.dto.SignInRequest;
 import lombok.Getter;

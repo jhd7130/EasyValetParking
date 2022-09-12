@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ohho.valetparking.domains.member.repository.MemberMapper">
     <!-- insert section -->
-    <insert id="newUserJoin"  parameterType="com.ohho.valetparking.domains.member.domain.Join">
+    <insert id="newUserJoin"  parameterType="com.ohho.valetparking.domains.member.entity.Join">
 
         INSERT INTO users (
                 nickname
@@ -18,7 +18,7 @@
 
     </insert>
 
-    <insert id="newAdminJoin"  parameterType="com.ohho.valetparking.domains.member.domain.Join">
+    <insert id="newAdminJoin"  parameterType="com.ohho.valetparking.domains.member.entity.Join">
 
         INSERT INTO admins (
                 nickname
@@ -34,7 +34,7 @@
 
     </insert>
 
-    <insert id="recordSignInHistory"  parameterType="com.ohho.valetparking.domains.member.domain.LoginHistory">
+    <insert id="recordSignInHistory"  parameterType="com.ohho.valetparking.domains.member.entity.LoginHistory">
         INSERT INTO login_history(
         users_id
         ,admin_yn
@@ -85,7 +85,7 @@
         WHERE email = #{email}
     </select>
 
-    <select id="userList" resultType="com.ohho.valetparking.domains.member.domain.User">
+    <select id="userList" resultType="com.ohho.valetparking.domains.member.entity.User">
         SELECT id,nickname,email,department,activated
         FROM users
         WHERE DATE(signout_at) = "9999-12-31 00:00:00"
@@ -93,7 +93,7 @@
     </select>
 
 
-    <select id="getVip" parameterType="string" resultType="com.ohho.valetparking.domains.member.domain.Vip">
+    <select id="getVip" parameterType="string" resultType="com.ohho.valetparking.domains.member.entity.Vip">
         SELECT `id`, `name`, `car_number`, `type`, `uniqueness`
             FROM vip
         WHERE name like  CONCAT('%', #{vipName}, '%')
