@@ -17,7 +17,7 @@ jobs:
        with:
           java-version: '11'
           distribution: 'temurin'
-     - run: ls -al
+ 
      - name: Set Gradle
        run: chmod +x gradlew
 
@@ -46,4 +46,6 @@ jobs:
          port: ${{ secrets.HOST_PORT }}
          script_stop: true
          script: |
-                ls -al
+                ./app_stop.sh
+                ./app_start.sh
+                
