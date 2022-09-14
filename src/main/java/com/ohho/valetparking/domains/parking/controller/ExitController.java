@@ -28,7 +28,7 @@ public class ExitController {
     public ResponseEntity getExitRequestList(){
 
         List list =new ArrayList();
-        list.add("ExitList : 리스트로 반환 될꺼야, 아직 완성은 안됐어~~!!");
+        list.add("ExitList : 리스트로 반환 될꺼야, 아직 완성은 안됐어~~!!!");
         return ResponseEntity.status(HttpStatus.OK).body(list);
 
     }
