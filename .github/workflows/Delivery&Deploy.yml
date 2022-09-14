@@ -26,7 +26,7 @@ jobs:
        shell: bash    
        
      - name: location for Delivery
-       uses: appleboy/scp-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+       uses: appleboy/scp-action@master
        with:
          host: ${{ secrets.HOST_IP }}
          username: ${{ secrets.HOST_ID }}
