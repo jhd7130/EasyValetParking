@@ -46,6 +46,7 @@ jobs:
          port: ${{ secrets.HOST_PORT }}
          script_stop: true
          script: |
+                lsof -i -n -P | grep 8080
                 ./app_stop.sh
                 ./app_start.sh
                 
