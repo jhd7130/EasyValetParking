@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.parking.service;
 
+import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
 import com.ohho.valetparking.domains.parking.entity.Ticket;
@@ -36,7 +37,8 @@ public class TicketService {
             ticketDuplicateCheck(ticket.getTicketNumber());
             if(ticketMapper.ticketRegister(ticket) != 1)  throw new FailTicketRegistrationException();
 
-            parkingInfo.put("managerId",memberMapper.getAdminId(ticket.getEmail()));
+            parkingInfo.put("managerId",memberMapper.getAdminId(ticket.getEmail())
+                                                    .orElseThrow(() -> new SignInFailException("관리자가 아니거나 업는 메일입니다.")));
             parkingInfo.put("ticketId",ticketMapper.getTicketId( ticket.getTicketNumber() ));
             if(ticket.isVIP())  parkingInfo.put("vipId",vipMapper.getVipId(ticket.getCustomerName()));;
 

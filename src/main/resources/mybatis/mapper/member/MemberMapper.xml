@@ -76,7 +76,7 @@
     <select id="getAdminId" parameterType="string" resultType="long">
         SELECT id
         FROM admins
-        WHERE email = #{email}
+        WHERE email = #{t}
     </select>
 
     <select id="getMemberId" parameterType="string" resultType="long">

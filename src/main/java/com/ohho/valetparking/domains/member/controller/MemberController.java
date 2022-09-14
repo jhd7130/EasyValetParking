@@ -69,6 +69,10 @@ public class MemberController {
                              .body("해당 이메일로 회원가입 가능");
     }
 
+    /**
+     * 사용자 조회(관리자 조회랑은 다른다.)
+     * @return
+     */
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity userList(){
         log.info("[MemberController] userList :::: entracing success");

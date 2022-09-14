@@ -43,7 +43,7 @@ public class SignIn {
     }
 
     public boolean isAdmin(){
-        return this.department == 1;
+        return this.department == 0;
     }
 
 }

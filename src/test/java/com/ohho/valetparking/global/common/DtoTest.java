@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +29,9 @@ import java.time.format.DateTimeFormatter;
             , excludeAutoConfiguration = SecurityAutoConfiguration.class )
 public class DtoTest {
 
+    @MockBean
+    private TicketService ticketService;
+
     @Test
     void apiresponse_성공_테스트() throws JsonProcessingException {
     // given
@@ -41,7 +43,7 @@ public class DtoTest {
         String test = jsontest.substring(jsontest.indexOf(','));
 
         // then
-        Assertions.assertThat(jsontest).isEqualTo("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))+ "\"" + test);
+        Assertions.assertThat(jsontest).isEqualTo("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))+ "\"" + test);
     }
 
     @Test
@@ -56,7 +58,7 @@ public class DtoTest {
           String test = jsontest.substring(jsontest.indexOf(','));
     // then
         System.out.println(jsontest);
-        Assertions.assertThat(jsontest).isEqualTo("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))+ "\"" + test);
+        Assertions.assertThat(jsontest).isEqualTo("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))+ "\"" + test);
     }
 
 
