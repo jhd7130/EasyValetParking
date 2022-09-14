@@ -7,6 +7,7 @@ import com.ohho.valetparking.domains.member.entity.Vip;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Role :
@@ -20,11 +21,11 @@ public interface MemberMapper {
     int newAdminJoin(Join join);
     boolean mailCheck(String email);
     String getPassword(String email);
-    long getMemberId(String email);
+
     void recordSignInHistory(LoginHistory loginHistory);
     List<User> userList();
-
-    long getAdminId(String email);
+    Optional<Long> getMemberId(String email);
+    Optional<Long> getAdminId(String email);
 
     List<Vip> getVip(String vipName);
 }

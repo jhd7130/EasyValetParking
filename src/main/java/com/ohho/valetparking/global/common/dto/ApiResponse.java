@@ -27,7 +27,7 @@ public class ApiResponse<T> {
     private final ErrorResponse errorResponse;
 
     public ApiResponse(boolean success, T data, ErrorResponse errorResponse) {
-        localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.success = success;
         this.data = data;
         this.errorResponse = errorResponse;
@@ -51,7 +51,7 @@ public class ApiResponse<T> {
         private final HttpStatus status;
 
         public ErrorResponse(String code, String message, HttpStatus status) {
-            localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
             this.code = code;
             this.message = message;
             this.status = status;

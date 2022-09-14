@@ -72,9 +72,11 @@ public class MemberService {
         log.info("signIn ={}" , signIn);
         long memberId = 0 ;
         if(signIn.isAdmin()){
-            memberId = memberMapper.getAdminId(signIn.getEmail());
+            memberId = memberMapper.getAdminId(signIn.getEmail())
+                                                     .orElseThrow(() -> new SignInFailException("관리자가 아니거나 업는 메일입니다."));
         }else{
-            memberId = memberMapper.getMemberId(signIn.getEmail());
+            memberId = memberMapper.getMemberId(signIn.getEmail())
+                                                      .orElseThrow(() -> new SignInFailException("사용자가 아니거나 업는 메일입니다."));
         }
 
         LoginHistory loginHistory = new LoginHistory(memberId,signIn.getDepartment());
@@ -88,8 +90,9 @@ public class MemberService {
 
         String password= signIn.getPassword();
         // 유저/멤버에서 통합 조회 후 db에 패스워드가 있는지 가져온다.
-        String passwordFormDb = Optional.ofNullable(memberMapper.getPassword(signIn.getEmail()))
-                                        .orElseThrow(() -> new SignInFailException("이메일을 다시 입력해주세요."));
+        String passwordFormDb = memberMapper.getPassword(signIn.getEmail());
+                //Optional.ofNullable()
+                                        // .orElseThrow(() -> {return new SignInFailException("이메일을 다시 입력해주세요.");});
 
         if(!passwordEncoder.matches(password,passwordFormDb)){
             throw new SignInFailException("비밀번호를 다시 입력해주세요.");

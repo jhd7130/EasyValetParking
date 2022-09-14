@@ -5,6 +5,7 @@ package com.ohho.valetparking.domains.member.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Role :
@@ -22,7 +23,7 @@ public class JoinRequest {
     private  String email;
     @NotBlank(message = "비밀번호는 필수입니다.")
     private  String password;
-    @NotBlank(message = "부서를 선택해주세요.")
+    @NotNull(message = "부서를 선택해주세요.")
     private  int department;
     private  String company;
 

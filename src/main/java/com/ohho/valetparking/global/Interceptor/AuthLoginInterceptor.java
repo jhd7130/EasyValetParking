@@ -4,6 +4,7 @@ import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.global.security.JWTProvider;
 import io.jsonwebtoken.Jwt;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  **/
 
 @Slf4j
+@Component
 public class AuthLoginInterceptor implements HandlerInterceptor {
     // 테스트 굉장히 많이 필요 2022.08.26
     @Override

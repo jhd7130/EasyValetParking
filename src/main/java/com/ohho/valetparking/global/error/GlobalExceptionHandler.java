@@ -40,8 +40,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                     );
     }
     @ExceptionHandler(SignInFailException.class)
-    protected ResponseEntity<ErrorResponse> handleSignInFailException(SignUpFailException e) {
-        log.info("GlobalExceptionHandler :: SignUpFailException = {} ", e.getMessage());
+    protected ResponseEntity<ErrorResponse> handleSignInFailException(SignInFailException e) {
+        log.info("GlobalExceptionHandler :: SignInFailException = {} ", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                              .body(
                                      ErrorResponse.builder()
