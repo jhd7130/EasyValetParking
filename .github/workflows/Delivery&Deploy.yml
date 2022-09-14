@@ -1,0 +1,49 @@
+name: Remote Delivery and Deploy
+on: 
+  push:
+    branches:
+      - main
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v3
+
+     - name: Set up JDK 11
+       uses: actions/setup-java@v3
+       with:
+          java-version: '11'
+          distribution: 'temurin'
+     - run: ls -al
+     - name: Set Gradle
+       run: chmod +x gradlew
+
+     - name: Build with Gradle
+       run: ./gradlew build
+       shell: bash    
+
+     - name: location for Delivery
+       uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+       with:
+         host: ${{ secrets.HOST_IP }}
+         username: ${{ secrets.HOST_ID }}
+         key: ${{ secrets.KEY }}
+         port: ${{ secrets.HOST_PORT }}
+         source: "build/libs/*.jar"
+         target: "source"
+         rm: true
+
+
+     - name: executing remote ssh commands using key
+       uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+       with:
+         host: ${{ secrets.HOST_IP }}
+         username: ${{ secrets.HOST_ID }}
+         key: ${{ secrets.KEY }}
+         port: ${{ secrets.HOST_PORT }}
+         script_stop: true
+         script: |
+                ls -al
