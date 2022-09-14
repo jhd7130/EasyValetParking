@@ -25,11 +25,8 @@ jobs:
        run: ./gradlew build
        shell: bash    
        
-     - run: ls -al
-     - run: cd ./build/libs
-     - run: ls -al
      - name: location for Delivery
-       uses: appleboy/ssh-action@master
+       uses: appleboy/scp-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
        with:
          host: ${{ secrets.HOST_IP }}
          username: ${{ secrets.HOST_ID }}
