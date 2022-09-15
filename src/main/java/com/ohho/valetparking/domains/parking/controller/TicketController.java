@@ -1,12 +1,11 @@
 package com.ohho.valetparking.domains.parking.controller;
 
-import com.ohho.valetparking.domains.parking.entity.Ticket;
 import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
+import com.ohho.valetparking.domains.parking.entity.Ticket;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.security.JWTProvider;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,15 +23,20 @@ import javax.validation.Valid;
  **/
 @RestController
 @Slf4j
-@AllArgsConstructor
 public class TicketController {
     private final TicketService ticketService;
+    private final JWTProvider jwtProvider;
+
+    public TicketController(TicketService ticketService, JWTProvider jwtProvider) {
+        this.ticketService = ticketService;
+        this.jwtProvider = jwtProvider;
+    }
 
     @PostMapping(value = "/ticket", produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse<Ticket> ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust, HttpServletRequest request){
         log.info("TicketController ticketReqeust ::::: = {} ",ticketReqeust);
         Ticket ticketIncludedEmail = ticketReqeust.toTicket(
-                                        JWTProvider.getEmailInFromToken(
+                                             jwtProvider.getEmailInFromToken(
                                                             request.getHeader("ACCESSTOKEN")
                                                             )
                                         );

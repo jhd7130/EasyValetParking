@@ -8,6 +8,7 @@ import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.entity.Ticket;
 import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.ApiResponse;
+import com.ohho.valetparking.global.security.JWTProvider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class DtoTest {
 
     @MockBean
     private TicketService ticketService;
+
+    @MockBean
+    private JWTProvider jwtProvider;
 
     @Test
     void apiresponse_성공_테스트() throws JsonProcessingException {

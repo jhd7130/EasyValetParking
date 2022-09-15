@@ -1,3 +1,8 @@
+# JWT KEY 관련 설정
+secretKey: ${VALET_SECRET_KEY}
+accesstokentime: ${VALET_ACCESSTOKENTIME}
+refreshtokentime: ${VALET_REFRESHTOKENTIME}
+
 #Server
 server:
   servlet:
@@ -17,10 +22,10 @@ spring:
       matching-strategy: ant_path_matcher
 
   datasource:
-        url: jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://${VALET_DB_URL}:${VALET_DB_PORT}/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
         # url: jdbc:log4jdbc:mysql://101.101.211.97:3306/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
-        username: atom
-        password: Easyvalet123!
+        username: ${VALET_DB_USERNAME}
+        password: ${VALET_DB_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
         # driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
 

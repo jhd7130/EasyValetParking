@@ -13,10 +13,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  **/
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
+    private final AuthLoginInterceptor authLoginInterceptor;
+
+    public InterceptorConfiguration(AuthLoginInterceptor authLoginInterceptor) {
+        this.authLoginInterceptor = authLoginInterceptor;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthLoginInterceptor())
+        registry.addInterceptor(authLoginInterceptor)
                 .addPathPatterns("*")
                 .excludePathPatterns("/member/*")
                 .excludePathPatterns("/swagger-ui/*")
