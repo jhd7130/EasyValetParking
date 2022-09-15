@@ -7,7 +7,18 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      VALET_SECRET_KEY: ${{ secrets.TOKEN_SECRET }}
+      VALET_DB_USERNAME: ${{ secrets.DB_USER }}
+      VALET_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      VALET_DB_URL: ${{ secrets.DB_HOST }}
+      VALET_DB_PORT: ${{ secrets.DB_PORT }}
+      VALET_REFRESHTOKENTIME: ${{ secrets.REFRESHTOKENTIME }}
+      VALET_ACCESSTOKENTIME: ${{ secrets.ACCESSTOKENTIME }}
     steps:
+     - name: enviro test
+       run: echo $VALET_DB_URL
+       
      - name: Checkout
        uses: actions/checkout@v3
 
