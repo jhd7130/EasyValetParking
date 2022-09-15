@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohho.valetparking.domains.parking.controller.TicketController;
 import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.service.TicketService;
+import com.ohho.valetparking.global.security.JWTProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,8 @@ public class TicketControllerTest {
 
     @MockBean
     private TicketService ticketService;
+    @MockBean
+    private JWTProvider jwtProvider;
 
 
     @Test

@@ -3,7 +3,9 @@ package com.ohho.valetparking.global.Interceptor;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.global.security.JWTProvider;
 import io.jsonwebtoken.Jwt;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,22 +21,30 @@ import javax.servlet.http.HttpServletResponse;
 @Slf4j
 @Component
 public class AuthLoginInterceptor implements HandlerInterceptor {
+
+
+    private final JWTProvider jwtProvider;
+
+    public AuthLoginInterceptor(JWTProvider jwtProvider) {
+        this.jwtProvider = jwtProvider;
+    }
+
     // 테스트 굉장히 많이 필요 2022.08.26
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         log.info("[AuthLoginInterceptor] preHandle in :: AccessToken is  = {} ",request.getHeader("ACCESSTOKEN"));
 
-        if( request.getHeader("ACCESSTOKEN") != null && JWTProvider.isValid( request.getHeader("ACCESSTOKEN")) ) {
+        if( request.getHeader("ACCESSTOKEN") != null && jwtProvider.isValid( request.getHeader("ACCESSTOKEN")) ) {
             return true;
         }
 
         String refreshToken = request.getHeader("REFRESHTOKEN");
 
 
-        if ( refreshToken != null && JWTProvider.isValid(refreshToken)){
+        if ( refreshToken != null && jwtProvider.isValid(refreshToken)){
             // 리프레시토큰에서 회원정보(아이디,부서)얻어오기
-            response.setHeader("ACCESSTOKEN",JWTProvider.accessTokenCreate(JWTProvider.getSignInFromToken(refreshToken)));
+            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getSignInFromToken(refreshToken)));
         }
 
         throw new IllegalAccessException("유효하지 않은 토큰입니다.");

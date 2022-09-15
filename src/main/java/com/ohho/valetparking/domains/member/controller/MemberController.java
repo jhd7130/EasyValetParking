@@ -24,6 +24,7 @@ public class MemberController {
     // @RequiredArgsConstructor로 하면 DI가 안된다.
     // 이유 : 롬복의 특성상 @RequiredArgsConstructor는 private final로 선언되어 있는 인스턴스 변수에만 의존성 주입을 해준다.
     private final MemberService memberService;
+    private final JWTProvider jwtProvider;
 
     @PostMapping(value = "/member", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity signUp( @RequestBody @Valid JoinRequest joinRequest ){
@@ -43,7 +44,7 @@ public class MemberController {
         memberService.signIn(signInRequest.toSignIn());
 
         return ResponseEntity.ok()
-                             .header("ACCESSTOKEN",JWTProvider.accessTokenCreate(signInRequest.toSignIn()))
+                             .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(signInRequest.toSignIn()))
                              .header("REFRESHTOKEN","not yet")
                              .body("로그인에 성공했습니다.");
     }
