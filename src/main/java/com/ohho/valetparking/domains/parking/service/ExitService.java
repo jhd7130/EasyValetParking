@@ -19,11 +19,16 @@ public class ExitService {
 
     private final ExitMapper exitMapper;
 
-    public void register(Exit exit){
+    public String register(Exit exit){
         Integer result = exitMapper.registerExit(exit);
         if(result != 1) {
             throw new FailExitRegistrationException();
         }
+
+        if(exit.isOuting()){
+            return "외출 요청 성공";
+        }
+        return "출차 요청 성공";
     }
 
 }

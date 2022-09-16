@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ConstraintViolationException;
+
 /**
  * Role :
  * Responsibility :
@@ -43,8 +45,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleSignInFailException(SignInFailException e) {
         log.info("GlobalExceptionHandler :: SignInFailException = {} ", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .body(
-                                     ErrorResponse.builder()
+                             .body( ErrorResponse.builder()
                                                   .code("Sign-In")
                                                   .message(e.getMessage())
                                                   .status(HttpStatus.BAD_REQUEST)
@@ -55,8 +56,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleTokenExpiredException(TokenExpiredException e) {
         log.info("GlobalExceptionHandler :: TokenExpiredException = {} ", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                             .body(
-                                     ErrorResponse.builder()
+                             .body( ErrorResponse.builder()
                                                   .code("Token")
                                                   .message(e.getMessage())
                                                   .status(HttpStatus.BAD_REQUEST)
@@ -82,11 +82,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleFailExitRegistrationException( FailExitRegistrationException ex ) {
         log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponse.builder()
-                        .code("Parameter")
-                        .message(ex.getMessage())
-                        .status(HttpStatus.BAD_REQUEST)
-                        .build()
+                                               .body(ErrorResponse.builder()
+                                               .code("Reqeust Parameter")
+                                               .message(ex.getMessage())
+                                               .status(HttpStatus.BAD_REQUEST)
+                                               .build()
                 );
     }
 
@@ -98,11 +98,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(ErrorResponse.builder()
-                             .code("Parameter")
+                             .code("Reqeust Parameter")
                              .message(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage())
                              .status(HttpStatus.BAD_REQUEST)
                              .build()
                 );
     }
 
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<Object> handleConstraintViolationException( ConstraintViolationException ex ) {
+        log.info("GlobalExceptionHandler :: ConstraintViolationException = {}",ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ErrorResponse.builder()
+                        .code("Reqeust Parameter")
+                        .message(ex.getMessage())
+                        .status(HttpStatus.BAD_REQUEST)
+                        .build()
+                );
+    }
 }

@@ -11,15 +11,19 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class MemberController {
     // @RequiredArgsConstructor로 하면 DI가 안된다.
     // 이유 : 롬복의 특성상 @RequiredArgsConstructor는 private final로 선언되어 있는 인스턴스 변수에만 의존성 주입을 해준다.
@@ -61,9 +65,9 @@ public class MemberController {
      * @param email
      */
     @GetMapping(value = "/member/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity duplicationCheck( @PathVariable("email") String email ){
-        log.info("drive in test :: ={}",email);
+    public ResponseEntity duplicationCheck( @PathVariable("email") @Email @NotBlank String email ){
 
+        log.info("drive in test :: ={}",email);
         memberService.emailValidation(email);
 
         return ResponseEntity.status(HttpStatus.OK)

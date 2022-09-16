@@ -7,19 +7,20 @@ import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 @Getter // 시리얼라이즈가 필요한 객체일 경우에는 Getter 메서드가 꼭 필요하다.
 @ToString
 public class ErrorResponse {
-    @DateTimeFormat(pattern = "yyyy-MM-dd 'T'HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd 'T'HH:mm")
     private final String localDateTime;
     private final String code;
     private final String message;
     private final HttpStatus status;
 
     private ErrorResponse(ErrorBuilder errorBuilder) {
-        this.localDateTime = LocalDateTime.now().toString();
+        this.localDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
         this.code = errorBuilder.code;
         this.message = errorBuilder.message;
         this.status = errorBuilder.status;
