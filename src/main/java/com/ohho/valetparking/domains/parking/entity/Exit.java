@@ -11,21 +11,21 @@ import lombok.*;
 @Getter
 @ToString
 @EqualsAndHashCode
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Exit {
+
     private final long memberId;
     private final long parkingRecordId;
     private final int exitType;
-
-    private Exit(long memberId, long parkingRecordId, int exitType) {
-        this.memberId = memberId;
-        this.parkingRecordId = parkingRecordId;
-        this.exitType = exitType;
-    }
 
     public static Exit from(long memberId, long parkingRecordId, int exitType){
         return new Exit(memberId, parkingRecordId, exitType);
     }
     public static Exit from(ExitRequest exitRequest){
         return new Exit(exitRequest.getMemberId(), exitRequest.getParkingRecordId(), exitRequest.getExitType());
+    }
+
+    public boolean isOuting() {
+        return exitType == 1;
     }
 }

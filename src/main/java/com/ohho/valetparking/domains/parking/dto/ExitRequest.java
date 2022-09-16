@@ -27,7 +27,5 @@ public class ExitRequest {
         return Exit.from(this);
     }
 
-    public boolean isOuting() {
-        return exitType == 1;
-    }
+
 }

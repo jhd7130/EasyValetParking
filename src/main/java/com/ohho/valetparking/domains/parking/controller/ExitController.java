@@ -36,13 +36,10 @@ public class ExitController {
     @PostMapping(value = "/exit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity requestExit( @RequestBody ExitRequest exitRequest ){
         log.info("[ExitController] ::: exitRequest = {}",exitRequest);
-        exitService.register(exitRequest.toExit());
 
-        if(exitRequest.isOuting()) {
-            return ResponseEntity.status(HttpStatus.OK).body(" 외출 요청 성공");
-        }
 
-        return ResponseEntity.status(HttpStatus.OK).body(" 출차 요청 성공");
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(exitService.register(exitRequest.toExit()));
     }
 
 }
