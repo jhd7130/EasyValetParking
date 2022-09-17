@@ -3,6 +3,7 @@ package com.ohho.valetparking.global.error;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
+import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +65,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                     );
     }
     @ExceptionHandler(TicketDuplicateException.class)
-    protected ResponseEntity<ErrorResponse> TicketDuplicateException( TicketDuplicateException e ) {
+    protected ResponseEntity<ErrorResponse> handleTicketDuplicateException( TicketDuplicateException e ) {
         log.info("GlobalExceptionHandler :: TicketDuplicateException = {} ", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                              .body(
@@ -76,7 +77,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                     );
     }
 
-
+    @ExceptionHandler(FailTicketRegistrationException.class)
+    protected ResponseEntity<ErrorResponse> handleFailTicketRegistrationException( FailTicketRegistrationException e ) {
+        log.info("GlobalExceptionHandler :: FailTicketRegistrationException = {} ", e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                        ErrorResponse.builder()
+                                .code("Ticket")
+                                .message(e.getMessage())
+                                .status(HttpStatus.BAD_REQUEST)
+                                .build()
+                );
+    }
 
     @ExceptionHandler(FailExitRegistrationException.class)
     protected ResponseEntity<Object> handleFailExitRegistrationException( FailExitRegistrationException ex ) {

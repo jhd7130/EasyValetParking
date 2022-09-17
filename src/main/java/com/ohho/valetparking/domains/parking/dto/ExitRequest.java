@@ -23,7 +23,7 @@ public class ExitRequest {
     @NotBlank(message = "출차 유형 정보가 없습니다.")
     private int exitType;
 
-    public Exit toExit(){
+    public Exit convertToExit(){
         return Exit.from(this);
     }
 

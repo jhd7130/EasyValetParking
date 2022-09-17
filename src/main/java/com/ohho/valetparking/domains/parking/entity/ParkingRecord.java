@@ -1,6 +1,10 @@
 package com.ohho.valetparking.domains.parking.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 
@@ -9,7 +13,11 @@ import java.sql.Timestamp;
  * Responsibility :
  * Cooperation with :
  **/
+@ToString
 @AllArgsConstructor
+@Slf4j
+@EqualsAndHashCode
+@Getter
 public class ParkingRecord {
 
         private final long member_id;

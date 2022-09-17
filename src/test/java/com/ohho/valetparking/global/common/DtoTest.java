@@ -7,11 +7,10 @@ import com.ohho.valetparking.domains.parking.controller.TicketController;
 import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.entity.Ticket;
 import com.ohho.valetparking.domains.parking.service.TicketService;
-import com.ohho.valetparking.global.common.dto.ApiResponse;
+import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.JWTProvider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -40,7 +39,7 @@ public class DtoTest {
     void apiresponse_성공_테스트() throws JsonProcessingException {
     // given
         Ticket ticket = Ticket.builder(new TicketReqeust(245,"1234","test",""),"test@gamil.com").build();
-        ApiResponse apiResponse = ApiResponse.success(ticket);
+        SuccessResponse apiResponse = SuccessResponse.success(ticket);
         ObjectMapper objectMapper = new ObjectMapper();
     // when
         String jsontest = objectMapper.writeValueAsString(apiResponse);
@@ -53,9 +52,8 @@ public class DtoTest {
     @Test
     void apiresponse_실패_테스트() throws JsonProcessingException {
     // given
-        Ticket ticket = Ticket.builder(new TicketReqeust(245,"1234","test",""),"test@gamil.com").build();
-        SignUpFailException signUpFailException = new SignUpFailException("this is test ");
-        ApiResponse apiResponse = ApiResponse.fail("B201",signUpFailException.getMessage(), HttpStatus.BAD_REQUEST);
+        Ticket ticket = Ticket.builder(new TicketReqeust(245,"1234","test","test"),"test@gamil.com").build();
+        SuccessResponse apiResponse = SuccessResponse.success(ticket);
         ObjectMapper objectMapper = new ObjectMapper();
     // when
           String jsontest = objectMapper.writeValueAsString(apiResponse);
