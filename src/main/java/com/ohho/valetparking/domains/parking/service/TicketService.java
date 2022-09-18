@@ -32,15 +32,24 @@ public class TicketService {
     @Transactional
     public void register(Ticket ticket) {
             log.info("[TicketService] register ::: ticket = {} ",ticket);
-
             HashMap<String,Long> parkingInfo = new HashMap();
+
             ticketDuplicateCheck(ticket.getTicketNumber());
-            if(ticketMapper.ticketRegister(ticket) != 1)  throw new FailTicketRegistrationException();
+            if( ticketMapper.ticketRegister(ticket) != 1){
+                    throw new FailTicketRegistrationException();
+            }
+
 
             parkingInfo.put("managerId",memberMapper.getAdminId(ticket.getEmail())
-                                                    .orElseThrow(() -> new SignInFailException("관리자가 아니거나 업는 메일입니다.")));
+                                                    .orElseThrow(() -> new FailTicketRegistrationException("발렛직원이 아니거나 업는 직원입니다.")));
             parkingInfo.put("ticketId",ticketMapper.getTicketId( ticket.getTicketNumber() ));
-            if(ticket.isVIP())  parkingInfo.put("vipId",vipMapper.getVipId(ticket.getCustomerName()));;
+
+            if(ticket.isVIP()) {
+                parkingInfo.put("vipId",
+                                vipMapper.getVipId(ticket.getCustomerName())
+                                                         .orElseThrow(() -> new FailTicketRegistrationException("VIP 존재하지 않습니다."))
+                    );
+            };
 
             parkingMapper.parkingRegister(parkingInfo);
     }

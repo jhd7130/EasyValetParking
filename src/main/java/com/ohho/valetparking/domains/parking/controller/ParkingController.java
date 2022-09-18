@@ -1,5 +1,8 @@
 package com.ohho.valetparking.domains.parking.controller;
 
+import com.ohho.valetparking.domains.parking.entity.ParkingCount;
+import com.ohho.valetparking.domains.parking.service.ParkingService;
+import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +23,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ParkingController {
 
+    private final ParkingService parkingService;
+
     @GetMapping("/parkings")
     public ResponseEntity getParkingList(){
         List list =new ArrayList();
@@ -28,5 +33,10 @@ public class ParkingController {
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
-
+    @GetMapping("/parking-count")
+    public ResponseEntity<SuccessResponse> getParkingCount(){
+        List<ParkingCount> parkingCount = parkingService.getParkingCount();
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(SuccessResponse.success(parkingCount));
+    }
 }

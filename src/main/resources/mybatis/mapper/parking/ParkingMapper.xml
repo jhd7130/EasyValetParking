@@ -22,5 +22,22 @@
         )
     </insert>
 
+    <select id="getParkingCount" resultType="com.ohho.valetparking.domains.parking.entity.ParkingCount">
+        SELECT B.parking_area, COUNT(B.parking_area) as car_count
+        FROM (
+            SELECT CASE
+                WHEN ticket.parking_area LIKE 'B%'
+                THEN SUBSTRING(ticket.parking_area,1,1)
+                ELSE ticket.parking_area
+                END AS parking_area
+            FROM parking_record parkingrecord
+                            INNER JOIN ticket ticket
+                                    ON parkingrecord.ticket_id = ticket.id
+            WHERE parking_area IS NOT NULL
+            AND parkingrecord.status = 0
+        ) B
+        GROUP BY B.parking_area
+    </select>
+
 
 </mapper>

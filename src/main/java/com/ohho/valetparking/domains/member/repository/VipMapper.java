@@ -3,6 +3,8 @@ package com.ohho.valetparking.domains.member.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Role :
  * Responsibility :
@@ -11,5 +13,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface VipMapper {
-    long getVipId(String customerName);
+    Optional<Long> getVipId(String customerName);
 }
