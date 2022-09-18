@@ -35,21 +35,24 @@ public class TicketService {
             HashMap<String,Long> parkingInfo = new HashMap();
 
             ticketDuplicateCheck(ticket.getTicketNumber());
+
             if( ticketMapper.ticketRegister(ticket) != 1){
                     throw new FailTicketRegistrationException();
             }
 
 
             parkingInfo.put("managerId",memberMapper.getAdminId(ticket.getEmail())
-                                                    .orElseThrow(() -> new FailTicketRegistrationException("발렛직원이 아니거나 업는 직원입니다.")));
+                                                    .orElseThrow(() -> new FailTicketRegistrationException("발렛직원이 아니면 티켓을 등록할 수 없습니다.")));
             parkingInfo.put("ticketId",ticketMapper.getTicketId( ticket.getTicketNumber() ));
 
+            // VIP를 체크하는데 이름이 있는지 없는지만 체크한다. 이유는 VIP인 경우에만 이름을 입력한다.
             if(ticket.isVIP()) {
                 parkingInfo.put("vipId",
                                 vipMapper.getVipId(ticket.getCustomerName())
-                                                         .orElseThrow(() -> new FailTicketRegistrationException("VIP 존재하지 않습니다."))
+                                                         .orElseThrow(() -> new FailTicketRegistrationException("찾을 수 없는 VIP입니다."))
                     );
             };
+
 
             parkingMapper.parkingRegister(parkingInfo);
     }

@@ -36,14 +36,14 @@
 
     <insert id="recordSignInHistory"  parameterType="com.ohho.valetparking.domains.member.entity.LoginHistory">
         INSERT INTO login_history(
-        users_id
-        ,admin_yn
-        ,login_at
+            users_id
+            ,admin_yn
+            ,login_at
         )
         VALUES(
-        #{id}
-        , #{isAdmin}
-        , now()
+            #{id}
+            , #{isAdmin}
+            , now()
         )
     </insert>
 
@@ -61,6 +61,14 @@
         )
     </select>
 
+    <select id="isAdmin" parameterType="string" resultType="boolean">
+        SELECT EXISTS(
+                    SELECT *
+                        FROM admins
+                    WHERE email = #{email}
+                    )
+    </select>
+
     <select id="getPassword" parameterType="string" resultType="string">
         SELECT *
             FROM(
@@ -75,13 +83,13 @@
 
     <select id="getAdminId" parameterType="string" resultType="long">
         SELECT id
-        FROM admins
-        WHERE email = #{t}
+            FROM admins
+        WHERE email = #{email}
     </select>
 
     <select id="getMemberId" parameterType="string" resultType="long">
         SELECT id
-        FROM users
+            FROM users
         WHERE email = #{email}
     </select>
 

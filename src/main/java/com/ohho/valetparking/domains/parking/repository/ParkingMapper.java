@@ -13,7 +13,5 @@ import java.util.List;
 public interface ParkingMapper {
 
     int parkingRegister(HashMap<String,Long> parkingInfo);
-
-
     List<ParkingCount> getParkingCount();
 }
