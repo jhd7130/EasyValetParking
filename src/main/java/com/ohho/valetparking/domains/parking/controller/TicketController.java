@@ -15,6 +15,7 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Optional;
 
 /**
  * Role :
@@ -34,10 +35,10 @@ public class TicketController {
 
     @PostMapping(value = "/ticket", produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessResponse<Ticket> ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust, HttpServletRequest request){
-        log.info("TicketController ticketReqeust ::::: = {}, Header ={} ",ticketReqeust, request.getHeader("ACCESS_TOKEN"));
+        log.info("TicketController ticketReqeust ::::: = {}, Header ={} ",ticketReqeust, request.getHeader("ACCESSTOKEN"));
         Ticket ticketIncludedEmail = ticketReqeust.toTicket(
                                              jwtProvider.getEmailInFromToken(
-                                                            request.getHeader("ACCESS_TOKEN")
+                                                            request.getHeader("ACCESSTOKEN")
                                                             )
                                         );
 

@@ -71,6 +71,8 @@ public class MemberService {
     private void recordSignIn(SignIn signIn) {
         log.info("signIn ={}" , signIn);
         long memberId = 0 ;
+        // 부서를 안받는다.
+        // 관리자 아이디가
         if(signIn.isAdmin()){
             memberId = memberMapper.getAdminId(signIn.getEmail())
                                                      .orElseThrow(() -> new SignInFailException("관리자가 아니거나 업는 메일입니다."));
