@@ -57,4 +57,5 @@ jobs:
          script_stop: true
          script: |
                 ./app_stop.sh
+                sleep 3
                 ./app_start.sh
