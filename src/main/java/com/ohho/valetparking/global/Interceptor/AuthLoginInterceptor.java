@@ -44,7 +44,7 @@ public class AuthLoginInterceptor implements HandlerInterceptor {
 
         if ( refreshToken != null && jwtProvider.isValid(refreshToken)){
             // 리프레시토큰에서 회원정보(아이디,부서)얻어오기
-            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getSignInFromToken(refreshToken)));
+            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getEmailInFromToken(refreshToken)));
         }
 
         throw new IllegalAccessException("유효하지 않은 토큰입니다.");

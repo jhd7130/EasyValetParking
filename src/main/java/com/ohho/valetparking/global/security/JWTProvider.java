@@ -31,24 +31,24 @@ public class JWTProvider {
     @Value("${accesstokentime}")
     private int ACCESSTOKENTIME;
 
-    public String accessTokenCreate(SignIn sign){
+    public String accessTokenCreate(String email){
 
         JwtBuilder jwtBuilder = Jwts.builder()
-                .setSubject(sign.getEmail())
+                .setSubject(email)
                 .setHeader(createHeader())
-                .setClaims(createClaims(sign))
+                .setClaims(createClaims(email))
                 .setExpiration(createExpireDate("access", ACCESSTOKENTIME))
                 .signWith( createSigningKey(),SignatureAlgorithm.HS256);
 
         return jwtBuilder.compact();
     }
 
-    public String refreshTokenCreate(SignIn sign){
+    public String refreshTokenCreate(String email){
 
         JwtBuilder jwtBuilder = Jwts.builder()
-                .setSubject(sign.getEmail())
+                .setSubject(email)
                 .setHeader(createHeader())
-                .setClaims(createClaims(sign))
+                .setClaims(createClaims(email))
                 .setExpiration(createExpireDate("refresh",REFRESHTOKENTIME))
                 .signWith( createSigningKey(),SignatureAlgorithm.HS256);
 
@@ -73,11 +73,11 @@ public class JWTProvider {
     }
 
     // 2. claim 생성
-    private HashMap<String,Object> createClaims( SignIn sign){
+    private HashMap<String,Object> createClaims( String email){
         HashMap<String,Object> claim = new HashMap<>();
 
-        claim.put("email",sign.getEmail());
-        claim.put("role",sign.getDepartment());
+        claim.put("email",email);
+
         return claim;
     }
 
@@ -108,20 +108,9 @@ public class JWTProvider {
             throw new TokenExpiredException("토큰이 만료되었습니다.");
         }
     }
-
     public String getEmailInFromToken(String token) {
         return (String) getClaimsFormToken(token).get("email");
     }
 
-    public int getDepartmentFromToken(String token) {
-        return  (int)getClaimsFormToken(token).get("department");
-    }
-
-    public SignIn getSignInFromToken(String token) {
-        return SignIn.builder(new SignInRequest(getEmailInFromToken(token)
-                                                ,"test"
-                                            ,getDepartmentFromToken(token)))
-                     .build();
-    }
 
 }

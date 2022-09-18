@@ -20,12 +20,12 @@ public interface MemberMapper {
     int newUserJoin(Join join);
     int newAdminJoin(Join join);
     boolean mailCheck(String email);
-    String getPassword(String email);
+    Optional<String> getPassword(String email);
 
     void recordSignInHistory(LoginHistory loginHistory);
     List<User> userList();
     Optional<Long> getMemberId(String email);
     Optional<Long> getAdminId(String email);
-
+    boolean isAdmin(String email);
     List<Vip> getVip(String vipName);
 }

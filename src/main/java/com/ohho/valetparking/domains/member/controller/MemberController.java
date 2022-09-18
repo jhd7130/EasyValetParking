@@ -48,7 +48,7 @@ public class MemberController {
         memberService.signIn(signInRequest.toSignIn());
 
         return ResponseEntity.ok()
-                             .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(signInRequest.toSignIn()))
+                             .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(signInRequest.getEmail()))
                              .header("REFRESHTOKEN","not yet")
                              .body("로그인에 성공했습니다.");
     }

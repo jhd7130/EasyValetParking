@@ -1,6 +1,7 @@
 package com.ohho.valetparking.member.service;
 
 import com.ohho.valetparking.domains.member.dto.JoinRequest;
+import com.ohho.valetparking.domains.member.dto.SignInRequest;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +29,7 @@ public class MemberServiceTest {
     MemberMapper memberMapper;
     @Mock
     PasswordEncoder passwordEncoder;
+
     @Test
     @DisplayName("회원가입 기능 테스트")
     void 회원가입() {
@@ -48,6 +50,12 @@ public class MemberServiceTest {
         String test = passwordEncoder.encode("test1234");
         //then
         assertThat(passwordEncoder.matches("test1234",test));
+    }
+
+    @Test
+    void 로그인테스트(){
+        SignInRequest sign = new SignInRequest("test@naver.com","testpassword");
+        System.out.println(sign.toSignIn());
     }
 
 }

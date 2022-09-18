@@ -54,7 +54,12 @@ public class MemberService {
         // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
     }
 
+    /**
+     * 부서가 없어졌으니깐
+     * @param signIn
+     */
     public void signIn(SignIn signIn) {
+        log.info("[MemberService] ::: sigIn ={}",signIn);
         // 비밀번호 확인
         passwordMatch(signIn);
         // 회원의 email로 id를 조회하고 로그인 기록 테이블에 기록 남긴다.
@@ -70,18 +75,17 @@ public class MemberService {
     @Transactional
     private void recordSignIn(SignIn signIn) {
         log.info("signIn ={}" , signIn);
-        long memberId = 0 ;
-        // 부서를 안받는다.
-        // 관리자 아이디가
-        if(signIn.isAdmin()){
-            memberId = memberMapper.getAdminId(signIn.getEmail())
-                                                     .orElseThrow(() -> new SignInFailException("관리자가 아니거나 업는 메일입니다."));
-        }else{
-            memberId = memberMapper.getMemberId(signIn.getEmail())
-                                                      .orElseThrow(() -> new SignInFailException("사용자가 아니거나 업는 메일입니다."));
+        int adminFlag = 0;
+        long memberId = memberMapper.getAdminId(signIn.getEmail())
+                               .orElseGet(() -> memberMapper.getMemberId(signIn.getEmail())
+                                                            .orElseThrow(()-> new SignInFailException("이메일 이 존재하지 않습니다.")));
+
+        // 그냥 관리자를 가져오자
+        if(!memberMapper.isAdmin(signIn.getEmail())){
+            adminFlag = 1;
         }
 
-        LoginHistory loginHistory = new LoginHistory(memberId,signIn.getDepartment());
+        LoginHistory loginHistory = LoginHistory.from( memberId, adminFlag ); // 관리자인지 아닌지만 체크 위에 로지을 변경
 
         memberMapper.recordSignInHistory(loginHistory);
     }
@@ -92,9 +96,8 @@ public class MemberService {
 
         String password= signIn.getPassword();
         // 유저/멤버에서 통합 조회 후 db에 패스워드가 있는지 가져온다.
-        String passwordFormDb = memberMapper.getPassword(signIn.getEmail());
-                //Optional.ofNullable()
-                                        // .orElseThrow(() -> {return new SignInFailException("이메일을 다시 입력해주세요.");});
+        String passwordFormDb = memberMapper.getPassword(signIn.getEmail())
+                                            .orElseThrow( () -> new IllegalArgumentException("없는 회원입니다."));
 
         if(!passwordEncoder.matches(password,passwordFormDb)){
             throw new SignInFailException("비밀번호를 다시 입력해주세요.");

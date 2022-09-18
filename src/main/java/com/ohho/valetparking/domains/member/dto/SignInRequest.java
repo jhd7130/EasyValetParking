@@ -4,14 +4,13 @@ import com.ohho.valetparking.domains.member.entity.SignIn;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * Role :
  * Responsibility :
  * Cooperation with :
  **/
+
 @Getter
 @ToString
 @NoArgsConstructor
@@ -21,8 +20,6 @@ public class SignInRequest {
     private  String email;
     @NotBlank(message = "비밀번호는 필수입니다.")
     private  String password;
-    @NotNull(message = "부서는 필수입니다.")
-    private int department;
 
     public SignIn toSignIn(){
         return SignIn.builder(this).build();

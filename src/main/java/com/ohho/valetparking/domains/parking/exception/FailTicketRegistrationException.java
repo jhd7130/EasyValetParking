@@ -11,7 +11,7 @@ public class FailTicketRegistrationException extends RuntimeException {
 
     }
     public FailTicketRegistrationException(String message){
-        super("티켓등록 실패");
+        super(message);
 
     }
 }
