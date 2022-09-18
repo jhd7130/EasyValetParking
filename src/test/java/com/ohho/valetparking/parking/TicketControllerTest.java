@@ -52,7 +52,7 @@ public class TicketControllerTest {
         // when
           mockMvc.perform(MockMvcRequestBuilders.get("/ticket/test/3")
                         .contentType(MediaType.APPLICATION_JSON))
-                        .andExpect(content().string("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + "\"" + ",\"success\":true,\"data\":\"3\",\"errorResponse\":null}"))
+                        .andExpect(content().string("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")) + "\"" + ",\"success\":true,\"data\":\"3\"}"))
                         .andDo(print());
 
     }
