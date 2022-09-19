@@ -69,9 +69,18 @@ jobs:
           VALET_REFRESHTOKENTIME: ${{ secrets.REFRESHTOKENTIME }}
           VALET_ACCESSTOKENTIME: ${{ secrets.ACCESSTOKENTIME }}
        with:
+         envs: VALET_SECRET_KEY,VALET_DB_USERNAME,VALET_DB_PASSWORD,VALET_DB_URL,VALET_DB_PORT,VALET_REFRESHTOKENTIME,VALET_ACCESSTOKENTIME
          host: ${{ secrets.HOST_IP }}
          username: ${{ secrets.HOST_ID }}
          key: ${{ secrets.KEY }}
          port: ${{ secrets.HOST_PORT }}
          script: |
+               export VALET_SECRET_KEY=$TOKEN_SECRET
+               export VALET_DB_USERNAME=$DB_USER
+               export VALET_DB_PASSWORD=$DB_PASSWORD
+               export VALET_DB_URL=$DB_HOST
+               export VALET_DB_PORT=$DB_PORT
+               export VALET_REFRESHTOKENTIME=$REFRESHTOKENTIME
+               export VALET_ACCESSTOKENTIME=$ACCESSTOKENTIME
+               
                java -jar /root/source/build/libs/*.jar
