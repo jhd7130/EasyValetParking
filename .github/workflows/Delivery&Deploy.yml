@@ -83,4 +83,4 @@ jobs:
                export VALET_REFRESHTOKENTIME=$REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$ACCESSTOKENTIME
                
-               java -jar /root/source/build/libs/*.jar
+               java -jar /root/source/build/libs/*.jar > /dev/null 2>&1 &
