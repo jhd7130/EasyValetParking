@@ -67,4 +67,4 @@ jobs:
          port: ${{ secrets.HOST_PORT }}
          script_stop: true
          script: |
-                sh app_start.sh
+                sh app_restart.sh
