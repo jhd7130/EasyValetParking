@@ -27,9 +27,9 @@ public class JWTProvider {
     @Value("${secretKey}")
     private String SECREAT_KEY;
     @Value("${refreshtokentime}")
-    private int REFRESHTOKENTIME;
+    private String REFRESHTOKENTIME;
     @Value("${accesstokentime}")
-    private int ACCESSTOKENTIME;
+    private String ACCESSTOKENTIME;
 
     public String accessTokenCreate(String email){
 
@@ -37,7 +37,7 @@ public class JWTProvider {
                 .setSubject(email)
                 .setHeader(createHeader())
                 .setClaims(createClaims(email))
-                .setExpiration(createExpireDate("access", ACCESSTOKENTIME))
+                .setExpiration(createExpireDate("access", Long.parseLong(ACCESSTOKENTIME)))
                 .signWith( createSigningKey(),SignatureAlgorithm.HS256);
 
         return jwtBuilder.compact();
@@ -49,7 +49,7 @@ public class JWTProvider {
                 .setSubject(email)
                 .setHeader(createHeader())
                 .setClaims(createClaims(email))
-                .setExpiration(createExpireDate("refresh",REFRESHTOKENTIME))
+                .setExpiration(createExpireDate("refresh",Long.parseLong(REFRESHTOKENTIME)))
                 .signWith( createSigningKey(),SignatureAlgorithm.HS256);
 
         return jwtBuilder.compact();
@@ -87,7 +87,7 @@ public class JWTProvider {
         return new SecretKeySpec(apiKeySecretBytes, SignatureAlgorithm.HS256.getJcaName());
     }
 
-    private Date createExpireDate (String type,int time) {
+    private Date createExpireDate (String type, long time) {
         if(type.equals("refresh")){
             return Timestamp.valueOf(LocalDateTime.now().plusWeeks(time));
         }
