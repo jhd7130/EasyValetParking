@@ -60,6 +60,14 @@ jobs:
                 sleep 3
      - name: executing app start
        uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+       env:
+          VALET_SECRET_KEY: ${{ secrets.TOKEN_SECRET }}
+          VALET_DB_USERNAME: ${{ secrets.DB_USER }}
+          VALET_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          VALET_DB_URL: ${{ secrets.DB_HOST }}
+          VALET_DB_PORT: ${{ secrets.DB_PORT }}
+          VALET_REFRESHTOKENTIME: ${{ secrets.REFRESHTOKENTIME }}
+          VALET_ACCESSTOKENTIME: ${{ secrets.ACCESSTOKENTIME }}
        with:
          host: ${{ secrets.HOST_IP }}
          username: ${{ secrets.HOST_ID }}
