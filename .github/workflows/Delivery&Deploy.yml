@@ -67,11 +67,4 @@ jobs:
          port: ${{ secrets.HOST_PORT }}
          script_stop: true
          script: |
-              pid=`pgrep -f java`
-              if [[$pid]]
-              then
-                echo 'Application is already running, stop application first'
-              else
-                echo '### Run EasyValet application success ###'
-                nohup java -jar /root/source/build/libs/*.jar > /dev/null 2>&1 &
-              fi
+                ./app_start.sh
