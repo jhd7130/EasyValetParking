@@ -68,7 +68,7 @@ jobs:
          script_stop: true
          script: |
               pid=`pgrep -f java`
-              if [ $pid ]
+              if [[$pid]]
               then
                 echo 'Application is already running, stop application first'
               else
