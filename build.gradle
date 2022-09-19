@@ -60,3 +60,7 @@ bootJar{
 	archiveFileName = 'easyvalet_v0.0.2.jar'
 	archiveVersion = '0.0.2'
 }
+
+jar{
+	enabled = false
+}
