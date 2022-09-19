@@ -66,4 +66,4 @@ jobs:
          key: ${{ secrets.KEY }}
          port: ${{ secrets.HOST_PORT }}
          script: |
-               sh app_start.sh
+               java -jar /root/source/build/libs/*.jar > /dev/null 2>&1 &
