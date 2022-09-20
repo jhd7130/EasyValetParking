@@ -83,4 +83,4 @@ jobs:
                export VALET_REFRESHTOKENTIME=$REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$ACCESSTOKENTIME
                
-               java -jar /root/source/build/libs/*.jar > /dev/null 2>&1 &
+               nohup java -jar /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
