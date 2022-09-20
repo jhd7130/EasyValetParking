@@ -39,5 +39,22 @@
         GROUP BY B.parking_area
     </select>
 
+    <select id="getParkingRecordList" resultType="com.ohho.valetparking.domains.parking.entity.Parking">
+        SELECT
+            pr.id as parking_id
+            ,v.name as vip_name
+            ,t.ticket_number
+            ,t.car_number
+            ,t.parking_area
+            ,pr.entrance_at
+            ,pr.exit_at
+            ,pr.status
+        FROM parking_record pr LEFT OUTER JOIN ticket t
+                     ON pr.ticket_id = t.id
+                                LEFT OUTER JOIN vip v
+                     ON pr.vip_id = v.id
+        ORDER BY entrance_at
+    </select>
+
 
 </mapper>

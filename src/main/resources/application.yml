@@ -22,7 +22,7 @@ spring:
       matching-strategy: ant_path_matcher
 
   datasource:
-        url: jdbc:mysql://${VALET_DB_URL}:${VALET_DB_PORT}/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+        url: jdbc:mysql://${VALET_DB_URL}:${VALET_DB_PORT}/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&zeroDateTimeBehavior=convertToNull
         username: ${VALET_DB_USERNAME}
         password: ${VALET_DB_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
@@ -37,3 +37,5 @@ mybatis:
   config: mybatis-config.xml
   type-aliases-package: com.ohho.valetparking.domains.*
   mapper-locations: mybatis/mapper/*/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
