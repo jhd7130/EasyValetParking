@@ -28,13 +28,10 @@ import java.time.format.DateTimeFormatter;
 @WebMvcTest(controllers = TicketController.class
             , excludeAutoConfiguration = SecurityAutoConfiguration.class )
 public class DtoTest {
-
     @MockBean
     private TicketService ticketService;
-
     @MockBean
     private JWTProvider jwtProvider;
-
     @Test
     void apiresponse_성공_테스트() throws JsonProcessingException {
     // given

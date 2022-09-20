@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.parking.controller;
 
+import com.ohho.valetparking.domains.parking.entity.Parking;
 import com.ohho.valetparking.domains.parking.entity.ParkingCount;
 import com.ohho.valetparking.domains.parking.service.ParkingService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
@@ -27,10 +28,8 @@ public class ParkingController {
 
     @GetMapping("/parkings")
     public ResponseEntity getParkingList(){
-        List list =new ArrayList();
-        list.add("ParkingList : 리스트로 갈꺼야");
-        //현재 주차된 차량 정보 모두 조회 후 반환
-        return ResponseEntity.status(HttpStatus.OK).body(list);
+        List<Parking> parkings = parkingService.getParkingRecordList();
+        return ResponseEntity.status(HttpStatus.OK).body(SuccessResponse.success(parkings));
     }
 
     @GetMapping("/parking-count")

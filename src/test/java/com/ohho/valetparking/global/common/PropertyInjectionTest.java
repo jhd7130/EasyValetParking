@@ -22,11 +22,9 @@ import org.springframework.test.context.TestPropertySource;
 @SpringBootTest
 @TestPropertySource(properties = { "spring.config.location=classpath:application.yml" })
 public class PropertyInjectionTest {
-    private  String SECREAT_KEY;
-
-    private  int ONEWEEK;
-
-    private  int ONEHOUR;
+    private String SECREAT_KEY;
+    private int ONEWEEK;
+    private int ONEHOUR;
 
     @Value("${secretKey}")
     public void setSecreatKey(String secreatKey) {
