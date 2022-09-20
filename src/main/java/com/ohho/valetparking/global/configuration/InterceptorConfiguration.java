@@ -16,13 +16,13 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     private final AuthLoginInterceptor authLoginInterceptor;
 
     public InterceptorConfiguration(AuthLoginInterceptor authLoginInterceptor) {
+        assert authLoginInterceptor != null;
         this.authLoginInterceptor = authLoginInterceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authLoginInterceptor)
-                .addPathPatterns("*")
                 .excludePathPatterns("/member/*")
                 .excludePathPatterns("/swagger-ui/*")
                 .excludePathPatterns("/ticket")
