@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -16,4 +17,5 @@ public interface ParkingMapper {
     int parkingRegister(HashMap<String,Long> parkingInfo);
     List<ParkingCount> getParkingCount();
     List<Parking> getParkingRecordList();
+    Optional<Parking> getParkingRecord(long id);
 }

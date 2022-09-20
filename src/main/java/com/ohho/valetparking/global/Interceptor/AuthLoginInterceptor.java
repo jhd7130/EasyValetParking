@@ -1,6 +1,7 @@
 package com.ohho.valetparking.global.Interceptor;
 
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
+import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import com.ohho.valetparking.global.security.JWTProvider;
 import io.jsonwebtoken.Jwt;
 import lombok.AllArgsConstructor;
@@ -39,14 +40,14 @@ public class AuthLoginInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String refreshToken = request.getHeader("REFRESHTOKEN");
+//        String refreshToken = request.getHeader("REFRESHTOKEN");
+//
+//
+//        if ( refreshToken != null && jwtProvider.isValid(refreshToken)){
+//            // 리프레시토큰에서 회원정보(아이디,부서)얻어오기
+//            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getEmailInFromToken(refreshToken)));
+//        }
 
-
-        if ( refreshToken != null && jwtProvider.isValid(refreshToken)){
-            // 리프레시토큰에서 회원정보(아이디,부서)얻어오기
-            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getEmailInFromToken(refreshToken)));
-        }
-
-        throw new IllegalAccessException("유효하지 않은 토큰입니다.");
+        throw new TokenExpiredException("유효하지 않은 토큰입니다.");
     }
 }

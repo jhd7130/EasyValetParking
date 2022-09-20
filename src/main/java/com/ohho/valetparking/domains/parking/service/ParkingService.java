@@ -47,4 +47,11 @@ public class ParkingService {
 
         return list;
     }
+
+    public Parking getParkingRecord(long id) {
+        log.info("[ParkingService] ::::: id ={} " , id);
+        Parking parking = parkingMapper.getParkingRecord(id)
+                                       .orElseThrow(() -> new ParkingRecordNotFoundException("해당 기록을 찾울 수 없습니다."));
+        return parking;
+    }
 }
