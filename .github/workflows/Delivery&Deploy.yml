@@ -8,13 +8,13 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     env:
-      VALET_SECRET_KEY: ${{ secrets.TOKEN_SECRET }}
-      VALET_DB_USERNAME: ${{ secrets.DB_USER }}
-      VALET_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-      VALET_DB_URL: ${{ secrets.DB_HOST }}
-      VALET_DB_PORT: ${{ secrets.DB_PORT }}
-      VALET_REFRESHTOKENTIME: ${{ secrets.REFRESHTOKENTIME }}
-      VALET_ACCESSTOKENTIME: ${{ secrets.ACCESSTOKENTIME }}
+      VALET_SECRET_KEY: ${{ secrets.VALET_SECRET_KEY }}
+      VALET_DB_USERNAME: ${{ secrets.VALET_DB_USERNAME }}
+      VALET_DB_PASSWORD: ${{ secrets.VALET_DB_PASSWORD }}
+      VALET_DB_URL: ${{ secrets.VALET_DB_URL }}
+      VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
+      VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
+      VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
     steps:
      - name: enviro test
        run: echo $VALET_DB_URL
@@ -61,13 +61,13 @@ jobs:
      - name: executing app start
        uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
        env:
-          VALET_SECRET_KEY: ${{ secrets.TOKEN_SECRET }}
-          VALET_DB_USERNAME: ${{ secrets.DB_USER }}
-          VALET_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          VALET_DB_URL: ${{ secrets.DB_HOST }}
-          VALET_DB_PORT: ${{ secrets.DB_PORT }}
-          VALET_REFRESHTOKENTIME: ${{ secrets.REFRESHTOKENTIME }}
-          VALET_ACCESSTOKENTIME: ${{ secrets.ACCESSTOKENTIME }}
+          VALET_SECRET_KEY: ${{ secrets.VALET_SECRET_KEY }}
+          VALET_DB_USERNAME: ${{ secrets.VALET_DB_USERNAME }}
+          VALET_DB_PASSWORD: ${{ secrets.VALET_DB_PASSWORD }}
+          VALET_DB_URL: ${{ secrets.VALET_DB_URL }}
+          VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
+          VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
+          VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
        with:
          envs: VALET_SECRET_KEY,VALET_DB_USERNAME,VALET_DB_PASSWORD,VALET_DB_URL,VALET_DB_PORT,VALET_REFRESHTOKENTIME,VALET_ACCESSTOKENTIME
          host: ${{ secrets.HOST_IP }}
@@ -75,12 +75,12 @@ jobs:
          key: ${{ secrets.KEY }}
          port: ${{ secrets.HOST_PORT }}
          script: |
-               export VALET_SECRET_KEY=$TOKEN_SECRET
-               export VALET_DB_USERNAME=$DB_USER
-               export VALET_DB_PASSWORD=$DB_PASSWORD
-               export VALET_DB_URL=$DB_HOST
-               export VALET_DB_PORT=$DB_PORT
-               export VALET_REFRESHTOKENTIME=$REFRESHTOKENTIME
-               export VALET_ACCESSTOKENTIME=$ACCESSTOKENTIME
+               export VALET_SECRET_KEY=$VALET_SECRET_KEY
+               export VALET_DB_USERNAME=$VALET_DB_USERNAME
+               export VALET_DB_PASSWORD=$VALET_DB_PASSWORD
+               export VALET_DB_URL=$VALET_DB_URL
+               export VALET_DB_PORT=$VALET_DB_PORT
+               export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
+               export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                
                nohup java -jar /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
