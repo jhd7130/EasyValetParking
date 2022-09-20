@@ -32,6 +32,10 @@ public class ParkingService {
     public List<Parking> getParkingRecordList() {
 
         // 만약 중간에 빈데이터가 있을 경우 필터링
+        // Deprecate => stream.filter 제거 가능 이유는 아래와 같음
+        // mybatis 설정에서 전체가 널인 row는 반환하지 않는 설정이 기본으로 되어 있다.
+        // <setting name="returnInstanceForEmptyRow" value="true"/> 필요하다면 value를 false로 변경
+
         List<Parking> list = parkingMapper.getParkingRecordList()
                                           .stream()
                                           .filter(x -> x.getCarNumber() != null)
