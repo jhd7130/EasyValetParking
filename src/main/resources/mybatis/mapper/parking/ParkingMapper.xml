@@ -22,7 +22,7 @@
         )
     </insert>
 
-    <select id="getParkingCount" resultType="com.ohho.valetparking.domains.parking.entity.ParkingCount">
+    <select id="getParkingCount" resultType="com.ohho.valetparking.domains.parking.domain.entity.ParkingCount">
         SELECT B.parking_area, COUNT(B.parking_area) as car_count
         FROM (
             SELECT CASE
@@ -39,7 +39,7 @@
         GROUP BY B.parking_area
     </select>
 
-    <select id="getParkingRecordList" resultType="com.ohho.valetparking.domains.parking.entity.Parking">
+    <select id="getParkingRecordList" resultType="com.ohho.valetparking.domains.parking.domain.entity.Parking">
         SELECT
             pr.id as parking_id
             ,v.name as vip_name
@@ -56,7 +56,7 @@
         ORDER BY entrance_at
     </select>
 
-    <select id="getParkingRecord" resultType="com.ohho.valetparking.domains.parking.entity.Parking" parameterType="long">
+    <select id="getParkingRecord" resultType="com.ohho.valetparking.domains.parking.domain.entity.Parking" parameterType="long">
         SELECT
             pr.id as parking_id
             ,v.name as vip_name

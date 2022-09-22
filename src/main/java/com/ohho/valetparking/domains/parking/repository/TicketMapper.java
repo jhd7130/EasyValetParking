@@ -1,6 +1,6 @@
 package com.ohho.valetparking.domains.parking.repository;
 
-import com.ohho.valetparking.domains.parking.entity.Ticket;
+import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

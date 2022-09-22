@@ -1,8 +1,7 @@
 package com.ohho.valetparking.domains.member.service;
 
-import com.ohho.valetparking.domains.member.dto.JoinRequest;
-import com.ohho.valetparking.domains.member.entity.User;
-import com.ohho.valetparking.domains.member.entity.*;
+import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
+import com.ohho.valetparking.domains.member.domain.entity.*;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 2022 08 22
@@ -54,16 +52,12 @@ public class MemberService {
         // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
     }
 
-    /**
-     * 부서가 없어졌으니깐
-     * @param signIn
-     */
+
     public void signIn(SignIn signIn) {
         log.info("[MemberService] ::: sigIn ={}",signIn);
         // 비밀번호 확인
         passwordMatch(signIn);
-        // 회원의 email로 id를 조회하고 로그인 기록 테이블에 기록 남긴다.
-        recordSignIn(signIn);
+        recordSignInHistory(signIn);
     }
 
     public List<User> getUserList() {
@@ -73,7 +67,7 @@ public class MemberService {
 
     // -----------------------------------------  sub method  -------------------------------------------------
     @Transactional
-    private void recordSignIn(SignIn signIn) {
+    private void recordSignInHistory(SignIn signIn) {
         log.info("signIn ={}" , signIn);
         int adminFlag = 0;
         long memberId = memberMapper.getAdminId(signIn.getEmail())

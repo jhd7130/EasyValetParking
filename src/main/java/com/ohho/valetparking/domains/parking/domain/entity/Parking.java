@@ -1,4 +1,4 @@
-package com.ohho.valetparking.domains.parking.entity;
+package com.ohho.valetparking.domains.parking.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

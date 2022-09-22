@@ -1,6 +1,6 @@
-package com.ohho.valetparking.domains.parking.dto;
+package com.ohho.valetparking.domains.parking.domain.dto;
 
-import com.ohho.valetparking.domains.parking.entity.Ticket;
+import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,9 @@
 package com.ohho.valetparking.domains.member.controller;
 
-import com.ohho.valetparking.domains.member.entity.Vip;
-import com.ohho.valetparking.domains.member.dto.JoinRequest;
-import com.ohho.valetparking.domains.member.dto.SignInRequest;
-import com.ohho.valetparking.domains.member.entity.User;
+import com.ohho.valetparking.domains.member.domain.entity.Vip;
+import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
+import com.ohho.valetparking.domains.member.domain.dto.SignInRequest;
+import com.ohho.valetparking.domains.member.domain.entity.User;
 import com.ohho.valetparking.domains.member.service.MemberService;
 import com.ohho.valetparking.global.security.JWTProvider;
 import lombok.RequiredArgsConstructor;

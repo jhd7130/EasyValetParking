@@ -1,8 +1,7 @@
 package com.ohho.valetparking.parking;
 
-import com.ohho.valetparking.domains.parking.entity.Ticket;
-import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
-import org.assertj.core.api.Assertions;
+import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
+import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;

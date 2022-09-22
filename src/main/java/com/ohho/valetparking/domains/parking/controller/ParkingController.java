@@ -1,7 +1,7 @@
 package com.ohho.valetparking.domains.parking.controller;
 
-import com.ohho.valetparking.domains.parking.entity.Parking;
-import com.ohho.valetparking.domains.parking.entity.ParkingCount;
+import com.ohho.valetparking.domains.parking.domain.entity.Parking;
+import com.ohho.valetparking.domains.parking.domain.entity.ParkingCount;
 import com.ohho.valetparking.domains.parking.service.ParkingService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

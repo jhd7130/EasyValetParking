@@ -2,7 +2,7 @@ package com.ohho.valetparking.parking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohho.valetparking.domains.parking.controller.TicketController;
-import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
+import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.security.JWTProvider;
 import org.junit.jupiter.api.Assertions;

@@ -1,14 +1,10 @@
 package com.ohho.valetparking.global.security;
 
 
-import com.ohho.valetparking.domains.member.entity.SignIn;
-import com.ohho.valetparking.domains.member.dto.SignInRequest;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;

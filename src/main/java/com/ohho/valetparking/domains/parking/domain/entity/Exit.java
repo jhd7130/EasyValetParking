@@ -1,6 +1,6 @@
-package com.ohho.valetparking.domains.parking.entity;
+package com.ohho.valetparking.domains.parking.domain.entity;
 
-import com.ohho.valetparking.domains.parking.dto.ExitRequest;
+import com.ohho.valetparking.domains.parking.domain.dto.ExitRequest;
 import lombok.*;
 
 /**

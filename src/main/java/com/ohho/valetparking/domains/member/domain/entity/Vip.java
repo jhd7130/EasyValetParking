@@ -1,4 +1,4 @@
-package com.ohho.valetparking.domains.member.entity;
+package com.ohho.valetparking.domains.member.domain.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

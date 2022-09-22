@@ -1,17 +1,9 @@
 package com.ohho.valetparking.global.common;
 
-import com.ohho.valetparking.ValetparkingApplication;
-import com.ohho.valetparking.domains.member.dto.SignInRequest;
-import com.ohho.valetparking.domains.member.entity.SignIn;
-import com.ohho.valetparking.global.security.JWTProvider;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.test.context.TestPropertySource;
 
 /**
