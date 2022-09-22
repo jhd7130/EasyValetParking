@@ -1,6 +1,6 @@
-package com.ohho.valetparking.domains.member.entity;
+package com.ohho.valetparking.domains.member.domain.entity;
 
-import com.ohho.valetparking.domains.member.dto.JoinRequest;
+import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
 import lombok.ToString;
 
 import java.util.Objects;

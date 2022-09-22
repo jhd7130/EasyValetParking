@@ -1,7 +1,7 @@
 package com.ohho.valetparking.domains.parking.controller;
 
-import com.ohho.valetparking.domains.parking.dto.ExitRequest;
-import com.ohho.valetparking.domains.parking.entity.ExitForRead;
+import com.ohho.valetparking.domains.parking.domain.dto.ExitRequest;
+import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.service.ExitService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import lombok.AllArgsConstructor;

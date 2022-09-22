@@ -1,6 +1,6 @@
 
 
-package com.ohho.valetparking.domains.member.dto;
+package com.ohho.valetparking.domains.member.domain.dto;
 
 import lombok.*;
 

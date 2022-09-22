@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ohho.valetparking.domains.parking.repository.ExitMapper">
 
-    <insert id="registerExit"  parameterType="com.ohho.valetparking.domains.parking.entity.Exit">
+    <insert id="registerExit"  parameterType="com.ohho.valetparking.domains.parking.domain.entity.Exit">
         INSERT INTO `exit_request`
                 (`parking_id`,
                 `requester_id`,
@@ -15,7 +15,7 @@
              )
     </insert>
 
-    <select id="getExitRequestList"  resultType="com.ohho.valetparking.domains.parking.entity.ExitForRead">
+    <select id="getExitRequestList"  resultType="com.ohho.valetparking.domains.parking.domain.entity.ExitForRead">
         SELECT a.id as exit_reqeust_id
                , d.car_number
                , a.`type`

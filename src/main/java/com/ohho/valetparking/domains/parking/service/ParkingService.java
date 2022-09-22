@@ -1,7 +1,7 @@
 package com.ohho.valetparking.domains.parking.service;
 
-import com.ohho.valetparking.domains.parking.entity.Parking;
-import com.ohho.valetparking.domains.parking.entity.ParkingCount;
+import com.ohho.valetparking.domains.parking.domain.entity.Parking;
+import com.ohho.valetparking.domains.parking.domain.entity.ParkingCount;
 import com.ohho.valetparking.domains.parking.exception.ParkingRecordNotFoundException;
 import com.ohho.valetparking.domains.parking.repository.ParkingMapper;
 import lombok.extern.slf4j.Slf4j;

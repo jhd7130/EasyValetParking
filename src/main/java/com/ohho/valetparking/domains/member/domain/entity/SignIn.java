@@ -1,6 +1,6 @@
-package com.ohho.valetparking.domains.member.entity;
+package com.ohho.valetparking.domains.member.domain.entity;
 
-import com.ohho.valetparking.domains.member.dto.SignInRequest;
+import com.ohho.valetparking.domains.member.domain.dto.SignInRequest;
 import lombok.Getter;
 import lombok.ToString;
 

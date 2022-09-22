@@ -1,7 +1,7 @@
 package com.ohho.valetparking.domains.parking.controller;
 
-import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
-import com.ohho.valetparking.domains.parking.entity.Ticket;
+import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
+import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
@@ -15,7 +15,6 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Optional;
 
 /**
  * Role :

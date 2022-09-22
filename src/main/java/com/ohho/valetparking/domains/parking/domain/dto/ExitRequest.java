@@ -1,6 +1,6 @@
-package com.ohho.valetparking.domains.parking.dto;
+package com.ohho.valetparking.domains.parking.domain.dto;
 
-import com.ohho.valetparking.domains.parking.entity.Exit;
+import com.ohho.valetparking.domains.parking.domain.entity.Exit;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

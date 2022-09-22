@@ -2,10 +2,9 @@ package com.ohho.valetparking.global.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.parking.controller.TicketController;
-import com.ohho.valetparking.domains.parking.dto.TicketReqeust;
-import com.ohho.valetparking.domains.parking.entity.Ticket;
+import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
+import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.JWTProvider;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

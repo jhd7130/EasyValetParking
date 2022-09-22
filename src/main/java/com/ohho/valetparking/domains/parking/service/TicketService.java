@@ -1,9 +1,8 @@
 package com.ohho.valetparking.domains.parking.service;
 
-import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
-import com.ohho.valetparking.domains.parking.entity.Ticket;
+import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.domains.parking.repository.ParkingMapper;
@@ -14,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
