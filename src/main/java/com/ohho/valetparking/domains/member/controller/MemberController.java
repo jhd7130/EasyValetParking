@@ -92,9 +92,9 @@ public class MemberController {
     public ResponseEntity<List<Vip>> getVip(@PathVariable String vipName ) {
         log.info("[MemberController] :::: vipName = {}",vipName);
 
-        memberService.getVip(vipName);
+        memberService.getVipByName(vipName);
 
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(memberService.getVip(vipName));
+                             .body(memberService.getVipByName(vipName));
     }
 }

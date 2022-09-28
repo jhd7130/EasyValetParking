@@ -16,16 +16,20 @@ import java.util.Optional;
  **/
 @Mapper
 public interface MemberMapper {
-
+    // Create
     int newUserJoin(Join join);
     int newAdminJoin(Join join);
-    boolean mailCheck(String email);
-    Optional<String> getPassword(String email);
-
     void recordSignInHistory(LoginHistory loginHistory);
+
+    // Validation
+    boolean mailCheck(String email);
+    boolean isAdmin(String email);
+
+    // Find&Get
+    Optional<String> getPassword(String email);
     List<User> userList();
     Optional<Long> getMemberId(String email);
     Optional<Long> getAdminId(String email);
-    boolean isAdmin(String email);
     List<Vip> getVip(String vipName);
+
 }
