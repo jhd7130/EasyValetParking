@@ -5,6 +5,8 @@ import com.ohho.valetparking.domains.member.domain.entity.*;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
+import com.ohho.valetparking.domains.member.repository.VipMapper;
+import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,7 @@ import java.util.List;
 @Slf4j
 public class MemberService {
     private final MemberMapper memberMapper;
+    private final VipMapper vipMapper;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -63,6 +66,7 @@ public class MemberService {
     public List<User> getUserList() {
         return memberMapper.userList();
     }
+
 
 
     // -----------------------------------------  sub method  -------------------------------------------------
@@ -114,8 +118,17 @@ public class MemberService {
         }
     }
 
-    public List<Vip> getVip(String vipName) {
+    public List<Vip> getVipByName(String vipName) {
         return memberMapper.getVip(vipName);
+    }
+    public Long getVipId(String vipName){
+        return vipMapper.getVipId(vipName)
+                        .orElseThrow(() -> new FailTicketRegistrationException("찾을 수 없는 VIP입니다."));
+    }
+
+    public Long getAdminIdByMail(String email){
+        return memberMapper.getAdminId(email)
+                           .orElseThrow(() -> new FailTicketRegistrationException("발렛직원이 아니면 티켓을 등록할 수 없습니다."));
     }
 }
 

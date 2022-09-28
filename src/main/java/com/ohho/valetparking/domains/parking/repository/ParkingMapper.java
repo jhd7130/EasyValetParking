@@ -14,7 +14,7 @@ import java.util.Optional;
 @Mapper
 public interface ParkingMapper {
 
-    int parkingRegister(HashMap<String,Long> parkingInfo);
+    int register(HashMap<String,Long> parkingInfo);
     List<ParkingCount> getParkingCount();
     List<Parking> getParkingRecordList();
     Optional<Parking> getParkingRecord(long id);

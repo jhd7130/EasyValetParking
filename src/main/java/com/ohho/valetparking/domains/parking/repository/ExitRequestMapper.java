@@ -14,9 +14,10 @@ import java.util.List;
  **/
 @Repository
 @Mapper
-public interface ExitMapper {
-
-    Integer registerExit(Exit exit);
-
+public interface ExitRequestMapper {
+    
+    int registerExitRequest(Exit exit);
     List<ExitForRead> getExitRequestList();
+    int updateStatus(long exitRequestId);
+
 }

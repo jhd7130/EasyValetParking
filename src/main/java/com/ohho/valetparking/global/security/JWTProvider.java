@@ -3,8 +3,11 @@ package com.ohho.valetparking.global.security;
 
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -15,16 +18,17 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 
-@Service
+@Component
 @Slf4j
+@Getter
 public class JWTProvider {
 
     // 나중에 키 감추기
     @Value("${secretKey}")
     private String SECREAT_KEY;
-    @Value("${refreshtokentime}")
+    @Value("${refreshtokentime:1}")
     private String REFRESHTOKENTIME;
-    @Value("${accesstokentime}")
+    @Value("${accesstokentime:1}")
     private String ACCESSTOKENTIME;
 
     public String accessTokenCreate(String email){
@@ -34,7 +38,7 @@ public class JWTProvider {
                 .setHeader(createHeader())
                 .setClaims(createClaims(email))
                 .setExpiration(createExpireDate("access", Long.parseLong(ACCESSTOKENTIME)))
-                .signWith( createSigningKey(),SignatureAlgorithm.HS256);
+                .signWith( createSigningKey(), SignatureAlgorithm.HS256 );
 
         return jwtBuilder.compact();
     }
@@ -52,9 +56,8 @@ public class JWTProvider {
     }
 
     public boolean isValid(String token){
-        // 토큰 만료일자가 현재시간보다 이전이면 true이고 이후이면 false를 반환한다.
-        return Timestamp.valueOf(LocalDateTime.now())
-                        .before(getClaimsFormToken(token).getExpiration());
+        Date tokenValidTime = getClaimsFormToken(token).getExpiration();
+        return Timestamp.valueOf(LocalDateTime.now()).before(tokenValidTime);
     }
 
     // 1. header 생성
@@ -100,7 +103,7 @@ public class JWTProvider {
                                 .getBody();
             return claims;
 
-        }catch (ExpiredJwtException e){
+        }catch (Exception e){
             throw new TokenExpiredException("토큰이 만료되었습니다.");
         }
     }
