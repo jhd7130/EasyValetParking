@@ -74,5 +74,4 @@ jobs:
                
                ./app_stop.sh
                sleep 3
-               
                nohup java -jar /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
