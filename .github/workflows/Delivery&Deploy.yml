@@ -72,6 +72,13 @@ jobs:
                export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                
-               ./app_stop.sh      
+               pid=`pgrep -f java`
+
+               if [ [ $pid ] ]
+               then
+                        echo 'Application is already running, stop application first'
+               else
+                        java -jar /root/source/build/libs/*.jar > /dev/null 2>&1 &
+               fi     
                sleep 3 
                nohup java -jar /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
