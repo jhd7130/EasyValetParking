@@ -55,9 +55,6 @@ public class TicketController {
     }
 
 
-
-
-
     @ApiIgnore
     @GetMapping(value = "/ticket/test/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public SuccessResponse<String> ticketInformationTest(@PathVariable("id") final String id) {

@@ -3,7 +3,7 @@ package com.ohho.valetparking.domains.parking.service;
 import com.ohho.valetparking.domains.parking.domain.entity.Parking;
 import com.ohho.valetparking.domains.parking.domain.entity.ParkingCount;
 import com.ohho.valetparking.domains.parking.exception.FailParkingRegistrationException;
-import com.ohho.valetparking.domains.parking.exception.ParkingRecordNotFoundException;
+import com.ohho.valetparking.domains.parking.exception.NotFoundParkingRecordException;
 import com.ohho.valetparking.domains.parking.repository.ParkingMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class ParkingService {
                                           .collect(Collectors.toList());
 
         if(list.size() == 0 || list == null) {
-            throw new ParkingRecordNotFoundException("주차 기록이 존재하지 않습니다.");
+            throw new NotFoundParkingRecordException("주차 기록이 존재하지 않습니다.");
         }
 
         return list;
@@ -59,7 +59,7 @@ public class ParkingService {
     public Parking getParkingRecord(long id) {
         log.info("[ParkingService] ::::: id ={} " , id);
         Parking parking = parkingMapper.getParkingRecord(id)
-                                       .orElseThrow(() -> new ParkingRecordNotFoundException("해당 기록을 찾울 수 없습니다."));
+                                       .orElseThrow(() -> new NotFoundParkingRecordException("해당 기록을 찾울 수 없습니다."));
         return parking;
     }
 }

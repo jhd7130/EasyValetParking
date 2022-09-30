@@ -16,11 +16,15 @@
     </insert>
 
 
-    <update id="updateStatus" parameterType="long">
+    <update id="updateStatus" parameterType="com.ohho.valetparking.domains.parking.domain.entity.ExitRequestStatusChange">
+
         UPDATE exit_request
-        SET status = 1
-        WHERE id = #{exitRequestId}
+        SET status = #{ status }
+        WHERE id = #{ exitRequestId }
+
     </update>
+
+
 
 
     <select id="getExitRequestList"  resultType="com.ohho.valetparking.domains.parking.domain.entity.ExitForRead">

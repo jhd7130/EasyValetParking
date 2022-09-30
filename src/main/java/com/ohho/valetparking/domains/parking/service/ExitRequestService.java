@@ -2,8 +2,9 @@ package com.ohho.valetparking.domains.parking.service;
 
 import com.ohho.valetparking.domains.parking.domain.entity.Exit;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
+import com.ohho.valetparking.domains.parking.domain.entity.ExitRequestStatusChange;
+import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
 import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
-import com.ohho.valetparking.domains.parking.exception.NotFoundExitRequestException;
 import com.ohho.valetparking.domains.parking.repository.ExitRequestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ public class ExitRequestService {
         if(result != 1) {
             throw new FailExitRegistrationException("출차요청 실패");
         }
-        return printResultMessage(exit);
+        return getResultMessage(exit);
     }
 
     public List<ExitForRead> getExitRequestList() {
@@ -42,21 +43,43 @@ public class ExitRequestService {
     public void approve( long exitRequestId, String token ) {
 
         // 1. 해당 요청 아이디를 가진 exit-request 테이블의 row에서 status를 승인으로 변경한다.
-        int result = exitRequestMapper.updateStatus(exitRequestId);
+        ExitRequestStatusChange approveStatus = makeExitRequestStatus(exitRequestId,1);
 
-        // 2. 예외 상황을 찾는다. 업데이트가 되어야 하는데 안된 거면 문제가 있는거다.
-        if ( result != 1 ) {
-            throw new NotFoundExitRequestException("");
-        }
+        // 2. 예외 상황을 찾는다.
+        validUpdateSuccess(exitRequestMapper.updateStatus(approveStatus));
 
         exitApproveService.approve(exitRequestId, token);
+
     }
 
-    private String printResultMessage(Exit exit){
+    public void reject(long exitRequestId) {
+        // 출차 완료 상태를 반려할 수 있을까?
+        ExitRequestStatusChange rejectStatus = makeExitRequestStatus(exitRequestId,3);
+        log.info("[ExitRequestService]::: reject() rejectStatus={}",rejectStatus);
+
+        validUpdateSuccess(exitRequestMapper.updateStatus(rejectStatus));
+
+    }
+
+
+    private String getResultMessage(Exit exit){
         if(exit.isOuting()){
             return "외출 요청 성공";
         }
         return "출차 요청 성공";
     }
 
+    private ExitRequestStatusChange makeExitRequestStatus(long exitRequestId, int status){
+        return new ExitRequestStatusChange(exitRequestId,status);
+    }
+
+    // 쓰레드의 모든 스택 중에 3번째꺼만 가져옵니다. 스택의 양이 많아서 문제가 생기지 않을까?
+    private void validUpdateSuccess( int updateCount ) {
+        String invocationFunctionName = Thread.currentThread().getStackTrace()[2].getMethodName();
+        if ( updateCount != 1 ) {
+
+            throw new FailChangeExitRequestStatusException( invocationFunctionName + "에 실패 했습니다. ");
+
+        }
+    }
 }

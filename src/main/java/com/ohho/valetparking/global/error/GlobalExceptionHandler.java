@@ -2,6 +2,7 @@ package com.ohho.valetparking.global.error;
 
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
+import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
 import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
@@ -81,24 +82,36 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<ErrorResponse> handleFailTicketRegistrationException( FailTicketRegistrationException e ) {
         log.info("GlobalExceptionHandler :: FailTicketRegistrationException = {} ", e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(
-                        ErrorResponse.builder()
-                                .code("Ticket")
-                                .message(e.getMessage())
-                                .status(HttpStatus.BAD_REQUEST)
-                                .build()
-                );
+                             .body(
+                                     ErrorResponse.builder()
+                                                  .code("Ticket")
+                                                  .message(e.getMessage())
+                                                  .status(HttpStatus.BAD_REQUEST)
+                                                 .build()
+                             );
     }
 
     @ExceptionHandler(FailExitRegistrationException.class)
     protected ResponseEntity<Object> handleFailExitRegistrationException( FailExitRegistrationException ex ) {
-        log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}",ex.getMessage());
+        log.info("GlobalExceptionHandler :: FailExitRegistrationException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                               .body(ErrorResponse.builder()
-                                               .code("Reqeust Parameter")
-                                               .message(ex.getMessage())
-                                               .status(HttpStatus.BAD_REQUEST)
-                                               .build()
+                               .body(ErrorResponse.builder()
+                                                   .code("Reqeust Parameter")
+                                                   .message(ex.getMessage())
+                                                   .status(HttpStatus.BAD_REQUEST)
+                                                   .build()
+                );
+    }
+
+    @ExceptionHandler(FailChangeExitRequestStatusException.class)
+    protected ResponseEntity<Object> handleFailChangeExitRequestStatusException( FailChangeExitRequestStatusException ex ) {
+        log.info("GlobalExceptionHandler :: FailChangeExitRequestStatusException = {}",ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                               .body(ErrorResponse.builder()
+                                                   .code("Reqeust Status")
+                                                   .message(ex.getMessage())
+                                                   .status(HttpStatus.BAD_REQUEST)
+                                                   .build()
                 );
     }
 
@@ -110,10 +123,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                              .body(ErrorResponse.builder()
-                             .code("Reqeust Parameter")
-                             .message(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage())
-                             .status(HttpStatus.BAD_REQUEST)
-                             .build()
+                                                 .code("Reqeust Parameter")
+                                                 .message(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage())
+                                                 .status(HttpStatus.BAD_REQUEST)
+                                                 .build()
                 );
     }
 
@@ -121,11 +134,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleConstraintViolationException( ConstraintViolationException ex ) {
         log.info("GlobalExceptionHandler :: ConstraintViolationException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(ErrorResponse.builder()
-                        .code("Reqeust Parameter")
-                        .message(ex.getMessage())
-                        .status(HttpStatus.BAD_REQUEST)
-                        .build()
-                );
+                            .body(ErrorResponse.builder()
+                                                .code("Reqeust Parameter")
+                                                .message(ex.getMessage())
+                                                .status(HttpStatus.BAD_REQUEST)
+                                                .build()
+                            );
     }
 }
