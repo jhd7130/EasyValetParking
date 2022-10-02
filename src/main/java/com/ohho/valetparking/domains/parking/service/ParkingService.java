@@ -2,11 +2,13 @@ package com.ohho.valetparking.domains.parking.service;
 
 import com.ohho.valetparking.domains.parking.domain.entity.Parking;
 import com.ohho.valetparking.domains.parking.domain.entity.ParkingCount;
+import com.ohho.valetparking.domains.parking.domain.entity.ParkingStatusChanger;
 import com.ohho.valetparking.domains.parking.exception.FailParkingRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.NotFoundParkingRecordException;
 import com.ohho.valetparking.domains.parking.repository.ParkingMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +33,12 @@ public class ParkingService {
         if(result != 1) {
             throw new FailParkingRegistrationException("주차 등록에 실패하였습니다. ");
         }
+    }
+    @Transactional
+    public void updateStatus(long parkingId,int status) {
+        // 변경 사항은 외출 출차 뿐이다.(insert가 그냥 입차)
+        ParkingStatusChanger parkingStatus = new ParkingStatusChanger(parkingId,status);
+        parkingMapper.updateStatus( parkingStatus );
     }
 
     public List<ParkingCount> getParkingCount() {
@@ -62,4 +70,10 @@ public class ParkingService {
                                        .orElseThrow(() -> new NotFoundParkingRecordException("해당 기록을 찾울 수 없습니다."));
         return parking;
     }
+
+    private ParkingStatusChanger makeParkingStatus(long parkingId, int status){
+            return new ParkingStatusChanger(parkingId,status);
+    }
+
+
 }

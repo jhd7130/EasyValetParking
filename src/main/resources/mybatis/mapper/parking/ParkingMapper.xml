@@ -22,6 +22,14 @@
         )
     </insert>
 
+    <update id="updateStatus" parameterType="com.ohho.valetparking.domains.parking.domain.entity.ParkingStatusChanger">
+
+        UPDATE parking_record
+        SET status = #{ parkingId }
+        WHERE id = #{ status }
+
+    </update>
+
     <select id="getParkingCount" resultType="com.ohho.valetparking.domains.parking.domain.entity.ParkingCount">
         SELECT B.parking_area, COUNT(B.parking_area) as car_count
         FROM (

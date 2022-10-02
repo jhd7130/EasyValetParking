@@ -32,12 +32,32 @@
                , d.car_number
                , a.`type`
                , d.parking_area
+               , a.parking_id
+               , a.status
         FROM exit_request a LEFT OUTER JOIN exit_approve b
                                 on a.id = b.exit_request_id
                             LEFT OUTER JOIN parking_record c
                                 on a.parking_id = c.id
                             LEFT OUTER JOIN ticket d
                                 on d.id = c.ticket_id
+    </select>
+
+    <select id="getExitRequest" parameterType="long" resultType="com.ohho.valetparking.domains.parking.domain.entity.ExitForRead">
+
+        SELECT a.id as exit_reqeust_id
+               , d.car_number
+               , a.`type`
+               , d.parking_area
+               , a.parking_id
+               , a.status
+        FROM exit_request a LEFT OUTER JOIN exit_approve b
+                                ON a.id = b.exit_request_id
+                            LEFT OUTER JOIN parking_record c
+                                ON a.parking_id = c.id
+                            LEFT OUTER JOIN ticket d
+                                ON d.id = c.ticket_id
+        WHERE a.id = #{exitRequestId}
+
     </select>
 
 </mapper>

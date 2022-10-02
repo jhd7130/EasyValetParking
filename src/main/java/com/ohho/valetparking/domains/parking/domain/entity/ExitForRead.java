@@ -13,5 +13,13 @@ public class ExitForRead {
      private final String carNumber;
      private final int type;
      private final String parkingArea;
+     private final long parkingId;
+     private final int status;
+
+
+     public boolean isOuting(){
+          if( type == 1) return  true;
+          return false;
+     }
 
 }
