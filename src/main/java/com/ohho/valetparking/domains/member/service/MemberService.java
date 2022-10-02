@@ -1,6 +1,7 @@
 package com.ohho.valetparking.domains.member.service;
 
 import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
+import com.ohho.valetparking.domains.member.domain.dto.SignInResponse;
 import com.ohho.valetparking.domains.member.domain.entity.*;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
@@ -55,12 +56,15 @@ public class MemberService {
         // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
     }
 
-
-    public void signIn(SignIn signIn) {
+    // token이랑 id 담아서 반환해줍시다. dto 필요하고
+    // id 및 부서 조회해오기
+    public SignInResponse signIn(SignIn signIn) {
         log.info("[MemberService] ::: sigIn ={}",signIn);
-        // 비밀번호 확인
-        passwordMatch(signIn);
+        // 비밀번호 확인에서 id, department 다 가져오기
+        SignInResponse signInResponse = passwordMatch(signIn);
         recordSignInHistory(signIn);
+
+        return signInResponse;
     }
 
     public List<User> getUserList() {
@@ -89,17 +93,19 @@ public class MemberService {
     }
 
     // admin인지 확인해야함
-    public void passwordMatch(SignIn signIn) {
+    public SignInResponse passwordMatch(SignIn signIn) {
         log.info("MemberService :: SignIn :: = {} ",signIn);
 
         String password= signIn.getPassword();
-        // 유저/멤버에서 통합 조회 후 db에 패스워드가 있는지 가져온다.
-        String passwordFormDb = memberMapper.getPassword(signIn.getEmail())
-                                            .orElseThrow( () -> new IllegalArgumentException("없는 회원입니다."));
+        // 유저 멤버 통합으로 조회해서 Member 객체로 가져오는 방법으로 변경
+        Member member = memberMapper.getMemberByEmail(signIn.getEmail())
+                                    .orElseThrow( () -> new IllegalArgumentException("없는 회원입니다."));
 
-        if(!passwordEncoder.matches(password,passwordFormDb)){
+        if(!passwordEncoder.matches(password,member.getPassword())){
             throw new SignInFailException("비밀번호를 다시 입력해주세요.");
         }
+
+        return new SignInResponse(member);
     }
 
     @Transactional

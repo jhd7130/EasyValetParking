@@ -69,14 +69,14 @@
                     )
     </select>
 
-    <select id="getPassword" parameterType="string" resultType="string">
-        SELECT *
+    <select id="getMemberByEmail" parameterType="string" resultType="com.ohho.valetparking.domains.member.domain.entity.Member">
+        SELECT x.id, x.nickname, x.email, x.password, x.department
             FROM(
-            SELECT password
+            SELECT *
                 FROM users
             WHERE email = #{email}
             UNION ALL
-            SELECT password
+            SELECT *
                 FROM admins
             WHERE email = #{email}) AS x
     </select>
