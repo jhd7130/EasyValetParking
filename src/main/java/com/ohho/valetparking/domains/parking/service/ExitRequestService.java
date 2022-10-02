@@ -4,7 +4,7 @@ import com.ohho.valetparking.domains.parking.domain.entity.Exit;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitRequestStatusChange;
 import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
-import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
+import com.ohho.valetparking.domains.parking.exception.NotFoundExitRequestException;
 import com.ohho.valetparking.domains.parking.repository.ExitRequestMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,26 +18,65 @@ import java.util.List;
 public class ExitRequestService {
     private final ExitRequestMapper exitRequestMapper;
     private final ExitApproveService exitApproveService;
+    private final ParkingService parkingService;
 
-    public ExitRequestService(ExitRequestMapper exitRequestMapper, ExitApproveService exitApproveService) {
+    public ExitRequestService(ExitRequestMapper exitRequestMapper,
+                              ExitApproveService exitApproveService,
+                              ParkingService parkingService) {
         assert exitRequestMapper != null; assert exitApproveService != null;
+
         this.exitRequestMapper = exitRequestMapper;
         this.exitApproveService = exitApproveService;
-    }
-    // 트랜젝션을 제거합니다. 트랜젝션을 제거하는 이유는 비용 부분에서 비효율적이기 때문에 제거합니다.
-    // 현재 메서드의 작업은 하나입니다. 작업들이 아니기 때문에 문제가 발생한다고 해서 돌려야하는 작업의 묶음이 필요가 없습니다.
-    //  @Transactional
-    public String register(Exit exit){
-        int result = exitRequestMapper.registerExitRequest(exit);
-        if(result != 1) {
-            throw new FailExitRegistrationException("출차요청 실패");
-        }
-        return getResultMessage(exit);
+        this.parkingService = parkingService;
     }
 
     public List<ExitForRead> getExitRequestList() {
         return exitRequestMapper.getExitRequestList();
     }
+
+    public ExitForRead getExitRequest(long exitRequestId) {
+        log.info("[ExitRequestService] ::: exitRequestId ={}",exitRequestId);
+        ExitForRead exitForRead = exitRequestMapper.getExitRequest(exitRequestId)
+                                                   .orElseThrow(()-> new NotFoundExitRequestException("해당 요청 기록를 찾을 수 없습니다."));
+        return exitForRead ;
+    }
+
+    // 트랜젝션을 제거합니다. 트랜젝션을 제거하는 이유는 비용 부분에서 비효율적이기 때문에 제거합니다.
+    // 현재 메서드의 작업은 하나입니다. 작업들이 아니기 때문에 문제가 발생한다고 해서 돌려야하는 작업의 묶음이 필요가 없습니다.
+    //  @Transactional
+    public String register(Exit exit){
+
+        validUpdateSuccess(exitRequestMapper.registerExitRequest(exit));
+        return getResultMessage(exit);
+
+    }
+
+    @Transactional
+    public void done( long exitRequestId ){
+        // 반려된 요청은 완료 처리할 수 없습니다. valid 요청
+        ExitForRead exitForRead = getExitRequest(exitRequestId);
+        log.info("[ExitRequestService] :::: exitForRead ={} ",exitForRead);
+
+        if( exitForRead.getStatus() == 3 ) {
+            throw new FailChangeExitRequestStatusException("반려된 요청은 완료 처리할 수 없습니다.");
+        }
+
+        // 1. 일단 출차 요청 테이블 상태 변경
+        ExitRequestStatusChange doneStatus = makeExitRequestStatus(exitRequestId,2);
+        validUpdateSuccess(exitRequestMapper.updateStatus(doneStatus));
+
+
+        // 3. 요청 타입에 따라 parking record 테이블 변경
+        if( exitForRead.isOuting() ) { // 외출
+            parkingService.updateStatus(exitForRead.getParkingId(),2);
+        }
+
+        if( !exitForRead.isOuting() ) { // 출차
+            parkingService.updateStatus(exitForRead.getParkingId(),1);
+        }
+
+    }
+
 
     @Transactional
     public void approve( long exitRequestId, String token ) {
@@ -53,7 +92,7 @@ public class ExitRequestService {
     }
 
     public void reject(long exitRequestId) {
-        // 출차 완료 상태를 반려할 수 있을까?
+        // 출차 완료 상태를 반려할 수 있을까? - 이거 로직 추가 필요
         ExitRequestStatusChange rejectStatus = makeExitRequestStatus(exitRequestId,3);
         log.info("[ExitRequestService]::: reject() rejectStatus={}",rejectStatus);
 

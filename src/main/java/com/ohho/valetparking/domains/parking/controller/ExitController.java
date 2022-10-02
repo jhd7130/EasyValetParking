@@ -44,6 +44,7 @@ public class ExitController {
         return ResponseEntity.status(HttpStatus.OK)
                              .body(SuccessResponse.success(successMessage));
     }
+
     // 권한 관리 : 관리자
     @PostMapping(value = "/exit/{id}/approve", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SuccessResponse> requestExitApprove( @PathVariable("id") long exitRequestId, HttpServletRequest request){
@@ -58,13 +59,25 @@ public class ExitController {
 
     // 권한 관리 : 관리자
     @PostMapping(value = "/exit/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SuccessResponse> requestExitReject( @PathVariable("id") long exitRequestId, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> requestExitReject( @PathVariable("id") long exitRequestId){
 
         log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId );
         exitRequestService.reject( exitRequestId );
 
         return ResponseEntity.status(HttpStatus.OK)
                              .body(SuccessResponse.success("출차 요청이 반려 되었습니다."));
+
+    }
+
+    // 권한 관리 : 관리자
+    @PostMapping(value = "/exit/{id}/done", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SuccessResponse> requestExitDone( @PathVariable("id") long exitRequestId){
+
+        log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId );
+        exitRequestService.done( exitRequestId );
+
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(SuccessResponse.success("출차가 완료 되었습니다."));
 
     }
 

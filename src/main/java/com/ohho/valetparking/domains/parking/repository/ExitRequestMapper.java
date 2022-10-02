@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Role :
@@ -20,4 +21,5 @@ public interface ExitRequestMapper {
     int registerExitRequest(Exit exit);
     List<ExitForRead> getExitRequestList();
     int updateStatus(ExitRequestStatusChange exitRequestStatus);
+    Optional<ExitForRead> getExitRequest(long exitRequestId);
 }
