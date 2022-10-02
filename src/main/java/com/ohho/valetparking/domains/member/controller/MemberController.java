@@ -1,10 +1,12 @@
 package com.ohho.valetparking.domains.member.controller;
 
+import com.ohho.valetparking.domains.member.domain.dto.SignInResponse;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
 import com.ohho.valetparking.domains.member.domain.dto.SignInRequest;
 import com.ohho.valetparking.domains.member.domain.entity.User;
 import com.ohho.valetparking.domains.member.service.MemberService;
+import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.JWTProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,12 +47,12 @@ public class MemberController {
     @PostMapping(value = "/member/sign-in", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity signIn(@RequestBody SignInRequest signInRequest){
 
-        memberService.signIn(signInRequest.toSignIn());
+        SignInResponse signInResponse = memberService.signIn(signInRequest.toSignIn());
 
         return ResponseEntity.ok()
                              .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(signInRequest.getEmail()))
                              .header("REFRESHTOKEN","not yet")
-                             .body("로그인에 성공했습니다.");
+                             .body(SuccessResponse.success(signInResponse));
     }
 
     @PutMapping(value = "/member/password", produces = MediaType.APPLICATION_JSON_VALUE)
