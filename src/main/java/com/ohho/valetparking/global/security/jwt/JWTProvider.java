@@ -1,4 +1,4 @@
-package com.ohho.valetparking.global.security;
+package com.ohho.valetparking.global.security.jwt;
 
 
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
@@ -31,24 +31,24 @@ public class JWTProvider {
     @Value("${accesstokentime:1}")
     private String ACCESSTOKENTIME;
 
-    public String accessTokenCreate(String email){
+    public String accessTokenCreate(TokenIngredient tokenIngredient){
 
         JwtBuilder jwtBuilder = Jwts.builder()
-                .setSubject(email)
+                .setSubject(tokenIngredient.getEmail())
                 .setHeader(createHeader())
-                .setClaims(createClaims(email))
+                .setClaims(createClaims(tokenIngredient))
                 .setExpiration(createExpireDate("access", Long.parseLong(ACCESSTOKENTIME)))
                 .signWith( createSigningKey(), SignatureAlgorithm.HS256 );
 
         return jwtBuilder.compact();
     }
 
-    public String refreshTokenCreate(String email){
+    public String refreshTokenCreate(TokenIngredient tokenIngredient){
 
         JwtBuilder jwtBuilder = Jwts.builder()
-                .setSubject(email)
+                .setSubject(tokenIngredient.getEmail())
                 .setHeader(createHeader())
-                .setClaims(createClaims(email))
+                .setClaims(createClaims(tokenIngredient))
                 .setExpiration(createExpireDate("refresh",Long.parseLong(REFRESHTOKENTIME)))
                 .signWith( createSigningKey(),SignatureAlgorithm.HS256);
 
@@ -72,10 +72,11 @@ public class JWTProvider {
     }
 
     // 2. claim 생성
-    private HashMap<String,Object> createClaims( String email){
+    private HashMap<String,Object> createClaims( TokenIngredient tokenIngredient){
         HashMap<String,Object> claim = new HashMap<>();
 
-        claim.put("email",email);
+        claim.put("email",tokenIngredient.getEmail());
+        claim.put("department",tokenIngredient.getDepartment());
 
         return claim;
     }
@@ -107,8 +108,17 @@ public class JWTProvider {
             throw new TokenExpiredException("토큰이 만료되었습니다.");
         }
     }
+
+    public TokenIngredient getTokenIngredientFromToken(String token) {
+        return new TokenIngredient(getEmailInFromToken(token), getDepartmentInFromToken(token));
+    }
+
     public String getEmailInFromToken(String token) {
         return (String) getClaimsFormToken(token).get("email");
+    }
+
+    public int getDepartmentInFromToken(String token) {
+        return  (int)getClaimsFormToken(token).get("department");
     }
 
 

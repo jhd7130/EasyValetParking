@@ -1,12 +1,8 @@
 package com.ohho.valetparking.global.Interceptor;
 
-import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
-import com.ohho.valetparking.global.security.JWTProvider;
-import io.jsonwebtoken.Jwt;
-import lombok.AllArgsConstructor;
+import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 

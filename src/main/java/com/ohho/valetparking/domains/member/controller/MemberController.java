@@ -7,7 +7,8 @@ import com.ohho.valetparking.domains.member.domain.dto.SignInRequest;
 import com.ohho.valetparking.domains.member.domain.entity.User;
 import com.ohho.valetparking.domains.member.service.MemberService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
-import com.ohho.valetparking.global.security.JWTProvider;
+import com.ohho.valetparking.global.security.jwt.JWTProvider;
+import com.ohho.valetparking.global.security.jwt.TokenIngredient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -47,12 +48,13 @@ public class MemberController {
     @PostMapping(value = "/member/sign-in", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity signIn(@RequestBody SignInRequest signInRequest){
 
-        SignInResponse signInResponse = memberService.signIn(signInRequest.toSignIn());
+        SignInResponse signInDTO = memberService.signIn(signInRequest.toSignIn());
+        TokenIngredient tokenIngredient = new TokenIngredient(signInDTO.getEmail(),signInDTO.getDepartment());
 
         return ResponseEntity.ok()
-                             .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(signInRequest.getEmail()))
+                             .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(tokenIngredient))
                              .header("REFRESHTOKEN","not yet")
-                             .body(SuccessResponse.success(signInResponse));
+                             .body(SuccessResponse.success(signInDTO));
     }
 
     @PutMapping(value = "/member/password", produces = MediaType.APPLICATION_JSON_VALUE)
