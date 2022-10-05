@@ -2,8 +2,7 @@ package com.ohho.valetparking.domains.parking.service;
 
 import com.ohho.valetparking.domains.member.service.MemberService;
 import com.ohho.valetparking.domains.parking.repository.ExitApproveMapper;
-import com.ohho.valetparking.domains.parking.repository.ExitRequestMapper;
-import com.ohho.valetparking.global.security.JWTProvider;
+import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

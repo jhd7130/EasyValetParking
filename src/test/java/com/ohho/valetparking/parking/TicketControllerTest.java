@@ -4,18 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohho.valetparking.domains.parking.controller.TicketController;
 import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.service.TicketService;
-import com.ohho.valetparking.global.Interceptor.AuthLoginInterceptor;
-import com.ohho.valetparking.global.configuration.InterceptorConfiguration;
-import com.ohho.valetparking.global.security.JWTProvider;
+import com.ohho.valetparking.global.security.jwt.JWTProvider;
+import com.ohho.valetparking.global.security.jwt.TokenIngredient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -68,7 +64,7 @@ public class TicketControllerTest {
     void apiresponseTest() throws Exception{
         // given
         final TicketReqeust ticketReqeust = new TicketReqeust(1234,"","B201","테스트");
-        String token = jwtProvider.accessTokenCreate("test@naver.com");
+        String token = jwtProvider.accessTokenCreate(new TokenIngredient("test@maver.com",0));
 
         // when
           mockMvc.perform(MockMvcRequestBuilders.get("/ticket/test/3")

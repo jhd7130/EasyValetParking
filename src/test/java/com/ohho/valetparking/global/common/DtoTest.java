@@ -7,7 +7,7 @@ import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
-import com.ohho.valetparking.global.security.JWTProvider;
+import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
