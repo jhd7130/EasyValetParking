@@ -1,9 +1,6 @@
 package com.ohho.valetparking.global.security.jwt;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 /**
  * Role :
@@ -11,10 +8,12 @@ import lombok.ToString;
  * Cooperation with :
  **/
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
+@Setter
 @ToString
 @EqualsAndHashCode
 public class TokenIngredient {
-    private final String email;
-    private final int department;
+    private String email;
+    private int department;
 }

@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.parking.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ohho.valetparking.domains.member.service.MemberService;
 import com.ohho.valetparking.domains.parking.repository.ExitApproveMapper;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
@@ -31,10 +32,10 @@ public class ExitApproveService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void approve( long exitRequestId, String accessToken ) {
+    public void approve( long exitRequestId, String accessToken ) throws JsonProcessingException {
         log.info("[ExitApproveService] approve() :: exitRequestId = {}",exitRequestId);
         // 0. jwtoken에서 Email cwk
-        String email =jwtProvider.getEmailInFromToken(accessToken);
+        String email = jwtProvider.getTokenIngredientFromToken(accessToken).getEmail();
 
         // 1. id 찾아오기
         long approveAdminId = memberService.getAdminIdByMail(email);

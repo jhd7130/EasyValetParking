@@ -1,6 +1,8 @@
 package com.ohho.valetparking.global.security.jwt;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
 import lombok.Getter;
@@ -31,28 +33,30 @@ public class JWTProvider {
     @Value("${accesstokentime:1}")
     private String ACCESSTOKENTIME;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     public String accessTokenCreate(TokenIngredient tokenIngredient){
 
-        JwtBuilder jwtBuilder = Jwts.builder()
-                .setSubject(tokenIngredient.getEmail())
-                .setHeader(createHeader())
-                .setClaims(createClaims(tokenIngredient))
-                .setExpiration(createExpireDate("access", Long.parseLong(ACCESSTOKENTIME)))
-                .signWith( createSigningKey(), SignatureAlgorithm.HS256 );
-
-        return jwtBuilder.compact();
+        return Jwts.builder()
+                   .setSubject(tokenIngredient.getEmail())
+                   .setHeader(createHeader())
+                   //.setClaims(createClaims(tokenIngredient))
+                   .setExpiration(createExpireDate("access", Long.parseLong(ACCESSTOKENTIME)))
+                   .signWith( createSigningKey(), SignatureAlgorithm.HS256 )
+                   .claim("tokenIngredient",tokenIngredient)
+                   .compact();
     }
 
     public String refreshTokenCreate(TokenIngredient tokenIngredient){
+        return Jwts.builder()
+                    .setSubject(tokenIngredient.getEmail())
+                    .setHeader(createHeader())
+                    //.setClaims(createClaims(tokenIngredient))
+                    .setExpiration(createExpireDate("refresh",Long.parseLong(REFRESHTOKENTIME)))
+                    .signWith( createSigningKey(),SignatureAlgorithm.HS256)
+                    .claim("tokenIngredient",tokenIngredient)
+                    .compact();
 
-        JwtBuilder jwtBuilder = Jwts.builder()
-                .setSubject(tokenIngredient.getEmail())
-                .setHeader(createHeader())
-                .setClaims(createClaims(tokenIngredient))
-                .setExpiration(createExpireDate("refresh",Long.parseLong(REFRESHTOKENTIME)))
-                .signWith( createSigningKey(),SignatureAlgorithm.HS256);
-
-        return jwtBuilder.compact();
     }
 
     public boolean isValid(String token){
@@ -71,12 +75,19 @@ public class JWTProvider {
         return header;
     }
 
-    // 2. claim 생성
+
+    /**
+     * HashMap을 통해 만들 수도 있지만 Claim을 직접 설정할 수 있어서 그렇게 만들었다.
+     * @param tokenIngredient
+     * @auth Atom
+     * @return
+     */
     private HashMap<String,Object> createClaims( TokenIngredient tokenIngredient){
         HashMap<String,Object> claim = new HashMap<>();
 
         claim.put("email",tokenIngredient.getEmail());
         claim.put("department",tokenIngredient.getDepartment());
+        claim.put("tokenIngredient",tokenIngredient);
 
         return claim;
     }
@@ -109,14 +120,20 @@ public class JWTProvider {
         }
     }
 
-    public TokenIngredient getTokenIngredientFromToken(String token) {
-        return new TokenIngredient(getEmailInFromToken(token), getDepartmentInFromToken(token));
+    public TokenIngredient getTokenIngredientFromToken(String token) throws JsonProcessingException {
+        try{
+            String tmp =  objectMapper.writeValueAsString(getClaimsFormToken(token).get("tokenIngredient"));
+            return  objectMapper.readValue( tmp, TokenIngredient.class );
+        }catch (JsonProcessingException e){
+            throw new IllegalArgumentException("JsonProcessingException ::: 잘못된 토큰 값입니다.");
+        }
     }
 
+    @Deprecated
     public String getEmailInFromToken(String token) {
         return (String) getClaimsFormToken(token).get("email");
     }
-
+    @Deprecated
     public int getDepartmentInFromToken(String token) {
         return  (int)getClaimsFormToken(token).get("department");
     }
