@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.parking.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
@@ -33,13 +34,12 @@ public class TicketController {
     }
 
     @PostMapping(value = "/ticket", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SuccessResponse<Ticket> ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust, HttpServletRequest request){
+    public SuccessResponse<Ticket> ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust, HttpServletRequest request) throws JsonProcessingException {
         log.info("TicketController ticketReqeust ::::: = {}, Header ={} ",ticketReqeust, request.getHeader("ACCESSTOKEN"));
         Ticket ticketIncludedEmail = ticketReqeust.toTicket(
-                                             jwtProvider.getEmailInFromToken(
-                                                            request.getHeader("ACCESSTOKEN")
-                                                            )
-                                        );
+                                                         jwtProvider.getTokenIngredientFromToken(request.getHeader("ACCESSTOKEN"))
+                                                                    .getEmail()
+                                                            );
 
         ticketService.register(ticketIncludedEmail);
 

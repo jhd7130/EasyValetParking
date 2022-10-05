@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.parking.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ohho.valetparking.domains.parking.domain.entity.Exit;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitRequestStatusChange;
@@ -79,7 +80,7 @@ public class ExitRequestService {
 
 
     @Transactional
-    public void approve( long exitRequestId, String token ) {
+    public void approve( long exitRequestId, String token ) throws JsonProcessingException {
 
         // 1. 해당 요청 아이디를 가진 exit-request 테이블의 row에서 status를 승인으로 변경한다.
         ExitRequestStatusChange approveStatus = makeExitRequestStatus(exitRequestId,1);

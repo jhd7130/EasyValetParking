@@ -59,11 +59,9 @@ public class TokenTest {
     @Test
     @DisplayName("토큰에서 객체 꺼내오기")
     void getTokenIngredient(){
+
         assertAll(
-                () -> assertThat(tesetJWTProvider.getEmailInFromToken(token)).isEqualTo("test@maver.com"),
-                () -> assertThat(tesetJWTProvider.getDepartmentInFromToken(token)).isEqualTo(0),
                 () -> assertThat(tesetJWTProvider.getTokenIngredientFromToken(token)).isEqualTo(new TokenIngredient("test@maver.com",0))
         );
-
     }
 }

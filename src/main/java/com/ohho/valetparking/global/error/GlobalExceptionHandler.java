@@ -1,5 +1,6 @@
 package com.ohho.valetparking.global.error;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
@@ -92,7 +93,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(FailExitRegistrationException.class)
-    protected ResponseEntity<Object> handleFailExitRegistrationException( FailExitRegistrationException ex ) {
+    protected ResponseEntity<ErrorResponse> handleFailExitRegistrationException( FailExitRegistrationException ex ) {
         log.info("GlobalExceptionHandler :: FailExitRegistrationException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                .body(ErrorResponse.builder()
@@ -104,7 +105,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(FailChangeExitRequestStatusException.class)
-    protected ResponseEntity<Object> handleFailChangeExitRequestStatusException( FailChangeExitRequestStatusException ex ) {
+    protected ResponseEntity<ErrorResponse> handleFailChangeExitRequestStatusException( FailChangeExitRequestStatusException ex ) {
         log.info("GlobalExceptionHandler :: FailChangeExitRequestStatusException = {}",ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                .body(ErrorResponse.builder()
@@ -125,6 +126,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                              .body(ErrorResponse.builder()
                                                  .code("Reqeust Parameter")
                                                  .message(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage())
+                                                 .status(HttpStatus.BAD_REQUEST)
+                                                 .build()
+                );
+    }
+    @ExceptionHandler
+    protected ResponseEntity<ErrorResponse> handleJsonProcessingException( JsonProcessingException ex) {
+        log.info("GlobalExceptionHandler :: JsonProcessingException = {}",ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                             .body(ErrorResponse.builder()
+                                                 .code("Jwt Token Binding")
+                                                 .message(ex.getMessage())
                                                  .status(HttpStatus.BAD_REQUEST)
                                                  .build()
                 );

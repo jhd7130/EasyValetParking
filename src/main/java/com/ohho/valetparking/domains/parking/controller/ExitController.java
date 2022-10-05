@@ -1,5 +1,6 @@
 package com.ohho.valetparking.domains.parking.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ohho.valetparking.domains.parking.domain.dto.ExitRequest;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.service.ExitRequestService;
@@ -47,7 +48,7 @@ public class ExitController {
 
     // 권한 관리 : 관리자
     @PostMapping(value = "/exit/{id}/approve", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SuccessResponse> requestExitApprove( @PathVariable("id") long exitRequestId, HttpServletRequest request){
+    public ResponseEntity<SuccessResponse> requestExitApprove( @PathVariable("id") long exitRequestId, HttpServletRequest request) throws JsonProcessingException {
 
         log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId );
         exitRequestService.approve( exitRequestId, request.getHeader("ACCESSTOKEN" ) );
