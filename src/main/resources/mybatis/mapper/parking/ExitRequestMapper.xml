@@ -6,11 +6,13 @@
         INSERT INTO `exit_request`
                 (`parking_id`,
                 `requester_id`,
+                `status`,
                 `type`)
         VALUES
              (
-                 #{memberId},
                  #{parkingRecordId},
+                 #{memberId},
+                 0 ,
                  #{exitType}
              )
     </insert>

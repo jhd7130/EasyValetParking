@@ -3,7 +3,7 @@
 <mapper namespace="com.ohho.valetparking.domains.parking.repository.ParkingMapper">
 
     <!-- 입차중인 차량 조회 시 입차시간과 출차시간이 같다는 조건이 필요하다. -->
-    <insert id="parkingRegister"  parameterType="hashmap">
+    <insert id="register"  parameterType="hashmap">
         INSERT INTO `parking_record`(
                             `member_id`,
                             `ticket_id`,
