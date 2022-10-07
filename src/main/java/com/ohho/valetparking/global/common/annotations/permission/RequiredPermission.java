@@ -15,4 +15,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RequiredPermission {
     PermissionLevel target() default PermissionLevel.ADMIN;
+
 }
