@@ -6,9 +6,7 @@ import lombok.*;
 import javax.validation.constraints.NotBlank;
 
 /**
- * Role :
- * Responsibility :
- * Cooperation with :
+ * Role : Responsibility : Cooperation with :
  **/
 
 @Getter
@@ -16,12 +14,13 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignInRequest {
-    @NotBlank(message = "이메일은 필수입니다.")
-    private  String email;
-    @NotBlank(message = "비밀번호는 필수입니다.")
-    private  String password;
 
-    public SignIn toSignIn(){
-        return SignIn.builder(this).build();
-    }
+  @NotBlank(message = "이메일은 필수입니다.")
+  private String email;
+  @NotBlank(message = "비밀번호는 필수입니다.")
+  private String password;
+
+  public SignIn toSignIn() {
+    return SignIn.builder(this).build();
+  }
 }

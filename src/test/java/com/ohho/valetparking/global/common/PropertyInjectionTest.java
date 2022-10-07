@@ -7,34 +7,36 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 /**
- * Role :
- * Responsibility :
- * Cooperation with :
+ * Role : Responsibility : Cooperation with :
  **/
 @SpringBootTest
-@TestPropertySource(properties = { "spring.config.location=classpath:application.yml" })
+@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
 public class PropertyInjectionTest {
-    private String SECREAT_KEY;
-    private int ONEWEEK;
-    private int ONEHOUR;
 
-    @Value("${secretKey}")
-    public void setSecreatKey(String secreatKey) {
-        this.SECREAT_KEY = secreatKey;
-    }
-    @Value("${refreshtokentime}")
-    public void setONEWEEK(int ONEWEEK) {
-        this.ONEWEEK = ONEWEEK;
-    }
-    @Value("${accesstokentime}")
-    public void setONEHOUR(int ONEHOUR) {
-        this.ONEHOUR = ONEHOUR;
-    }
-    @Test
-    void propertyTest() {
+  private String SECREAT_KEY;
+  private int ONEWEEK;
+  private int ONEHOUR;
 
-        Assertions.assertEquals("thisiskeyforeasyvaletparkingservicemadebylogan",SECREAT_KEY);
-    }
+  @Value("${secretKey}")
+  public void setSecreatKey(String secreatKey) {
+    this.SECREAT_KEY = secreatKey;
+  }
+
+  @Value("${refreshtokentime}")
+  public void setONEWEEK(int ONEWEEK) {
+    this.ONEWEEK = ONEWEEK;
+  }
+
+  @Value("${accesstokentime}")
+  public void setONEHOUR(int ONEHOUR) {
+    this.ONEHOUR = ONEHOUR;
+  }
+
+  @Test
+  void propertyTest() {
+
+    Assertions.assertEquals("thisiskeyforeasyvaletparkingservicemadebylogan", SECREAT_KEY);
+  }
 
 }
 
