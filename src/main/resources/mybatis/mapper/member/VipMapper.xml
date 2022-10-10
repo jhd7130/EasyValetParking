@@ -1,12 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ohho.valetparking.domains.member.repository.VipMapper">
-    <!-- insert section -->
 
-    <!-- select section -->
-    <select id="getVipId" parameterType="string" resultType="long">
-                SELECT id
-                    FROM vip
-                WHERE name = #{ customerName }
-    </select>
+  <!-- insert section -->
+  <insert id="registerVip"
+    parameterType="com.ohho.valetparking.domains.member.domain.dto.VipRequest">
+    INSERT INTO `vip`(
+    `name`,
+    `car_number`,
+    `type`,
+    `uniqueness`
+    ) VALUES (
+    #{name},
+    #{car_number},
+    #{type},
+    #{uniqueness}
+    )
+  </insert>
+
+  <update id="deleteVip" parameterType="long">
+    UPDATE `vip`
+    SET activate = 1
+    WHERE id = #{vipId}
+  </update>
+
+  <update id="updateVip" parameterType="com.ohho.valetparking.domains.member.domain.entity.Vip">
+    UPDATE `vip`
+    SET
+    `name` = #{name},
+    `car_number` =#{car_number},
+    `type` =#{type},
+    `uniqueness` =  #{uniqueness}
+    WHERE `id` =  ${id} ;
+  </update>
+
+  <!-- select section -->
+  <select id="getVipId" parameterType="string" resultType="long">
+    SELECT id
+    FROM vip
+    WHERE name = #{ customerName }
+  </select>
+
+  <select id="findAll" parameterType="string"
+    resultType="com.ohho.valetparking.domains.member.domain.entity.Vip">
+    SELECT *
+    FROM vip
+    WHERE activate = 0
+    ORDER BY name
+  </select>
+
+  <select id="findVipByName" parameterType="string"
+    resultType="com.ohho.valetparking.domains.member.domain.entity.Vip">
+    SELECT *
+    FROM vip
+    WHERE name LIKE CONCAT('%', #{vipName}, '%')
+    AND activate = 0
+    ORDER BY name
+  </select>
+
+  <select id="findVipById" parameterType="long"
+    resultType="com.ohho.valetparking.domains.member.domain.entity.Vip">
+    SELECT *
+    FROM vip
+    WHERE id = #{vipId}
+    AND activate = 0
+    ORDER BY name
+  </select>
+
+  <select id="findVipByCarNumber" parameterType="string"
+    resultType="com.ohho.valetparking.domains.member.domain.entity.Vip">
+    SELECT *
+    FROM vip
+    WHERE car_number LIKE CONCAT('%', #{vipCarNumber}, '%')
+    AND activate = 0
+    ORDER BY name
+  </select>
 </mapper>

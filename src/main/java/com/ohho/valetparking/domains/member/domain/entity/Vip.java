@@ -1,38 +1,32 @@
 package com.ohho.valetparking.domains.member.domain.entity;
 
+import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
+import com.ohho.valetparking.domains.member.enums.VipType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.Objects;
-
 /**
- * Role :
- * Responsibility :
- * Cooperation with :
+ * Role : Responsibility : Cooperation with :
  **/
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Vip {
 
-      private final long id;
-      private final String name;
-      private final String car_number;
-      private final String type;
-      private final String uniqueness;
+  private final Long id;
+  private final String name;
+  private final String car_number;
+  private final VipType type;
+  private final String uniqueness;
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Vip)) return false;
-        Vip vip = (Vip) o;
-        return id == vip.id && Objects.equals(name, vip.name) && Objects.equals(car_number, vip.car_number) && Objects.equals(type, vip.type) && Objects.equals(uniqueness, vip.uniqueness);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, car_number, type, uniqueness);
-    }
+  public static Vip from(Long id, VipRequest vipRequest) {
+    return new Vip(id, vipRequest.getName(), vipRequest.getCar_number(), vipRequest.getType(),
+        vipRequest.getUniqueness());
+  }
 }

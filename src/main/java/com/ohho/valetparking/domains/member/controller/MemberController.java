@@ -92,13 +92,5 @@ public class MemberController {
                              .body(userList);
     }
 
-    @GetMapping(value = "/vip/{vipName}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Vip>> getVip(@PathVariable String vipName ) {
-        log.info("[MemberController] :::: vipName = {}",vipName);
 
-        memberService.getVipByName(vipName);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(memberService.getVipByName(vipName));
-    }
 }

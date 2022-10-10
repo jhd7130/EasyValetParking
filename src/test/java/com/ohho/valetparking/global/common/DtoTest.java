@@ -9,6 +9,7 @@ import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -30,34 +31,34 @@ public class DtoTest {
     private TicketService ticketService;
     @MockBean
     private JWTProvider jwtProvider;
-    @Test
-    void apiresponse_성공_테스트() throws JsonProcessingException {
-    // given
-        Ticket ticket = Ticket.builder(new TicketReqeust(245,"1234","test",""),"test@gamil.com").build();
-        SuccessResponse apiResponse = SuccessResponse.success(ticket);
-        ObjectMapper objectMapper = new ObjectMapper();
-    // when
-        String jsontest = objectMapper.writeValueAsString(apiResponse);
-        String test = jsontest.substring(jsontest.indexOf(','));
+    SuccessResponse apiResponse;
+    ObjectMapper objectMapper;
+    Ticket ticket;
+    String jsontest;
+    String test;
+    @BeforeEach
+    void setting() throws JsonProcessingException {
+        // given
+        apiResponse = SuccessResponse.success(ticket);
+        objectMapper = new ObjectMapper();
+        // when
+        jsontest = objectMapper.writeValueAsString(apiResponse);
+        test = jsontest.substring(jsontest.indexOf(','));
+    }
 
+    @Test
+    void apiresponse_성공_테스트() {
+        ticket = Ticket.builder(new TicketReqeust(245,"1234","test",""),"test@gamil.com").build();
         // then
         Assertions.assertThat(jsontest).isEqualTo("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))+ "\"" + test);
     }
 
     @Test
     void apiresponse_실패_테스트() throws JsonProcessingException {
-    // given
-        Ticket ticket = Ticket.builder(new TicketReqeust(245,"1234","test","test"),"test@gamil.com").build();
-        SuccessResponse apiResponse = SuccessResponse.success(ticket);
-        ObjectMapper objectMapper = new ObjectMapper();
-    // when
-          String jsontest = objectMapper.writeValueAsString(apiResponse);
-          String test = jsontest.substring(jsontest.indexOf(','));
-    // then
-        System.out.println(jsontest);
+        // given
+        ticket = Ticket.builder(new TicketReqeust(245,"1234","test","test"),"test@gamil.com").build();
+        //then
         Assertions.assertThat(jsontest).isEqualTo("{\"localDateTime" + "\":\"" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))+ "\"" + test);
     }
-
-
 }
 
