@@ -51,10 +51,10 @@ public class VipApiTest {
 
 
   @Test
-  @DisplayName("브이아이피 지정조회 영어 조회 동작 테스트")
+  @DisplayName("브이아이피 지정조회 차량번호 조회 동작 테스트")
   void vipApiByNameEnTest() throws Exception {
     // given
-    mockMvc.perform(MockMvcRequestBuilders.get("/vip/englishtest")).andExpect(status().isOk())
+    mockMvc.perform(MockMvcRequestBuilders.get("/vip/car-number/2345")).andExpect(status().isOk())
         .andDo(print());
   }
 
@@ -62,7 +62,7 @@ public class VipApiTest {
   @DisplayName("브이아이피 지정조회 한글 조회 동작 테스트")
   void vipApiByNameKoTest() throws Exception {
     // given
-    mockMvc.perform(MockMvcRequestBuilders.get("/vip/홍길동")).andExpect(status().isOk())
+    mockMvc.perform(MockMvcRequestBuilders.get("/vip/name/홍길동")).andExpect(status().isOk())
         .andDo(print());
   }
 
