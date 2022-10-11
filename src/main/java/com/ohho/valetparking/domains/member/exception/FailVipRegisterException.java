@@ -1,13 +1,13 @@
 package com.ohho.valetparking.domains.member.exception;
 
-/**
- * Role :
- * Responsibility :
- * Cooperation with :
- **/
+import com.ohho.valetparking.global.error.exception.BaseException;
+
+
 public class FailVipRegisterException extends RuntimeException {
-    public FailVipRegisterException(){}
-    public FailVipRegisterException(String message){
-        super(message);
-    }
+
+  public FailVipRegisterException() {
+  }
+  public FailVipRegisterException(String message) {
+    super(message);
+  }
 }

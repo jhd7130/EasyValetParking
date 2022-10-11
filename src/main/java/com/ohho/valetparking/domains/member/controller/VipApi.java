@@ -4,6 +4,8 @@ import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.service.VipService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
+import com.ohho.valetparking.global.error.ErrorCode;
+import com.ohho.valetparking.global.error.exception.InvalidArgumentException;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +38,6 @@ public class VipApi {
   @PostMapping(value = "/vip", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> registor(@RequestBody @Valid VipRequest vipRequest) {
     log.info("[VipApi] :::: vipRequest = {}", vipRequest);
-
     return ResponseEntity.status(HttpStatus.OK)
         .body(SuccessResponse.success(vipService.registerVip(vipRequest)));
   }

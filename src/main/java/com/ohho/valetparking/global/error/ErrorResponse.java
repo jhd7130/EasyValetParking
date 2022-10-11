@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import org.springframework.http.ResponseEntity;
 
 
 @Getter // 시리얼라이즈가 필요한 객체일 경우에는 Getter 메서드가 꼭 필요하다.
@@ -56,4 +57,5 @@ public class ErrorResponse {
             return new ErrorResponse(this);
         }
     }
+
 }
