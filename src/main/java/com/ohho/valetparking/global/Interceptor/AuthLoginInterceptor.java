@@ -28,12 +28,13 @@ public class AuthLoginInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
+
     if (request.getHeader("ACCESSTOKEN") != null && jwtProvider.isValid(
         request.getHeader("ACCESSTOKEN"))) {
       return true;
 
     }
-    log.info("test");
+
 //        String refreshToken = request.getHeader("REFRESHTOKEN");
 //
 //
