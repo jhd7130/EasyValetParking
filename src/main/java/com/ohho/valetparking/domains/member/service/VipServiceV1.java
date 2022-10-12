@@ -5,6 +5,7 @@ import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.exception.FailVipRegisterException;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
+import com.ohho.valetparking.global.error.ErrorCode;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -52,13 +53,16 @@ public class VipServiceV1 implements VipService {
 
   @Override
   public SuccessResponse<List<Vip>> findVips() {
+
     List<Vip> vips = vipMapper.findAll();
     log.info("VIPS {}", vips);
+
     return SuccessResponse.success(vips);
   }
 
   @Override
   public SuccessResponse<String> registerVip(VipRequest vipRequest) {
+
     log.info("[VipServiceV1] registerVip ={}", vipRequest);
     validUpdateSuccess(vipMapper.registerVip(vipRequest));
 
@@ -75,14 +79,20 @@ public class VipServiceV1 implements VipService {
   @Override
   public SuccessResponse<String> updateVip(Vip vip) {
     validUpdateSuccess(vipMapper.updateVip(vip));
-    return SuccessResponse.success("삭제에 성공했습니다.");
+    return SuccessResponse.success("수정에 성공했습니다.");
   }
 
   private void validUpdateSuccess(int updateCount) {
     String invocationFunctionName = Thread.currentThread().getStackTrace()[2].getMethodName();
     if (updateCount != 1) {
       log.error("[VipServiceV1] registerVip {}에 실패했습니다.", invocationFunctionName);
-      throw new FailVipRegisterException(invocationFunctionName + "에 실패 했습니다. ");
+      if (invocationFunctionName.equals("registerVip")) {
+        throw new FailVipRegisterException(ErrorCode.FAIL_REGISTER_VIP);
+      }
+
+      if (!invocationFunctionName.equals("registerVip")) {
+        throw new FailVipRegisterException(ErrorCode.FAIL_UPDATE_VIP);
+      }
     }
   }
 }

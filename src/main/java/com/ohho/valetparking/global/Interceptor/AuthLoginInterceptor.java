@@ -1,5 +1,6 @@
 package com.ohho.valetparking.global.Interceptor;
 
+import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class AuthLoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
+        log.info("{}",request.getHeader("ACCESSTOKEN"));
         if( request.getHeader("ACCESSTOKEN") != null && jwtProvider.isValid( request.getHeader("ACCESSTOKEN")) ) {
 
             return true;
@@ -43,6 +45,6 @@ public class AuthLoginInterceptor implements HandlerInterceptor {
 //            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getEmailInFromToken(refreshToken)));
 //        }
 
-        throw new TokenExpiredException("유효하지 않은 토큰입니다.");
+        throw new TokenExpiredException(ErrorCode.INVALID_TOKEN);
     }
 }

@@ -5,8 +5,10 @@ import com.ohho.valetparking.domains.parking.domain.entity.Exit;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitRequestStatusChange;
 import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
+import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.NotFoundExitRequestException;
 import com.ohho.valetparking.domains.parking.repository.ExitRequestMapper;
+import com.ohho.valetparking.global.error.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +40,7 @@ public class ExitRequestService {
     public ExitForRead getExitRequest(long exitRequestId) {
         log.info("[ExitRequestService] ::: exitRequestId ={}",exitRequestId);
         ExitForRead exitForRead = exitRequestMapper.getExitRequest(exitRequestId)
-                                                   .orElseThrow(()-> new NotFoundExitRequestException("해당 요청 기록를 찾을 수 없습니다."));
+                                                   .orElseThrow(()-> new NotFoundExitRequestException(ErrorCode.NOT_FOUND_EXIT));
         return exitForRead ;
     }
 
@@ -46,7 +48,6 @@ public class ExitRequestService {
     // 현재 메서드의 작업은 하나입니다. 작업들이 아니기 때문에 문제가 발생한다고 해서 돌려야하는 작업의 묶음이 필요가 없습니다.
     //  @Transactional
     public String register(Exit exit){
-
         validUpdateSuccess(exitRequestMapper.registerExitRequest(exit));
         return getResultMessage(exit);
 
@@ -59,7 +60,7 @@ public class ExitRequestService {
         log.info("[ExitRequestService] :::: exitForRead ={} ",exitForRead);
 
         if( exitForRead.getStatus() == 3 ) {
-            throw new FailChangeExitRequestStatusException("반려된 요청은 완료 처리할 수 없습니다.");
+            throw new FailChangeExitRequestStatusException(ErrorCode.REJECTED_EXIT_REQUEST);
         }
 
         // 1. 일단 출차 요청 테이블 상태 변경
@@ -117,8 +118,12 @@ public class ExitRequestService {
     private void validUpdateSuccess( int updateCount ) {
         String invocationFunctionName = Thread.currentThread().getStackTrace()[2].getMethodName();
         if ( updateCount != 1 ) {
-
-            throw new FailChangeExitRequestStatusException( invocationFunctionName + "에 실패 했습니다. ");
+            if(invocationFunctionName.equals("register")){
+                throw new FailExitRegistrationException( ErrorCode.FAIL_REGISTER);
+            }
+            if(!invocationFunctionName.equals("register")){
+                throw new FailChangeExitRequestStatusException( ErrorCode.FAIL_UPDATE);
+            }
 
         }
     }

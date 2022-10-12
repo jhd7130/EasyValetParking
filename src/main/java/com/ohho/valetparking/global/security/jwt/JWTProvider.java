@@ -3,6 +3,7 @@ package com.ohho.valetparking.global.security.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
 import lombok.Getter;
@@ -117,7 +118,7 @@ public class JWTProvider {
             return claims;
 
         } catch (Exception e) {
-            throw new TokenExpiredException("토큰이 만료되었습니다.");
+            throw new TokenExpiredException(ErrorCode.INVALID_TOKEN);
         }
     }
 

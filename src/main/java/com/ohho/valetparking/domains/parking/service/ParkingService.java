@@ -6,6 +6,7 @@ import com.ohho.valetparking.domains.parking.domain.entity.ParkingStatusChanger;
 import com.ohho.valetparking.domains.parking.exception.FailParkingRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.NotFoundParkingRecordException;
 import com.ohho.valetparking.domains.parking.repository.ParkingMapper;
+import com.ohho.valetparking.global.error.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class ParkingService {
     public void register( HashMap<String,Long> parkingInfo ){
         int result = parkingMapper.register(parkingInfo);
         if(result != 1) {
-            throw new FailParkingRegistrationException("주차 등록에 실패하였습니다. ");
+            throw new FailParkingRegistrationException(ErrorCode.FAIL_REGISTER);
         }
     }
     @Transactional

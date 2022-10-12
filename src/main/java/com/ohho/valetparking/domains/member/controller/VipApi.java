@@ -89,7 +89,7 @@ public class VipApi {
   @GetMapping(value = "/vip", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> getVips() {
     log.info("[VipApi] :::: vipName = {}");
-
-    return ResponseEntity.status(HttpStatus.OK).body(vipService.findVips());
+    throw new InvalidArgumentException("이렇게도 보낼 수 있습니다.",ErrorCode.INVALID_ARGUMENT);
+    // return ResponseEntity.status(HttpStatus.OK).body(vipService.findVips());
   }
 }
