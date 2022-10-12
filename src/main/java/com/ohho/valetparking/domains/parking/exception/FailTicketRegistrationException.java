@@ -1,17 +1,23 @@
 package com.ohho.valetparking.domains.parking.exception;
 
+import com.ohho.valetparking.global.error.ErrorCode;
+import com.ohho.valetparking.global.error.exception.BaseException;
+
 /**
  * Role :
  * Responsibility :
  * Cooperation with :
  **/
-public class FailTicketRegistrationException extends RuntimeException {
+public class FailTicketRegistrationException extends BaseException {
     public FailTicketRegistrationException(){
-        super("티켓등록 실패");
-
+        super(ErrorCode.FAIL_REGISTER);
     }
-    public FailTicketRegistrationException(String message){
-        super(message);
 
+    public FailTicketRegistrationException(String message, ErrorCode errorCode) {
+        super(message, errorCode);
+    }
+
+    public FailTicketRegistrationException(ErrorCode errorCode) {
+        super(errorCode);
     }
 }

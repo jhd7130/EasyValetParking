@@ -35,6 +35,7 @@ public class ApiResponse<T> {
     return new ApiResponse(true, data);
   }
 
+  // exception으로 받기
   public static ApiResponse fail(ErrorCode errorCode) {
     return new ApiResponse(false, new ErrorBody(errorCode.getCode(), errorCode.getStatus(),
         errorCode.getMessage()));

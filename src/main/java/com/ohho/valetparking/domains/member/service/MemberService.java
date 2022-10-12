@@ -8,6 +8,7 @@ import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
 import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
+import com.ohho.valetparking.global.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -52,7 +53,7 @@ public class MemberService {
 
     log.info("email = {}", email);
     if (memberMapper.mailCheck(email)) {
-      throw new SignUpFailException("이메일 중복");
+      throw new SignUpFailException(ErrorCode.EMAIL_DUPLICATION);
     }
     // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
   }
@@ -80,7 +81,7 @@ public class MemberService {
     int adminFlag = 0;
     long memberId = memberMapper.getAdminId(signIn.getEmail())
         .orElseGet(() -> memberMapper.getMemberId(signIn.getEmail())
-            .orElseThrow(() -> new SignInFailException("이메일 이 존재하지 않습니다.")));
+            .orElseThrow(() -> new SignInFailException(ErrorCode.EMAIL_NOT_FOUND)));
 
     // 그냥 관리자를 가져오자
     if (!memberMapper.isAdmin(signIn.getEmail())) {
@@ -99,10 +100,10 @@ public class MemberService {
     String password = signIn.getPassword();
     // 유저 멤버 통합으로 조회해서 Member 객체로 가져오는 방법으로 변경
     Member member = memberMapper.getMemberByEmail(signIn.getEmail())
-        .orElseThrow(() -> new IllegalArgumentException("없는 회원입니다."));
+        .orElseThrow(() -> new SignInFailException(ErrorCode.EMAIL_NOT_FOUND));
 
     if (!passwordEncoder.matches(password, member.getPassword())) {
-      throw new SignInFailException("비밀번호를 다시 입력해주세요.");
+      throw new SignInFailException(ErrorCode.NOT_MATCH_PASSWORD);
     }
 
     return new SignInResponse(member);
@@ -120,7 +121,7 @@ public class MemberService {
     }
 
     if (result != 1) {
-      throw new SignUpFailException("회원가입에 실패했습니다.");
+      throw new SignUpFailException(ErrorCode.FAIL_REGISTER);
     }
   }
 
@@ -130,12 +131,12 @@ public class MemberService {
 
   public Long getVipId(String vipName) {
     return vipMapper.getVipId(vipName)
-        .orElseThrow(() -> new FailTicketRegistrationException("찾을 수 없는 VIP입니다."));
+        .orElseThrow(() -> new FailTicketRegistrationException(ErrorCode.NOT_FOUND_VIP));
   }
 
   public Long getAdminIdByMail(String email) {
     return memberMapper.getAdminId(email)
-        .orElseThrow(() -> new FailTicketRegistrationException("발렛직원이 아니면 티켓을 등록할 수 없습니다."));
+        .orElseThrow(() -> new FailTicketRegistrationException(ErrorCode.HANDLE_ACCESS_DENIED));
   }
 }
 

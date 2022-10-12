@@ -1,15 +1,8 @@
 package com.ohho.valetparking.global.error;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ohho.valetparking.domains.member.exception.SignInFailException;
-import com.ohho.valetparking.domains.member.exception.SignUpFailException;
-import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
-import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
-import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
-import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.error.exception.BaseException;
-import com.ohho.valetparking.global.error.exception.InvalidArgumentException;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import com.ohho.valetparking.global.error.exception.UnExpectedException;
 import javax.servlet.http.HttpServletRequest;
@@ -35,13 +28,12 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   //-------------------------------------------- Server---------------------------------------
-  @ExceptionHandler(value = {DataIntegrityViolationException.class})
-  protected ResponseEntity<ErrorResponse> handleDataException() {
+  @ExceptionHandler(value = {DataIntegrityViolationException.class,
+      ConstraintViolationException.class})
+  protected ApiResponse handleDataException() {
     HttpStatus httpStatus = HttpStatus.CONFLICT;
     log.error("handleDataException throw Exception : {}", httpStatus);
-    return ResponseEntity.status(httpStatus)
-        .body(ErrorResponse.builder().status(httpStatus).code("Data").message("중복되는 데이터가 존재합니다.")
-            .build());
+    return ApiResponse.fail(ErrorCode.DATA_DUPLICATE);
   }
 
   /*
@@ -89,137 +81,14 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
   }
 
-  @ExceptionHandler(ConstraintViolationException.class)
-  protected ResponseEntity<Object> handleConstraintViolationException(
-      ConstraintViolationException ex) {
-    log.info("GlobalExceptionHandler :: ConstraintViolationException = {}", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .code("Reqeust Parameter")
-            .message(ex.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
-
   //-------------------------------------------- Custom---------------------------------------
   // 하나의 메서드로 처리가 가능할 것 같다. -> 기준이 되는 RuntimeException을 확장한 base exception을 만들고
   // Custom Exception들을 모두 확장시키는 방향으로
   // 그리고 나머지 다 지우고 base Exception을 처리하는 @ExceptionHandler 하나만 두기
 
   @ExceptionHandler(BaseException.class)
-  protected ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
-    e.getClass().toString();
-    log.info("GlobalExceptionHandler :: {} = {} ",e.getClass().getName(), e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                          .body(
-                              ErrorResponse.builder()
-                                  .code("Sign-Up")
-                                  .message(e.getMessage())
-                                  .status(HttpStatus.NOT_FOUND)
-                                  .build()
-                          );
+  protected ApiResponse handleBaseException(BaseException e) {
+    log.info("GlobalExceptionHandler :: {} = {} ", e.getClass().getName(), e.getMessage());
+    return ApiResponse.fail(e.getErrorCode());
   }
-
-  @ExceptionHandler(SignUpFailException.class)
-  protected ResponseEntity<ErrorResponse> handleSignUpFailException(SignUpFailException e) {
-    log.info("GlobalExceptionHandler :: SignUpFailException = {} ", e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(
-            ErrorResponse.builder()
-                .code("Sign-Up")
-                .message(e.getMessage())
-                .status(HttpStatus.NOT_FOUND)
-                .build()
-        );
-  }
-
-  @ExceptionHandler(SignInFailException.class)
-  protected ResponseEntity<ErrorResponse> handleSignInFailException(SignInFailException e) {
-    log.info("GlobalExceptionHandler :: SignInFailException = {} ", e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.builder()
-            .code("Sign-In")
-            .message(e.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
-
-  @ExceptionHandler(TokenExpiredException.class)
-  protected ResponseEntity<ErrorResponse> handleTokenExpiredException(TokenExpiredException e) {
-    log.info("GlobalExceptionHandler :: TokenExpiredException = {} ", e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.builder()
-            .code("Token")
-            .message(e.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
-
-  @ExceptionHandler(TicketDuplicateException.class)
-  protected ResponseEntity<ErrorResponse> handleTicketDuplicateException(
-      TicketDuplicateException e) {
-    log.info("GlobalExceptionHandler :: TicketDuplicateException = {} ", e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(
-            ErrorResponse.builder()
-                .code("Ticket")
-                .message(e.getMessage())
-                .status(HttpStatus.BAD_REQUEST)
-                .build()
-        );
-  }
-
-  @ExceptionHandler(FailTicketRegistrationException.class)
-  protected ResponseEntity<ErrorResponse> handleFailTicketRegistrationException(
-      FailTicketRegistrationException e) {
-    log.info("GlobalExceptionHandler :: FailTicketRegistrationException = {} ", e.getMessage());
-    return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(
-            ErrorResponse.builder()
-                .code("Ticket")
-                .message(e.getMessage())
-                .status(HttpStatus.BAD_REQUEST)
-                .build()
-        );
-  }
-
-  @ExceptionHandler(FailExitRegistrationException.class)
-  protected ResponseEntity<ErrorResponse> handleFailExitRegistrationException(
-      FailExitRegistrationException ex) {
-    log.info("GlobalExceptionHandler :: FailExitRegistrationException = {}", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .code("Reqeust Parameter")
-            .message(ex.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
-
-  @ExceptionHandler(FailChangeExitRequestStatusException.class)
-  protected ResponseEntity<ErrorResponse> handleFailChangeExitRequestStatusException(
-      FailChangeExitRequestStatusException ex) {
-    log.info("GlobalExceptionHandler :: FailChangeExitRequestStatusException = {}",
-        ex.getMessage());
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .code("Reqeust Status")
-            .message(ex.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
-
-  @ExceptionHandler(InvalidArgumentException.class)
-  protected ApiResponse handleInvalidArgumentException(
-      InvalidArgumentException ex) {
-    log.info("GlobalExceptionHandler :: InvalidArgumentException = {}",
-        ex.getMessage());
-    return ApiResponse.fail(ex.getErrorCode());
-  }
-
-
 }

@@ -6,6 +6,7 @@ import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationExc
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.domains.parking.repository.ParkingMapper;
 import com.ohho.valetparking.domains.parking.repository.TicketMapper;
+import com.ohho.valetparking.global.error.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +32,7 @@ public class TicketService {
             ticketDuplicateCheck(ticket.getTicketNumber());
 
             if( ticketMapper.ticketRegister(ticket) != 1){
-                    throw new FailTicketRegistrationException("티켓 등록에 실패 했습니다.");
+                    throw new FailTicketRegistrationException();
             }
 
             parkingService.register(makeParkingInformation(ticket));
@@ -39,7 +40,7 @@ public class TicketService {
 
     private void ticketDuplicateCheck(int ticketNumber){
         if(ticketMapper.doubleCheck(ticketNumber)){
-            throw new TicketDuplicateException("티켓 번호가 이미 존재합니다.");
+            throw new TicketDuplicateException(ErrorCode.DATA_DUPLICATE);
         }
     }
 
