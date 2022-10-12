@@ -11,9 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Role : ControllerAdvice
- * 예외 처리 전략이 ControllerAdviced이지만 처리되는 이유는 FrontController인 dispatcherServlet이
- * 받은 예외를 처리할 수 없을 경우 HandlerInterceptor를 구현한 객체에게 예외 처리를 요청한다.
+ * Role : ControllerAdvice 예외 처리 전략이 ControllerAdviced이지만 처리되는 이유는 FrontController인
+ * dispatcherServlet이 받은 예외를 처리할 수 없을 경우 HandlerInterceptor를 구현한 객체에게 예외 처리를 요청한다.
  **/
 
 @Slf4j
@@ -21,22 +20,20 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthLoginInterceptor implements HandlerInterceptor {
 
 
-    private final JWTProvider jwtProvider;
+  private final JWTProvider jwtProvider;
 
-    public AuthLoginInterceptor(JWTProvider jwtProvider) {
-        this.jwtProvider = jwtProvider;
+  public AuthLoginInterceptor(JWTProvider jwtProvider) {
+    this.jwtProvider = jwtProvider;
+  }
+  @Override
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+      throws Exception {
+    if (request.getHeader("ACCESSTOKEN") != null && jwtProvider.isValid(
+        request.getHeader("ACCESSTOKEN"))) {
+      return true;
+
     }
-
-    // 테스트 굉장히 많이 필요 2022.08.26
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
-        log.info("{}",request.getHeader("ACCESSTOKEN"));
-        if( request.getHeader("ACCESSTOKEN") != null && jwtProvider.isValid( request.getHeader("ACCESSTOKEN")) ) {
-
-            return true;
-        }
-
+    log.info("test");
 //        String refreshToken = request.getHeader("REFRESHTOKEN");
 //
 //
@@ -45,6 +42,6 @@ public class AuthLoginInterceptor implements HandlerInterceptor {
 //            response.setHeader("ACCESSTOKEN",jwtProvider.accessTokenCreate(jwtProvider.getEmailInFromToken(refreshToken)));
 //        }
 
-        throw new TokenExpiredException(ErrorCode.INVALID_TOKEN);
-    }
+    throw new TokenExpiredException(ErrorCode.INVALID_TOKEN);
+  }
 }

@@ -2,10 +2,14 @@ package com.ohho.valetparking.domains.member.controller;
 
 import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
+import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.domains.member.service.VipService;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.error.exception.InvalidArgumentException;
+import com.ohho.valetparking.global.security.permission.PermissionRequired;
+import java.util.List;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,20 +39,21 @@ public class VipApi {
   }
 
   //------------------------------------------------- CUD -----------------------------------------------
+  @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/vip", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> registor(@RequestBody @Valid VipRequest vipRequest) {
     log.info("[VipApi] :::: vipRequest = {}", vipRequest);
     return ResponseEntity.status(HttpStatus.OK)
         .body(SuccessResponse.success(vipService.registerVip(vipRequest)));
   }
-
+  @PermissionRequired(permission = MemberType.ADMIN)
   @DeleteMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> delete(@PathVariable @NonNull Long id) {
     log.info("[VipApi] :::: vipName = {}", id);
     return ResponseEntity.status(HttpStatus.OK)
         .body(SuccessResponse.success(vipService.deleteVip(id)));
   }
-
+  @PermissionRequired(permission = MemberType.ADMIN)
   @PutMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> update(@PathVariable @NonNull Long id,
       @RequestBody VipRequest vipRequest) {
@@ -87,9 +92,9 @@ public class VipApi {
   }
 
   @GetMapping(value = "/vip", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> getVips() {
+  public ApiResponse<List<Vip>> getVips() {
     log.info("[VipApi] :::: vipName = {}");
-    throw new InvalidArgumentException("이렇게도 보낼 수 있습니다.",ErrorCode.INVALID_ARGUMENT);
-    // return ResponseEntity.status(HttpStatus.OK).body(vipService.findVips());
+
+    return vipService.findVips();
   }
 }

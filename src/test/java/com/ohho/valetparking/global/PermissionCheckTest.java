@@ -1,23 +1,32 @@
 package com.ohho.valetparking.global;
 
+import com.ohho.valetparking.domains.parking.controller.TicketController;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import com.ohho.valetparking.global.security.jwt.TokenIngredient;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Role : Responsibility : Cooperation with :
  **/
+@WebMvcTest(controllers = {TicketController.class}
+    , excludeAutoConfiguration = SecurityAutoConfiguration.class
+    , excludeFilters = {
+    @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebMvcConfigurer.class)})
 public class PermissionCheckTest {
 
   @Autowired
-  private WebTestClient webTestClient;
+  private MockMvc mockMvc;
 
   @Autowired
   private JWTProvider tesetJWTProvider;

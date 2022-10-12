@@ -1,10 +1,12 @@
 package com.ohho.valetparking.domains.parking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.domains.parking.domain.dto.ExitRequest;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.service.ExitRequestService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
+import com.ohho.valetparking.global.security.permission.PermissionRequired;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -46,6 +48,7 @@ public class ExitController {
   }
 
   // 권한 관리 : 관리자
+  @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/exit/{id}/approve", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> requestExitApprove(@PathVariable("id") long exitRequestId,
       HttpServletRequest request) throws JsonProcessingException {
@@ -58,7 +61,7 @@ public class ExitController {
 
   }
 
-  // 권한 관리 : 관리자
+  // 권한 관리 : 관리자 사용자.
   @PostMapping(value = "/exit/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> requestExitReject(@PathVariable("id") long exitRequestId) {
 
@@ -71,6 +74,7 @@ public class ExitController {
   }
 
   // 권한 관리 : 관리자
+  @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/exit/{id}/done", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> requestExitDone(@PathVariable("id") long exitRequestId) {
 
