@@ -4,6 +4,7 @@ package com.ohho.valetparking.global.security.jwt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohho.valetparking.global.error.ErrorCode;
+import com.ohho.valetparking.global.error.exception.InvalidArgumentException;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import io.jsonwebtoken.*;
 import lombok.Getter;
@@ -118,16 +119,21 @@ public class JWTProvider {
             return claims;
 
         } catch (Exception e) {
+            log.info("[JWTProvider] getClaimsFromToken");
             throw new TokenExpiredException(ErrorCode.INVALID_TOKEN);
         }
     }
 
     public TokenIngredient getTokenIngredientFromToken(String token) throws JsonProcessingException {
         try {
+            log.info("token = {}",getClaimsFormToken(token).get("tokenIngredient"));
             String tmp = objectMapper.writeValueAsString(getClaimsFormToken(token).get("tokenIngredient"));
+
             return objectMapper.readValue(tmp, TokenIngredient.class);
+
         } catch (JsonProcessingException e) {
-            throw new IllegalArgumentException("JsonProcessingException ::: 잘못된 토큰 값입니다.");
+            log.info("[JWTProvider] :: getTokenIngredientFromToken");
+            throw new InvalidArgumentException(ErrorCode.INVALID_TOKEN);
         }
     }
 

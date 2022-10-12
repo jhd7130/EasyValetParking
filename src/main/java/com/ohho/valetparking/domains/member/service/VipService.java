@@ -2,6 +2,7 @@ package com.ohho.valetparking.domains.member.service;
 
 import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface VipService {
 
   SuccessResponse<List<Vip>> findVipByCarNumber(String CarNumber); //
 
-  SuccessResponse<List<Vip>> findVips(); // 전체조회
+  ApiResponse<List<Vip>> findVips(); // 전체조회
 
   // ------------------------------ CUD ------------------------------
   SuccessResponse<String> registerVip(VipRequest vipRequest); // vip 등록

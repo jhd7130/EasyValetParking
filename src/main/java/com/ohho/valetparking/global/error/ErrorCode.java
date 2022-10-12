@@ -33,6 +33,7 @@ public enum ErrorCode {
 
   // Token
   INVALID_TOKEN(400, "T001", "유효하지않은 토큰입니다."),
+
   // Common
   INVALID_ARGUMENT(400, "C001", "잘못된 입력값입니다."),
   METHOD_NOT_ALLOWED(405, "C002", "기능 사용 권한이 없습니다."),

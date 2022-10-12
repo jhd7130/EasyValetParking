@@ -1,6 +1,7 @@
 package com.ohho.valetparking.domains.parking.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
@@ -8,6 +9,8 @@ import com.ohho.valetparking.domains.parking.service.TicketService;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
+import com.ohho.valetparking.global.security.permission.PermissionRequired;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,9 +21,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-/**
- * Role : Responsibility : Cooperation with :
- **/
+
 @RestController
 @Slf4j
 public class TicketController {
@@ -32,7 +33,7 @@ public class TicketController {
     this.ticketService = ticketService;
     this.jwtProvider = jwtProvider;
   }
-
+  @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/ticket", produces = MediaType.APPLICATION_JSON_VALUE)
   public SuccessResponse<Ticket> ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust,
       HttpServletRequest request) throws JsonProcessingException {
@@ -51,13 +52,14 @@ public class TicketController {
   /**
    * 아직 안됨
    */
+
   @GetMapping(value = "/ticket/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity ticketInformation(@PathVariable("id") final String id) {
     return ResponseEntity.status(HttpStatus.OK).body(id);
   }
 
-
-  @ApiIgnore
+  @Hidden
+  @PermissionRequired(permission = MemberType.ADMIN)
   @GetMapping(value = "/ticket/test/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public SuccessResponse<String> ticketInformationTest(@PathVariable("id") final String id) {
     TicketDuplicateException ticketDuplicateException = new TicketDuplicateException(

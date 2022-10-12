@@ -4,6 +4,7 @@ import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.exception.FailVipRegisterException;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.error.ErrorCode;
 import java.util.List;
@@ -52,12 +53,12 @@ public class VipServiceV1 implements VipService {
   }
 
   @Override
-  public SuccessResponse<List<Vip>> findVips() {
+  public ApiResponse<List<Vip>> findVips() {
 
     List<Vip> vips = vipMapper.findAll();
     log.info("VIPS {}", vips);
 
-    return SuccessResponse.success(vips);
+    return ApiResponse.success(vips);
   }
 
   @Override

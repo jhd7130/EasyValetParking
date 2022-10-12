@@ -5,10 +5,13 @@ import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
 import com.ohho.valetparking.domains.member.domain.dto.SignInRequest;
 import com.ohho.valetparking.domains.member.domain.entity.User;
+import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.domains.member.service.MemberService;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import com.ohho.valetparking.global.security.jwt.TokenIngredient;
+import com.ohho.valetparking.global.security.permission.PermissionRequired;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,14 +37,13 @@ public class MemberController {
     private final JWTProvider jwtProvider;
 
     @PostMapping(value = "/member", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity signUp( @RequestBody @Valid JoinRequest joinRequest ){
+    public ApiResponse signUp( @RequestBody @Valid JoinRequest joinRequest ){
             log.info("JOin : ={}" , joinRequest);
 
             memberService.emailValidation(joinRequest.getEmail());
             memberService.join(joinRequest);
             
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body("회원가입 되었습니다.");
+        return ApiResponse.success("회원가입되었습니다.");
 
     }
 
@@ -50,7 +52,7 @@ public class MemberController {
 
         SignInResponse signInDTO = memberService.signIn(signInRequest.toSignIn());
         TokenIngredient tokenIngredient = new TokenIngredient(signInDTO.getEmail(),signInDTO.getDepartment());
-
+        log.info("tokenIngredient::={}",tokenIngredient);
         return ResponseEntity.ok()
                              .header("ACCESSTOKEN",jwtProvider.accessTokenCreate(tokenIngredient))
                              .header("REFRESHTOKEN","not yet")
@@ -82,6 +84,7 @@ public class MemberController {
      * 사용자 조회(관리자 조회랑은 다른다.)
      * @return
      */
+    @PermissionRequired(permission = MemberType.ADMIN)
     @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity userList(){
         log.info("[MemberController] userList :::: entracing success");
