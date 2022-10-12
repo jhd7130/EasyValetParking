@@ -4,7 +4,6 @@ import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.exception.FailVipRegisterException;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
-import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStatusException;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

@@ -7,10 +7,14 @@ import com.ohho.valetparking.domains.parking.exception.FailChangeExitRequestStat
 import com.ohho.valetparking.domains.parking.exception.FailExitRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
+import com.ohho.valetparking.global.error.exception.BaseException;
+import com.ohho.valetparking.global.error.exception.InvalidArgumentException;
 import com.ohho.valetparking.global.error.exception.TokenExpiredException;
 import com.ohho.valetparking.global.error.exception.UnExpectedException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,14 @@ import javax.validation.ConstraintViolationException;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   //-------------------------------------------- Server---------------------------------------
+  @ExceptionHandler(value = {DataIntegrityViolationException.class})
+  protected ResponseEntity<ErrorResponse> handleDataException() {
+    HttpStatus httpStatus = HttpStatus.CONFLICT;
+    log.error("handleDataException throw Exception : {}", httpStatus);
+    return ResponseEntity.status(httpStatus)
+        .body(ErrorResponse.builder().status(httpStatus).code("Data").message("중복되는 데이터가 존재합니다.")
+            .build());
+  }
 
   /*
    애플리케이션에서 지정하지 않은 (예상치 못한) 에러(baseException)처리
@@ -41,20 +53,74 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       Exception e, HttpServletRequest request) {
     log.error("unhandled exception", e);
     UnExpectedException exception = new UnExpectedException(e);
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-        ErrorResponse.builder()
-            .code("Server")
-            .message(e.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-    );
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(
+            ErrorResponse.builder()
+                .code("Server")
+                .message(e.getMessage())
+                .status(HttpStatus.BAD_REQUEST)
+                .build()
+        );
   }
 
+  @Override
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+      HttpHeaders headers, HttpStatus status, WebRequest request) {
+    log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder()
+            .code("Reqeust Parameter")
+            .message(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage())
+            .status(HttpStatus.BAD_REQUEST)
+            .build()
+        );
+  }
+
+  @ExceptionHandler
+  protected ResponseEntity<ErrorResponse> handleJsonProcessingException(
+      JsonProcessingException ex) {
+    log.info("GlobalExceptionHandler :: JsonProcessingException = {}", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder()
+            .code("Jwt Token Binding")
+            .message(ex.getMessage())
+            .status(HttpStatus.BAD_REQUEST)
+            .build()
+        );
+  }
+
+  @ExceptionHandler(ConstraintViolationException.class)
+  protected ResponseEntity<Object> handleConstraintViolationException(
+      ConstraintViolationException ex) {
+    log.info("GlobalExceptionHandler :: ConstraintViolationException = {}", ex.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder()
+            .code("Reqeust Parameter")
+            .message(ex.getMessage())
+            .status(HttpStatus.BAD_REQUEST)
+            .build()
+        );
+  }
 
   //-------------------------------------------- Custom---------------------------------------
   // 하나의 메서드로 처리가 가능할 것 같다. -> 기준이 되는 RuntimeException을 확장한 base exception을 만들고
   // Custom Exception들을 모두 확장시키는 방향으로
   // 그리고 나머지 다 지우고 base Exception을 처리하는 @ExceptionHandler 하나만 두기
+
+  @ExceptionHandler(BaseException.class)
+  protected ResponseEntity<ErrorResponse> handleBaseException(BaseException e) {
+    e.getClass().toString();
+    log.info("GlobalExceptionHandler :: {} = {} ",e.getClass().getName(), e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                          .body(
+                              ErrorResponse.builder()
+                                  .code("Sign-Up")
+                                  .message(e.getMessage())
+                                  .status(HttpStatus.NOT_FOUND)
+                                  .build()
+                          );
+  }
+
   @ExceptionHandler(SignUpFailException.class)
   protected ResponseEntity<ErrorResponse> handleSignUpFailException(SignUpFailException e) {
     log.info("GlobalExceptionHandler :: SignUpFailException = {} ", e.getMessage());
@@ -147,43 +213,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
   }
 
-
-  @Override
-  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-      HttpHeaders headers, HttpStatus status, WebRequest request) {
-    log.info("GlobalExceptionHandler :: MethodArgumentNotValidException = {}", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .code("Reqeust Parameter")
-            .message(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
+  @ExceptionHandler(InvalidArgumentException.class)
+  protected ApiResponse handleInvalidArgumentException(
+      InvalidArgumentException ex) {
+    log.info("GlobalExceptionHandler :: InvalidArgumentException = {}",
+        ex.getMessage());
+    return ApiResponse.fail(ex.getErrorCode());
   }
 
-  @ExceptionHandler
-  protected ResponseEntity<ErrorResponse> handleJsonProcessingException(
-      JsonProcessingException ex) {
-    log.info("GlobalExceptionHandler :: JsonProcessingException = {}", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .code("Jwt Token Binding")
-            .message(ex.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
 
-  @ExceptionHandler(ConstraintViolationException.class)
-  protected ResponseEntity<Object> handleConstraintViolationException(
-      ConstraintViolationException ex) {
-    log.info("GlobalExceptionHandler :: ConstraintViolationException = {}", ex.getMessage());
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .code("Reqeust Parameter")
-            .message(ex.getMessage())
-            .status(HttpStatus.BAD_REQUEST)
-            .build()
-        );
-  }
 }

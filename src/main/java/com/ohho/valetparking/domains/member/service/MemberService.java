@@ -49,6 +49,7 @@ public class MemberService {
   }
 
   public void emailValidation(String email) {
+
     log.info("email = {}", email);
     if (memberMapper.mailCheck(email)) {
       throw new SignUpFailException("이메일 중복");
