@@ -62,7 +62,7 @@ public class ExitController {
   }
 
   // 권한 관리 : 관리자 사용자.
-  @PostMapping(value = "/exit/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PatchMapping(value = "/exit/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> requestExitReject(@PathVariable("id") long exitRequestId) {
 
     log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId);
