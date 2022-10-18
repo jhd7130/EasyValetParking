@@ -9,6 +9,7 @@ import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
 import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import com.ohho.valetparking.global.error.ErrorCode;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,6 +41,7 @@ public class MemberService {
   public boolean join(JoinRequest joinRequest)
       throws IllegalStateException, IllegalArgumentException {
     log.info("[MemberService] Join() join parameter :: ={}", joinRequest.toString());
+    emailValidation(joinRequest.getEmail());
 
     Join join = Join.builder(joinRequest)
         .password(passwordEncoder.encode(joinRequest.getPassword()))
@@ -58,16 +60,7 @@ public class MemberService {
     // 메일 중복이 있을 경우, 커스텀 익셉션 만들어서 날리기
   }
 
-  // token이랑 id 담아서 반환해줍시다. dto 필요하고
-  // id 및 부서 조회해오기
-  public SignInResponse signIn(SignIn signIn) {
-    log.info("[MemberService] ::: sigIn ={}", signIn);
-    // 비밀번호 확인에서 id, department 다 가져오기
-    SignInResponse signInResponse = passwordMatch(signIn);
-    recordSignInHistory(signIn);
 
-    return signInResponse;
-  }
 
   public List<User> getUserList() {
     return memberMapper.userList();
@@ -75,39 +68,6 @@ public class MemberService {
 
 
   // -----------------------------------------  sub method  -------------------------------------------------
-  @Transactional
-  private void recordSignInHistory(SignIn signIn) {
-    log.info("signIn ={}", signIn);
-    int adminFlag = 0;
-    long memberId = memberMapper.getAdminId(signIn.getEmail())
-        .orElseGet(() -> memberMapper.getMemberId(signIn.getEmail())
-            .orElseThrow(() -> new SignInFailException(ErrorCode.EMAIL_NOT_FOUND)));
-
-    // 그냥 관리자를 가져오자
-    if (!memberMapper.isAdmin(signIn.getEmail())) {
-      adminFlag = 1;
-    }
-
-    LoginHistory loginHistory = LoginHistory.from(memberId, adminFlag); // 관리자인지 아닌지만 체크 위에 로지을 변경
-
-    memberMapper.recordSignInHistory(loginHistory);
-  }
-
-  // admin인지 확인해야함
-  public SignInResponse passwordMatch(SignIn signIn) {
-    log.info("MemberService :: SignIn :: = {} ", signIn);
-
-    String password = signIn.getPassword();
-    // 유저 멤버 통합으로 조회해서 Member 객체로 가져오는 방법으로 변경
-    Member member = memberMapper.getMemberByEmail(signIn.getEmail())
-        .orElseThrow(() -> new SignInFailException(ErrorCode.EMAIL_NOT_FOUND));
-
-    if (!passwordEncoder.matches(password, member.getPassword())) {
-      throw new SignInFailException(ErrorCode.NOT_MATCH_PASSWORD);
-    }
-
-    return new SignInResponse(member);
-  }
 
   @Transactional
   private void addMember(Join join) {

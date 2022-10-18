@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,6 +40,14 @@ public class ParkingController {
     public ResponseEntity<SuccessResponse> getParking(@PathVariable long id){
 
         Parking parking = parkingService.getParkingRecord(id);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(SuccessResponse.success(parking));
+    }
+    @PatchMapping(value = "/parking/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<SuccessResponse> comback(@PathVariable long id){
+
+        Parking parking = parkingService.comback(id);
 
         return ResponseEntity.status(HttpStatus.OK)
                              .body(SuccessResponse.success(parking));

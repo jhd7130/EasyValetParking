@@ -46,6 +46,7 @@ public class VipApi {
     return ResponseEntity.status(HttpStatus.OK)
         .body(SuccessResponse.success(vipService.registerVip(vipRequest)));
   }
+
   @PermissionRequired(permission = MemberType.ADMIN)
   @DeleteMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> delete(@PathVariable @NonNull Long id) {
@@ -53,6 +54,7 @@ public class VipApi {
     return ResponseEntity.status(HttpStatus.OK)
         .body(SuccessResponse.success(vipService.deleteVip(id)));
   }
+
   @PermissionRequired(permission = MemberType.ADMIN)
   @PutMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<SuccessResponse> update(@PathVariable @NonNull Long id,

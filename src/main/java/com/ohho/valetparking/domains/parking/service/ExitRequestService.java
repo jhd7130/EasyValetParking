@@ -114,8 +114,9 @@ public class ExitRequestService {
         return new ExitRequestStatusChange(exitRequestId,status);
     }
 
-    // 쓰레드의 모든 스택 중에 3번째꺼만 가져옵니다. 스택의 양이 많아서 문제가 생기지 않을까?
+
     private void validUpdateSuccess( int updateCount ) {
+        // 쓰레드의 모든 스택 중에 3번째꺼만 가져옵니다. 스택의 양이 많아서 문제가 생기지 않을까?
         String invocationFunctionName = Thread.currentThread().getStackTrace()[2].getMethodName();
         if ( updateCount != 1 ) {
             if(invocationFunctionName.equals("register")){
