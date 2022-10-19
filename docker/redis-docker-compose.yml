@@ -1,0 +1,15 @@
+version: "1"
+
+services:
+  redis_session:
+    image: redis:latest
+    container_name: redis_session
+    ports:
+      - 6001:6379
+
+  redis_cache:
+    image: redis:latest
+    container_name: redis_cache
+    ports:
+      - 6002:6379
+    

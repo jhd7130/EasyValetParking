@@ -7,6 +7,8 @@ import com.ohho.valetparking.domains.member.domain.entity.Member;
 import com.ohho.valetparking.domains.member.domain.entity.SignIn;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
+import com.ohho.valetparking.domains.member.service.JwtLoginService;
+import com.ohho.valetparking.domains.member.service.LoginService;
 import com.ohho.valetparking.domains.member.service.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +34,9 @@ import static org.mockito.Mockito.*;
 public class MemberServiceTest {
     @Mock
     MemberService memberService;
+
+    @Mock
+    JwtLoginService loginService;
 
 
     @Test
@@ -69,13 +74,11 @@ public class MemberServiceTest {
         // given
         SignInRequest sign = new SignInRequest("test@naver.com","testpassword");
         Member member = new Member(1L,"홍길동","test@naver.com","testpassword",0);
-        SignInResponse signInResponse = new SignInResponse(1L,"홍길동","test@naver.com",0);
-        SignInResponse signInResponseTest = new SignInResponse(member);
 
         // when
-        when(memberService.passwordMatch(any(SignIn.class))).thenReturn(signInResponse);
+        when(loginService.passwordMatch(any(SignIn.class))).thenReturn(member);
         // then
-        assertEquals(signInResponseTest,memberService.passwordMatch(sign.toSignIn()));
+        assertEquals(member,loginService.passwordMatch(sign.toSignIn()));
     }
 
 

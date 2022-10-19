@@ -1,6 +1,7 @@
 package com.ohho.valetparking.domains.member.domain.dto;
 
 import com.ohho.valetparking.domains.member.domain.entity.Member;
+import java.io.Serializable;
 import lombok.*;
 
 /**
@@ -12,7 +13,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class SignInResponse {
+public class SignInResponse implements Serializable {
 
   private long id;
   private String nickname;
@@ -25,4 +26,5 @@ public class SignInResponse {
     this.email = member.getEmail();
     this.department = member.getDepartment();
   }
+
 }

@@ -26,11 +26,21 @@ spring:
         username: ${VALET_DB_USERNAME}
         password: ${VALET_DB_PASSWORD}
         driver-class-name: com.mysql.cj.jdbc.Driver
-
+        connection-test-query: SELECT 1
 
   output:
     ansi:
       enabled: always
+
+  session:
+    storage-type: redis
+  redis:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+      port: 6001
+      host: ${VALET_REDIS_SESSION_URL:127.0.0.1}
 
 # mybatis
 mybatis:
