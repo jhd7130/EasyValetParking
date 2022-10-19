@@ -41,6 +41,7 @@ spring:
         max-active: 8
       port: 6001
       host: localhost
+
 # mybatis
 mybatis:
   config: mybatis-config.xml

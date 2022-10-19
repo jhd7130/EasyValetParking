@@ -7,9 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-/**
- * Role : Responsibility : Cooperation with :
- **/
+
 @SpringBootTest(classes = ValetparkingApplication.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
 public class PropertyInjectionTest {

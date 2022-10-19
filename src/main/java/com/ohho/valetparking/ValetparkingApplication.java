@@ -25,7 +25,6 @@ import org.springframework.cache.annotation.EnableCaching;
       필요한 CacheManage로 갈아끼워 사용할 수 있습니다.
    */
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
-@EnableCaching
 public class ValetparkingApplication {
 
 	public static void main(String[] args) {

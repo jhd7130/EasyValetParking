@@ -28,19 +28,19 @@ public class RedisSessionTest {
     Assertions.assertThat(6001).isEqualTo(redisSessionProperty.getPort());
   }
 
-  @Test
-  @DisplayName("HttpSession 사용시 레디스 저장 여부 테스트")
-  void sessionUsingTest(){
-  // given
-    MockHttpServletRequest request = new MockHttpServletRequest();
-  // when
-    HttpSession httpSession = request.getSession();
-    Member member1 = new Member(5L,"test","test","test",0);
-    httpSession.setAttribute("Test",member1);
-  // then
-    Member member = (Member) httpSession.getAttribute("Test");
-    Assertions.assertThat(member1).isEqualTo(member);
-  }
+//  @Test
+//  @DisplayName("HttpSession 사용시 레디스 저장 여부 테스트")
+//  void sessionUsingTest(){
+//  // given
+//    MockHttpServletRequest request = new MockHttpServletRequest();
+//  // when
+//    HttpSession httpSession = request.getSession();
+//    Member member1 = new Member(5L,"test","test","test",0);
+//    httpSession.setAttribute("Test",member1);
+//  // then
+//    Member member = (Member) httpSession.getAttribute("Test");
+//    Assertions.assertThat(member1).isEqualTo(member);
+//  }
 
 
 
