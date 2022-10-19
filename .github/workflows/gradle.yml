@@ -25,6 +25,7 @@ jobs:
       VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
       VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
       VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
+      VALET_REDIS_SESSION_URL: ${{ secrets.VALET_REDIS_SESSION_URL }}  
     steps:
      - name: enviro test
        run: echo $VALET_DB_URL
