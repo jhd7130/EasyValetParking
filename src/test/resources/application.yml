@@ -1,0 +1,51 @@
+# JWT KEY 관련 설정
+secretKey: ${VALET_SECRET_KEY}
+accesstokentime: ${VALET_ACCESSTOKENTIME}
+refreshtokentime: ${VALET_REFRESHTOKENTIME}
+
+#Server
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+
+logging:
+  level:
+    hello:
+      springmvc: debug
+
+# database
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  datasource:
+        url: jdbc:mysql://${VALET_DB_URL}:${VALET_DB_PORT}/easyvalet?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&zeroDateTimeBehavior=convertToNull
+        username: ${VALET_DB_USERNAME}
+        password: ${VALET_DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        connection-test-query: SELECT 1
+
+  output:
+    ansi:
+      enabled: always
+
+  session:
+    storage-type: redis
+  redis:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+      port: 6001
+      host: localhost
+
+# mybatis
+mybatis:
+  config: mybatis-config.xml
+  type-aliases-package: com.ohho.valetparking.domains.*
+  mapper-locations: mybatis/mapper/*/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

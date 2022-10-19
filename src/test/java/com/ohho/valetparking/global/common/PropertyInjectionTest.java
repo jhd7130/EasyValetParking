@@ -8,8 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
 
-@SpringBootTest(classes = ValetparkingApplication.class)
-@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
+@SpringBootTest
 public class PropertyInjectionTest {
 
   private String SECREAT_KEY;
