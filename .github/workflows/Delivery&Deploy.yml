@@ -15,6 +15,7 @@ jobs:
       VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
       VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
       VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
+      VALET_REDIS_SESSION_URL: ${{ secrets.VALET_REDIS_SESSION_URL }}      
     steps:
      - name: enviro test
        run: echo $VALET_DB_URL
@@ -67,8 +68,9 @@ jobs:
           VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
           VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
           VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
+          VALET_REDIS_SESSION_URL: ${{ secrets.VALET_REDIS_SESSION_URL }}      
        with:
-         envs: VALET_SECRET_KEY,VALET_DB_USERNAME,VALET_DB_PASSWORD,VALET_DB_URL,VALET_DB_PORT,VALET_REFRESHTOKENTIME,VALET_ACCESSTOKENTIME
+         envs: VALET_SECRET_KEY,VALET_DB_USERNAME,VALET_DB_PASSWORD,VALET_DB_URL,VALET_DB_PORT,VALET_REFRESHTOKENTIME,VALET_ACCESSTOKENTIME, VALET_REDIS_SESSION_URL
          host: ${{ secrets.HOST_IP }}
          username: ${{ secrets.HOST_ID }}
          key: ${{ secrets.KEY }}
@@ -82,5 +84,5 @@ jobs:
                export VALET_DB_PORT=$VALET_DB_PORT
                export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
-               
+               export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
                nohup java -jar /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
