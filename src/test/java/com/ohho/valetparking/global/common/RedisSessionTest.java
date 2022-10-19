@@ -28,6 +28,7 @@ public class RedisSessionTest {
     Assertions.assertThat(6001).isEqualTo(redisSessionProperty.getPort());
   }
 
+
   @Test
   @DisplayName("HttpSession 사용시 레디스 저장 여부 테스트")
   void sessionUsingTest(){
