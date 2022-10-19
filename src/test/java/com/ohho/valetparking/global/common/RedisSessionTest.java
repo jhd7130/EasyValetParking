@@ -1,5 +1,6 @@
 package com.ohho.valetparking.global.common;
 
+import com.ohho.valetparking.ValetparkingApplication;
 import com.ohho.valetparking.domains.member.domain.entity.Member;
 import com.ohho.valetparking.global.properties.RedisSessionProperty;
 import javax.servlet.http.HttpServletRequest;
@@ -10,11 +11,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.context.TestPropertySource;
 
 /**
  * Role : Responsibility : Cooperation with :
  **/
-@SpringBootTest
+@SpringBootTest(classes = ValetparkingApplication.class)
+@TestPropertySource(properties = {"spring.config.location=classpath:application.yml"})
 public class RedisSessionTest {
   @Autowired
   private RedisSessionProperty redisSessionProperty;
