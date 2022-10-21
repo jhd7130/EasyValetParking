@@ -1,15 +1,12 @@
 package com.ohho.valetparking.domains.member.service;
 
 import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
-import com.ohho.valetparking.domains.member.domain.dto.SignInResponse;
 import com.ohho.valetparking.domains.member.domain.entity.*;
-import com.ohho.valetparking.domains.member.exception.SignInFailException;
 import com.ohho.valetparking.domains.member.exception.SignUpFailException;
 import com.ohho.valetparking.domains.member.repository.MemberMapper;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
 import com.ohho.valetparking.domains.parking.exception.FailTicketRegistrationException;
 import com.ohho.valetparking.global.error.ErrorCode;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;

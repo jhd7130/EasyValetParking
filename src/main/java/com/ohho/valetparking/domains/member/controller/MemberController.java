@@ -1,8 +1,6 @@
 package com.ohho.valetparking.domains.member.controller;
 
-import com.ohho.valetparking.domains.member.domain.dto.SignInResponse;
 import com.ohho.valetparking.domains.member.domain.entity.Member;
-import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.domain.dto.JoinRequest;
 import com.ohho.valetparking.domains.member.domain.dto.SignInRequest;
 import com.ohho.valetparking.domains.member.domain.entity.User;
@@ -12,11 +10,9 @@ import com.ohho.valetparking.domains.member.service.MemberService;
 import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
-import com.ohho.valetparking.global.security.jwt.TokenIngredient;
 import com.ohho.valetparking.global.security.permission.PermissionRequired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

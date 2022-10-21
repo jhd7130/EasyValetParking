@@ -34,7 +34,10 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         .excludePathPatterns("/member")
         .excludePathPatterns("/swagger-ui/*")
         .excludePathPatterns("/ticket")
+        .excludePathPatterns("/ticket/test/*")
     ;
+
+
     registry.addInterceptor(permissionInterceptor)
         .order(2)
         .addPathPatterns("/**")
@@ -42,6 +45,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         .excludePathPatterns("/member")
         .excludePathPatterns("/swagger-ui/*")
         .excludePathPatterns("/ticket")
+        .excludePathPatterns("/ticket/test/*")
     ;
   }
 
