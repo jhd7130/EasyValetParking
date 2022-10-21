@@ -6,8 +6,6 @@ import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.domains.member.service.VipService;
 import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
-import com.ohho.valetparking.global.error.ErrorCode;
-import com.ohho.valetparking.global.error.exception.InvalidArgumentException;
 import com.ohho.valetparking.global.security.permission.PermissionRequired;
 import java.util.List;
 import javax.validation.Valid;

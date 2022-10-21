@@ -67,8 +67,8 @@ public class TicketController {
   public SuccessResponse<String> ticketInformationTest(@PathVariable("id") final String id, HttpServletRequest request) {
 //    TicketDuplicateException ticketDuplicateException = new TicketDuplicateException(
 //        ErrorCode.DATA_DUPLICATE);
-    HttpSession httpSession = request.getSession();
-    String refreshtoken = SessionUtil.getRefreshtoken(request.getSession());
+//    HttpSession httpSession = request.getSession();
+//    String refreshtoken = SessionUtil.getRefreshtoken(request.getSession());
     return SuccessResponse.success(id);
   }
 

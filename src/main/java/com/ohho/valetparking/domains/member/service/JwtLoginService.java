@@ -9,7 +9,6 @@ import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
 import com.ohho.valetparking.global.security.jwt.TokenIngredient;
 import com.ohho.valetparking.global.util.SessionUtil;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

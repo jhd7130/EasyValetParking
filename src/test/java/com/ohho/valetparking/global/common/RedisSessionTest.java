@@ -34,10 +34,12 @@ public class RedisSessionTest {
   void sessionUsingTest(){
   // given
     MockHttpServletRequest request = new MockHttpServletRequest();
+
   // when
     HttpSession httpSession = request.getSession();
     Member member1 = new Member(5L,"test","test","test",0);
     httpSession.setAttribute("Test",member1);
+
   // then
     Member member = (Member) httpSession.getAttribute("Test");
     Assertions.assertThat(member1).isEqualTo(member);
