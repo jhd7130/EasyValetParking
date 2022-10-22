@@ -8,11 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Timestamp;
 
-/**
- * Role :
- * Responsibility :
- * Cooperation with :
- **/
 @ToString
 @AllArgsConstructor
 @Slf4j

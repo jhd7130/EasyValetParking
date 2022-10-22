@@ -33,6 +33,7 @@ public enum ErrorCode {
 
   // Token
   INVALID_TOKEN(400, "T001", "유효하지않은 토큰입니다."),
+  INVALID_REFRESHTOKEN(400, "T002", "RefreshToken을 찾을 수 없습니다."),
 
   // Common
   INVALID_ARGUMENT(400, "C001", "잘못된 입력값입니다."),

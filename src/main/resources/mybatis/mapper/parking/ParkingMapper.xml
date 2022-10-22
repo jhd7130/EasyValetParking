@@ -56,7 +56,7 @@
             ,t.parking_area
             ,pr.entrance_at
             ,pr.exit_at
-            ,pr.status
+            ,pr.status as car_status
         FROM parking_record pr LEFT OUTER JOIN ticket t
                      ON pr.ticket_id = t.id
                                 LEFT OUTER JOIN vip v
@@ -73,7 +73,7 @@
             ,t.parking_area
             ,pr.entrance_at
             ,pr.exit_at
-            ,pr.status
+            ,pr.status as car_status
         FROM parking_record pr LEFT OUTER JOIN ticket t
                      ON pr.ticket_id = t.id
                                 LEFT OUTER JOIN vip v

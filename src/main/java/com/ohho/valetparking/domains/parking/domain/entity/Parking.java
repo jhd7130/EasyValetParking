@@ -31,6 +31,6 @@ public class Parking {
     private final LocalDateTime entranceAt;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime exitAt;
-    private final int status;
+    private final int carStatus;
 
 }

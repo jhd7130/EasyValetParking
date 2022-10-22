@@ -5,11 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * Role :
- * Responsibility :
- * Cooperation with :
- **/
 @ToString
 @AllArgsConstructor
 @EqualsAndHashCode

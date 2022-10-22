@@ -11,6 +11,6 @@ public interface LoginService {
 
   Member signIn(SignIn signIn, HttpServletResponse response);
 
-  void logOut();
+  void signOut();
 
 }

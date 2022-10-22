@@ -36,7 +36,6 @@ public class MemberController {
   // 롬복의 특성상 @RequiredArgsConstructor는 private final로 선언되어 있는 인스턴스 변수에만 의존성 주입을 해준다.
   private final MemberService memberService;
   private final LoginService loginService;
-  private final JWTProvider jwtProvider;
 
   @PostMapping(value = "/member", produces = MediaType.APPLICATION_JSON_VALUE)
   public ApiResponse signUp(@RequestBody @Valid JoinRequest joinRequest) {
@@ -56,6 +55,13 @@ public class MemberController {
 
     return ResponseEntity.ok()
         .body(SuccessResponse.success(member));
+  }
+
+  @PostMapping(value = "/member/sign-out", produces = MediaType.APPLICATION_JSON_VALUE)
+  public ApiResponse signout() {
+    loginService.signOut();
+
+    return ApiResponse.success("로그아웃 성공");
   }
 
   @PutMapping(value = "/member/password", produces = MediaType.APPLICATION_JSON_VALUE)
