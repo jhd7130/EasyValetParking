@@ -50,10 +50,12 @@ public class JwtLoginService implements LoginService {
   }
 
   @Override
-  public void logOut() {
-
+  public void signOut() {
+    SessionUtil.removeToken(httpSession);
   }
-
+  // 이거 너무 의미가 이상하다. passwordmatch면 비밀번호 비교후 맞는지 안맞는지만 반환해줘야하는데
+  // member까지 반환해주면? 책임이 멤버 조회에다 비밀번호 조회이다. 그럼 그냥 Member 도메인에 message를 보내서 확인하면 되지않을까?
+  // 그러면 이 메서드가 필요가 없다.
   public Member passwordMatch(SignIn signIn) {
     log.info("MemberService :: SignIn :: = {} ", signIn);
 

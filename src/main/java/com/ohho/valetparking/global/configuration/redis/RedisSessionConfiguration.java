@@ -24,8 +24,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     Redis Connection Factory를 리턴해주는 라이브러리로 Lettuce를 선택하였습니다.
     비동기로 요청하기 때문에 높은성능을 가지기 때문입니다.
 */
-
-@EnableRedisHttpSession
+// 토큰 저장소이기 때문에 refreshTokend의 expire 시간과 동일하게 설정했다.
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 604800)
 @EnableTransactionManagement
 @Configuration
 @AllArgsConstructor
