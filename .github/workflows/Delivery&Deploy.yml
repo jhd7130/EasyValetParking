@@ -76,4 +76,4 @@ jobs:
                export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
-               nohup java -jar /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+               nohup java -jar -Dserver.port=9001 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
