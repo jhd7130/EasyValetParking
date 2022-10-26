@@ -35,12 +35,20 @@ spring:
   session:
     storage-type: redis
   redis:
+    session:
       pool:
         min-idle: 0
         max-idle: 8
         max-active: 8
       port: 6001
       host: ${VALET_REDIS_SESSION_URL:127.0.0.1}
+    cache:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-active: 8
+      port: 6002
+      host: ${VALET_REDIS_CACHE_URL:127.0.0.1}
 
 # mybatis
 mybatis:

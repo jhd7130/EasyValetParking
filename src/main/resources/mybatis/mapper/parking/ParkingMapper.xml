@@ -9,14 +9,12 @@
                             `ticket_id`,
                             `vip_id`,
                             `entrance_at`,
-                            `exit_at`,
                             `status`
         )
         VALUES(
                         #{managerId}
                         ,#{ticketId}
                         ,#{vipId}
-                        ,NOW()
                         ,NOW()
                         ,0
         )

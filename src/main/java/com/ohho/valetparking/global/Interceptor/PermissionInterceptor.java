@@ -1,5 +1,6 @@
 package com.ohho.valetparking.global.Interceptor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.error.exception.BaseException;
@@ -30,15 +31,13 @@ public class PermissionInterceptor implements HandlerInterceptor {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
 
-    HandlerMethod handlerMethod = (HandlerMethod) handler;
-    TokenIngredient tokenIngredient = jwtProvider.getTokenIngredientFromToken(
-        request.getHeader("ACCESSTOKEN"));
-    PermissionRequired permissionRequired = handlerMethod.getMethodAnnotation(
-        PermissionRequired.class);
+    TokenIngredient tokenIngredient = getTokenIngredient(request);
 
-    log.info("handlerMethod ={}, tokenIngredient={} permissionRequired ={}", handlerMethod,
-        tokenIngredient, permissionRequired);
-    if(Objects.isNull(permissionRequired)){
+    PermissionRequired permissionRequired = getPermissionRequired(handler);
+
+    log.info("tokenIngredient={} permissionRequired ={}", tokenIngredient, permissionRequired);
+
+    if (Objects.isNull(permissionRequired)) {
       return true;
     }
     if (Objects.nonNull(permissionRequired) && validateAdmin(permissionRequired, tokenIngredient)) {
@@ -57,5 +56,20 @@ public class PermissionInterceptor implements HandlerInterceptor {
     }
 
     return false;
+  }
+
+  private PermissionRequired getPermissionRequired(Object handler) {
+    HandlerMethod handlerMethod = (HandlerMethod) handler;
+    return handlerMethod.getMethodAnnotation(
+        PermissionRequired.class);
+  }
+
+  private TokenIngredient getTokenIngredient(HttpServletRequest request)
+      throws JsonProcessingException {
+    try {
+      return jwtProvider.getTokenIngredientFromToken(request.getHeader("ACCESSTOKEN"));
+    } catch (RuntimeException e) {
+      return jwtProvider.getTokenIngredientFromToken(request.getHeader("NEWACCESSTOKEN"));
+    }
   }
 }

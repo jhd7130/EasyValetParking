@@ -1,20 +1,16 @@
 package com.ohho.valetparking.global.properties;
 
+
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-/**
- * Role : Responsibility : Cooperation with :
- **/
-
 @Component
 @Getter
-public class RedisSessionProperty {
+public class RedisCacheProperty {
 
-  @Value("${spring.redis.session.host}")
+  @Value("${spring.redis.cache.host}")
   private String host;
-  @Value("${spring.redis.session.port}")
+  @Value("${spring.redis.cache.port}")
   private int port;
-
 }
