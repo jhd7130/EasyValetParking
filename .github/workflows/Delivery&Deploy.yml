@@ -59,16 +59,7 @@ jobs:
                ./app_stop.sh
            
      - name: executing app start
-       uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
-       env:
-          VALET_SECRET_KEY: ${{ secrets.VALET_SECRET_KEY }}
-          VALET_DB_USERNAME: ${{ secrets.VALET_DB_USERNAME }}
-          VALET_DB_PASSWORD: ${{ secrets.VALET_DB_PASSWORD }}
-          VALET_DB_URL: ${{ secrets.VALET_DB_URL }}
-          VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
-          VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
-          VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
-          VALET_REDIS_SESSION_URL: ${{ secrets.VALET_REDIS_SESSION_URL }}      
+       uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78   
        with:
          envs: VALET_SECRET_KEY,VALET_DB_USERNAME,VALET_DB_PASSWORD,VALET_DB_URL,VALET_DB_PORT,VALET_REFRESHTOKENTIME,VALET_ACCESSTOKENTIME, VALET_REDIS_SESSION_URL
          host: ${{ secrets.HOST_IP }}
