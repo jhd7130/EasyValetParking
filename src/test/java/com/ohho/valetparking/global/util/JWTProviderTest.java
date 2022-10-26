@@ -25,14 +25,14 @@ public class JWTProviderTest {
   String accessToken;
   String refreshToken;
 
-  @BeforeAll
+  @Test
   @DisplayName("테스트를 위한 인자 값 설정")
   void settingTest() {
     String time = jwtProvider.getACCESSTOKENTIME();
     assertThat(time).isEqualTo("1");
   }
 
-  @BeforeAll
+  @Test
   @DisplayName("관리자 token 생성 테스트 및 두개의 토큰 차이 확인 ")
   void checkTokenCreateAndCompare() {
     // when

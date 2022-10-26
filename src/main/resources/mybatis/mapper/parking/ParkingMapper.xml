@@ -17,7 +17,7 @@
                         ,#{vipId}
                         ,NOW()
                         ,0
-        )
+
     </insert>
 
     <update id="updateStatus" parameterType="com.ohho.valetparking.domains.parking.domain.entity.ParkingStatusChanger">
