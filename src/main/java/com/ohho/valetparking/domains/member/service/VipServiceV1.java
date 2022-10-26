@@ -4,11 +4,11 @@ import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.exception.FailVipRegisterException;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
-import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.error.ErrorCode;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,13 +24,14 @@ public class VipServiceV1 implements VipService {
     this.vipMapper = vipMapper;
   }
 
+  @Cacheable(key = "#id", value = "Vip")
   @Override
-  public SuccessResponse<List<Vip>> findVipById(long id) {
+  public List<Vip> findVipById(long id) {
 
     List<Vip> vips = vipMapper.findVipById(id);
     log.info("VIPS {}", vips);
 
-    return SuccessResponse.success(vips);
+    return vips;
 
   }
 
@@ -51,14 +52,14 @@ public class VipServiceV1 implements VipService {
 
     return SuccessResponse.success(vips);
   }
-
+  @Cacheable(key = "'vips'",value = "Vip")
   @Override
-  public ApiResponse<List<Vip>> findVips() {
+  public List<Vip> findVips() {
 
     List<Vip> vips = vipMapper.findAll();
     log.info("VIPS {}", vips);
 
-    return ApiResponse.success(vips);
+    return vips;
   }
 
   @Override

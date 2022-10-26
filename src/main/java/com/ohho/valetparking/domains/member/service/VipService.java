@@ -11,13 +11,13 @@ import java.util.List;
  **/
 public interface VipService {
 
-  SuccessResponse<List<Vip>> findVipById(long id);
+  List<Vip> findVipById(long id);
 
   SuccessResponse<List<Vip>> findVipByName(String VipName);
 
   SuccessResponse<List<Vip>> findVipByCarNumber(String CarNumber); //
 
-  ApiResponse<List<Vip>> findVips(); // 전체조회
+  List<Vip> findVips(); // 전체조회
 
   // ------------------------------ CUD ------------------------------
   SuccessResponse<String> registerVip(VipRequest vipRequest); // vip 등록

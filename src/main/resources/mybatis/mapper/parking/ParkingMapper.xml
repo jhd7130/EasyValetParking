@@ -9,7 +9,6 @@
                             `ticket_id`,
                             `vip_id`,
                             `entrance_at`,
-                            `exit_at`,
                             `status`
         )
         VALUES(
@@ -17,9 +16,8 @@
                         ,#{ticketId}
                         ,#{vipId}
                         ,NOW()
-                        ,NOW()
                         ,0
-        )
+
     </insert>
 
     <update id="updateStatus" parameterType="com.ohho.valetparking.domains.parking.domain.entity.ParkingStatusChanger">

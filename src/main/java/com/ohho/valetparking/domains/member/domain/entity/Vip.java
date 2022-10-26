@@ -2,10 +2,12 @@ package com.ohho.valetparking.domains.member.domain.entity;
 
 import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.enums.VipType;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
@@ -15,14 +17,15 @@ import lombok.ToString;
 @ToString
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
-public class Vip {
+public class Vip implements Serializable {
 
-  private final Long id;
-  private final String name;
-  private final String car_number;
-  private final VipType type;
-  private final String uniqueness;
+  private Long id;
+  private String name;
+  private String car_number;
+  private VipType type;
+  private String uniqueness;
 
 
   public static Vip from(Long id, VipRequest vipRequest) {

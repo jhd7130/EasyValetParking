@@ -84,17 +84,16 @@ public class VipApi {
 
 
   @GetMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> getVip(@PathVariable("id") @NonNull Long id) {
+  public ApiResponse getVip(@PathVariable("id") @NonNull Long id) {
     log.info("[VipApi] :::: vipName = {}", id);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success(vipService.findVipById(id)));
+    return ApiResponse.success(vipService.findVipById(id));
   }
 
   @GetMapping(value = "/vip", produces = MediaType.APPLICATION_JSON_VALUE)
   public ApiResponse<List<Vip>> getVips() {
     log.info("[VipApi] :::: vipName = {}");
 
-    return vipService.findVips();
+    return ApiResponse.success(vipService.findVips());
   }
 }
