@@ -47,6 +47,17 @@ jobs:
          target: "source"
          rm: true
          
+     - name: location for Delivery to Second Server
+       uses: appleboy/scp-action@master
+       with:
+         host: ${{ secrets.SECOND_HOST_IP }}
+         username: ${{ secrets.SECOND_HOST_ID }}
+         password: ${{ secrets.SECOND_HOST_PASSWORD }}
+         port: ${{ secrets.SECOND_HOST_PORT }}
+         source: "build/libs/*.jar"
+         target: "source"
+         rm: true
+        
      - name: executing app stop
        uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
        with:
@@ -76,4 +87,25 @@ jobs:
                export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
-               nohup java -jar -Dserver.port=9001 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+               nohup java -jar -Dserver.port=8080 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+               
+     - name: executing app start in second
+       uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78   
+       with:
+         envs: VALET_SECRET_KEY,VALET_DB_USERNAME,VALET_DB_PASSWORD,VALET_DB_URL,VALET_DB_PORT,VALET_REFRESHTOKENTIME,VALET_ACCESSTOKENTIME, VALET_REDIS_SESSION_URL
+         host: ${{ secrets.SECOND_HOST_IP }}
+         username: ${{ secrets.SECOND_HOST_ID }}
+         password: ${{ secrets.SECOND_HOST_PASSWORD }}
+         port: ${{ secrets.SECOND_HOST_PORT }}
+         script_stop: true
+         script: |
+                export VALET_SECRET_KEY=$VALET_SECRET_KEY
+                export VALET_DB_USERNAME=$VALET_DB_USERNAME
+                export VALET_DB_PASSWORD=$VALET_DB_PASSWORD
+                export VALET_DB_URL=$VALET_DB_URL
+                export VALET_DB_PORT=$VALET_DB_PORT
+                export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
+                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
+                export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
+                nohup java -jar -Dserver.port=8081 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+              
