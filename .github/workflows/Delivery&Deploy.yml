@@ -88,6 +88,18 @@ jobs:
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
                nohup java -jar -Dserver.port=8080 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+
+
+     - name: executing app stop
+       uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
+       with:
+          host: ${{ secrets.SECOND_HOST_IP }}
+          username: ${{ secrets.SECOND_HOST_ID }}
+          password: ${{ secrets.SECOND_HOST_PASSWORD }}
+          port: ${{ secrets.SECOND_HOST_PORT }}
+          script_stop: true
+          script: |
+               ./app_stop.sh
                
      - name: executing app start in second
        uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78   
