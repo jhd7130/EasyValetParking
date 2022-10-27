@@ -4,7 +4,7 @@ on:
     branches:
       - main      
 jobs:
-  builddeploy:
+  deployfirst:
     name: Build
     runs-on: ubuntu-latest
     env:
@@ -88,7 +88,39 @@ jobs:
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
                nohup java -jar -Dserver.port=8080 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+  deploysecond:
+    name: Build-Second
+    runs-on: ubuntu-latest
+    needs: deployfirst
+    env:
+      VALET_SECRET_KEY: ${{ secrets.VALET_SECRET_KEY }}
+      VALET_DB_USERNAME: ${{ secrets.VALET_DB_USERNAME }}
+      VALET_DB_PASSWORD: ${{ secrets.VALET_DB_PASSWORD }}
+      VALET_DB_URL: ${{ secrets.VALET_DB_URL }}
+      VALET_DB_PORT: ${{ secrets.VALET_DB_PORT }}
+      VALET_REFRESHTOKENTIME: ${{ secrets.VALET_REFRESHTOKENTIME }}
+      VALET_ACCESSTOKENTIME: ${{ secrets.VALET_ACCESSTOKENTIME }}
+      VALET_REDIS_SESSION_URL: ${{ secrets.VALET_REDIS_SESSION_URL }}      
+    steps:
+     - name: enviro test
+       run: echo $VALET_DB_URL
+       
+     - name: Checkout
+       uses: actions/checkout@v3
 
+     - name: Set up JDK 11
+       uses: actions/setup-java@v3
+       with:
+          java-version: '11'
+          distribution: 'temurin'
+ 
+     - name: Set Gradle
+       run: chmod +x gradlew
+
+     - name: Build with Gradle
+       run: ./gradlew build
+       shell: bash    
+    
 
      - name: executing app stop
        uses: appleboy/ssh-action@dce9d565de8d876c11d93fa4fe677c0285a66d78
