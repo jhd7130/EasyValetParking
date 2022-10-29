@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Role :
- * Responsibility :
- * Cooperation with :
- **/
 @RestController
 @Slf4j
 @AllArgsConstructor

@@ -15,12 +15,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-/**
- * Role :
- * Responsibility :
- * Cooperation with :
- **/
-
 @ExtendWith(MockitoExtension.class)
 public class ParkingServiceTest {
     @Mock

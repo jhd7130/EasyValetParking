@@ -117,7 +117,7 @@ public class JWTProvider {
     if (type.equals("refresh")) {
       return Timestamp.valueOf(LocalDateTime.now().plusWeeks(time));
     }
-    return Timestamp.valueOf(LocalDateTime.now().plusHours(time));
+    return Timestamp.valueOf(LocalDateTime.now().plusDays(time));
   }
 
   private Claims getClaimsFormToken(String token) {
