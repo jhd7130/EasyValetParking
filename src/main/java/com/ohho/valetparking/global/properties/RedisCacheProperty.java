@@ -11,6 +11,8 @@ public class RedisCacheProperty {
 
   @Value("${spring.redis.cache.host}")
   private String host;
+
   @Value("${spring.redis.cache.port}")
   private int port;
+
 }

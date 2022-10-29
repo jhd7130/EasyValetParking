@@ -34,6 +34,7 @@ public enum ErrorCode {
   // Token
   INVALID_TOKEN(400, "T001", "유효하지않은 토큰입니다."),
   INVALID_REFRESHTOKEN(400, "T002", "RefreshToken을 찾을 수 없습니다."),
+  INVALID_ACCESSTOKEN_NOT_FOUND_REFRESHTOKEN(400, "T003", "AccessToken이 만료되었습니다. RefreshToken도 함께 요청하세요."),
 
   // Common
   INVALID_ARGUMENT(400, "C001", "잘못된 입력값입니다."),

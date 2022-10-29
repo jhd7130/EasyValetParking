@@ -22,4 +22,9 @@ public class ExitForRead {
           return false;
      }
 
+     public boolean canApprove(){
+          // 상태가 승인인 경우에만 완료가능
+          return status == 1;
+     }
+
 }

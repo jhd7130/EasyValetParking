@@ -39,8 +39,10 @@ public class JwtLoginService implements LoginService {
     TokenIngredient tokenIngredient = new TokenIngredient(member.getEmail(),
         member.getDepartment());
 
-    // Token 적용시키기
+
     response.addHeader("ACCESSTOKEN", jwtProvider.accessTokenCreate(tokenIngredient));
+    response.addHeader("REFRESHTOKEN", jwtProvider.refreshTokenCreate(tokenIngredient));
+
     SessionUtil.setRefreshtoken(httpSession,jwtProvider.refreshTokenCreate(tokenIngredient));
 
     return member;

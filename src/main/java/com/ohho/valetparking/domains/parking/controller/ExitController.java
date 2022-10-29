@@ -50,7 +50,7 @@ public class ExitController {
   // 권한 관리 : 관리자
   @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/exit/{id}/approve", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> requestExitApprove(@PathVariable("id") long exitRequestId,
+  public ResponseEntity<SuccessResponse> approveRequestExit(@PathVariable("id") long exitRequestId,
       HttpServletRequest request) throws JsonProcessingException {
 
     log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId);
@@ -63,7 +63,7 @@ public class ExitController {
 
   // 권한 관리 : 관리자 사용자.
   @PatchMapping(value = "/exit/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> requestExitReject(@PathVariable("id") long exitRequestId) {
+  public ResponseEntity<SuccessResponse> rejectRequestExit(@PathVariable("id") long exitRequestId) {
 
     log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId);
     exitRequestService.reject(exitRequestId);
