@@ -8,6 +8,7 @@ import com.ohho.valetparking.domains.parking.domain.dto.TicketReqeust;
 import com.ohho.valetparking.domains.parking.domain.entity.Ticket;
 import com.ohho.valetparking.domains.parking.exception.TicketDuplicateException;
 import com.ohho.valetparking.domains.parking.service.TicketService;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.error.ErrorCode;
 import com.ohho.valetparking.global.security.jwt.JWTProvider;
@@ -39,7 +40,7 @@ public class TicketController {
   }
   @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/ticket", produces = MediaType.APPLICATION_JSON_VALUE)
-  public SuccessResponse<Ticket> ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust,
+  public ApiResponse ticketRegister(@RequestBody @Valid TicketReqeust ticketReqeust,
       HttpServletRequest request) throws JsonProcessingException {
     log.info("TicketController ticketReqeust ::::: = {}, Header ={} ", ticketReqeust,
         request.getHeader("ACCESSTOKEN"));
@@ -50,7 +51,7 @@ public class TicketController {
 
     ticketService.register(ticketIncludedEmail);
 
-    return SuccessResponse.success("성공");
+    return ApiResponse.success("성공");
   }
 
   /**
@@ -58,8 +59,8 @@ public class TicketController {
    */
 
   @GetMapping(value = "/ticket/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity ticketInformation(@PathVariable("id") final String id) {
-    return ResponseEntity.status(HttpStatus.OK).body(id);
+  public ApiResponse ticketInformation(@PathVariable("id") final String id) {
+    return ApiResponse.success(id);
   }
 
   @Hidden
