@@ -39,47 +39,42 @@ public class VipApi {
   //------------------------------------------------- CUD -----------------------------------------------
   @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/vip", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> registor(@RequestBody @Valid VipRequest vipRequest) {
+  public ApiResponse registor(@RequestBody @Valid VipRequest vipRequest) {
     log.info("[VipApi] :::: vipRequest = {}", vipRequest);
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success(vipService.registerVip(vipRequest)));
+    return ApiResponse.success(vipService.registerVip(vipRequest));
   }
 
   @PermissionRequired(permission = MemberType.ADMIN)
   @DeleteMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> delete(@PathVariable @NonNull Long id) {
+  public ApiResponse delete(@PathVariable @NonNull Long id) {
     log.info("[VipApi] :::: vipName = {}", id);
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success(vipService.deleteVip(id)));
+    return ApiResponse.success(vipService.deleteVip(id));
   }
 
   @PermissionRequired(permission = MemberType.ADMIN)
   @PutMapping(value = "/vip/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> update(@PathVariable @NonNull Long id,
+  public ApiResponse update(@PathVariable @NonNull Long id,
       @RequestBody VipRequest vipRequest) {
     log.info("[VipApi] :::: vipName = {}", id);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success(vipService.updateVip(Vip.from(id, vipRequest))));
+    return ApiResponse.success(vipService.updateVip(Vip.from(id, vipRequest)));
   }
 
   //------------------------------------------------- R -------------------------------------------------
 
   @GetMapping(value = "/vip/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> getVipByName(@PathVariable("name") @NonNull String name) {
+  public ApiResponse getVipByName(@PathVariable("name") @NonNull String name) {
     log.info("[VipApi] :::: vipName = {}", name);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success(vipService.findVipByName(name)));
+    return ApiResponse.success(vipService.findVipByName(name));
   }
 
   @GetMapping(value = "/vip/car-number/{carNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> getVipByCarNumber(
+  public ApiResponse getVipByCarNumber(
       @PathVariable("carNumber") @NonNull String carNumber) {
     log.info("[VipApi] :::: vipName = {}", carNumber);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success(vipService.findVipByCarNumber(carNumber)));
+    return ApiResponse.success(vipService.findVipByCarNumber(carNumber));
   }
 
 

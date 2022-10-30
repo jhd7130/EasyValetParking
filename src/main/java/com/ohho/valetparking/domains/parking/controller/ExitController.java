@@ -5,6 +5,7 @@ import com.ohho.valetparking.domains.member.enums.MemberType;
 import com.ohho.valetparking.domains.parking.domain.dto.ExitRequest;
 import com.ohho.valetparking.domains.parking.domain.entity.ExitForRead;
 import com.ohho.valetparking.domains.parking.service.ExitRequestService;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.security.permission.PermissionRequired;
 import lombok.AllArgsConstructor;
@@ -38,51 +39,46 @@ public class ExitController {
 
   // 권한 관리 : 사용자 관리자
   @PostMapping(value = "/exit", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> requestExit(@RequestBody ExitRequest exitRequest) {
+  public ApiResponse requestExit(@RequestBody ExitRequest exitRequest) {
     log.info("[ExitController] ::: exitRequest = {}", exitRequest);
     String successMessage = exitRequestService.register(exitRequest.convertToExit());
 
-    return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(SuccessResponse.success(successMessage));
+    return ApiResponse.success(successMessage);
   }
 
   // 권한 관리 : 관리자
   @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/exit/{id}/approve", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> approveRequestExit(@PathVariable("id") long exitRequestId,
+  public ApiResponse approveRequestExit(@PathVariable("id") long exitRequestId,
       HttpServletRequest request) throws JsonProcessingException {
 
     log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId);
     exitRequestService.approve(exitRequestId, request.getHeader("ACCESSTOKEN"));
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success("출차 요청이 승인 되었습니다."));
+    return ApiResponse.success("출차 요청이 승인 되었습니다.");
 
   }
 
   // 권한 관리 : 관리자 사용자.
   @PatchMapping(value = "/exit/{id}/reject", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> rejectRequestExit(@PathVariable("id") long exitRequestId) {
+  public ApiResponse rejectRequestExit(@PathVariable("id") long exitRequestId) {
 
     log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId);
     exitRequestService.reject(exitRequestId);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success("출차 요청이 반려 되었습니다."));
+    return ApiResponse.success("출차 요청이 반려 되었습니다.");
 
   }
 
   // 권한 관리 : 관리자
   @PermissionRequired(permission = MemberType.ADMIN)
   @PostMapping(value = "/exit/{id}/done", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<SuccessResponse> requestExitDone(@PathVariable("id") long exitRequestId) {
+  public ApiResponse requestExitDone(@PathVariable("id") long exitRequestId) {
 
     log.info("[ExitController] requestExit :::: exitRequestId ={}", exitRequestId);
     exitRequestService.done(exitRequestId);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(SuccessResponse.success("출차가 완료 되었습니다."));
+    return ApiResponse.success("출차가 완료 되었습니다.");
 
   }
 

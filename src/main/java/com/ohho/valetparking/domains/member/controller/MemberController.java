@@ -48,13 +48,12 @@ public class MemberController {
   }
 
   @PostMapping(value = "/member/sign-in", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity signIn(@RequestBody SignInRequest signInRequest,
+  public ApiResponse signIn(@RequestBody SignInRequest signInRequest,
       HttpServletResponse response, HttpServletRequest request) {
 
     Member member = loginService.signIn(signInRequest.toSignIn(), response);
 
-    return ResponseEntity.ok()
-        .body(SuccessResponse.success(member));
+    return ApiResponse.success(member);
   }
 
   @PostMapping(value = "/member/sign-out", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -65,20 +64,19 @@ public class MemberController {
   }
 
   @PutMapping(value = "/member/password", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity changePassword() {
+  public ApiResponse changePassword() {
 
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    return ApiResponse.success("성공하였습니다.");
 
   }
 
   @GetMapping(value = "/member/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity duplicationCheck(@PathVariable("email") @Email @NotBlank String email) {
+  public ApiResponse duplicationCheck(@PathVariable("email") @Email @NotBlank String email) {
 
     log.info("drive in test :: ={}", email);
     memberService.emailValidation(email);
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body("해당 이메일로 회원가입 가능");
+    return ApiResponse.success("회원가입가능한 이메일입니다.");
   }
 
   /**
@@ -88,13 +86,12 @@ public class MemberController {
    */
   @PermissionRequired(permission = MemberType.ADMIN)
   @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity userList() {
+  public ApiResponse userList() {
     log.info("[MemberController] userList :::: entracing success");
 
     List<User> userList = memberService.getUserList();
 
-    return ResponseEntity.status(HttpStatus.OK)
-        .body(userList);
+    return ApiResponse.success(userList);
   }
 
 

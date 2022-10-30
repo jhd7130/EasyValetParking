@@ -4,6 +4,7 @@ import com.ohho.valetparking.domains.member.domain.dto.VipRequest;
 import com.ohho.valetparking.domains.member.domain.entity.Vip;
 import com.ohho.valetparking.domains.member.exception.FailVipRegisterException;
 import com.ohho.valetparking.domains.member.repository.VipMapper;
+import com.ohho.valetparking.global.common.dto.ApiResponse;
 import com.ohho.valetparking.global.common.dto.SuccessResponse;
 import com.ohho.valetparking.global.error.ErrorCode;
 import java.util.List;
@@ -36,21 +37,21 @@ public class VipServiceV1 implements VipService {
   }
 
   @Override
-  public SuccessResponse<List<Vip>> findVipByName(String vipName) {
+  public List<Vip> findVipByName(String vipName) {
 
     List<Vip> vips = vipMapper.findVipByName(vipName);
     log.info("VIPS {}", vips);
 
-    return SuccessResponse.success(vips);
+    return vips;
   }
 
   @Override
-  public SuccessResponse<List<Vip>> findVipByCarNumber(String carNumber) {
+  public List<Vip> findVipByCarNumber(String carNumber) {
 
     List<Vip> vips = vipMapper.findVipByCarNumber(carNumber);
     log.info("VIPS {}", vips);
 
-    return SuccessResponse.success(vips);
+    return vips;
   }
   @Cacheable(key = "'vips'",value = "Vip")
   @Override
@@ -63,25 +64,25 @@ public class VipServiceV1 implements VipService {
   }
 
   @Override
-  public SuccessResponse<String> registerVip(VipRequest vipRequest) {
+  public String registerVip(VipRequest vipRequest) {
 
     log.info("[VipServiceV1] registerVip ={}", vipRequest);
     validUpdateSuccess(vipMapper.registerVip(vipRequest));
 
-    return SuccessResponse.success("등록에 성공했습니다.");
+    return "등록에 성공했습니다.";
   }
 
   @Override
-  public SuccessResponse<String> deleteVip(Long vipId) {
+  public String deleteVip(Long vipId) {
     log.info("[VipServiceV1] registerVip ={}", vipId);
     validUpdateSuccess(vipMapper.deleteVip(vipId));
-    return SuccessResponse.success("삭제에 성공했습니다.");
+    return "삭제에 성공했습니다.";
   }
 
   @Override
-  public SuccessResponse<String> updateVip(Vip vip) {
+  public String updateVip(Vip vip) {
     validUpdateSuccess(vipMapper.updateVip(vip));
-    return SuccessResponse.success("수정에 성공했습니다.");
+    return "수정에 성공했습니다.";
   }
 
   private void validUpdateSuccess(int updateCount) {

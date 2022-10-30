@@ -13,17 +13,17 @@ public interface VipService {
 
   List<Vip> findVipById(long id);
 
-  SuccessResponse<List<Vip>> findVipByName(String VipName);
+  List<Vip> findVipByName(String VipName);
 
-  SuccessResponse<List<Vip>> findVipByCarNumber(String CarNumber); //
+  List<Vip> findVipByCarNumber(String CarNumber); //
 
   List<Vip> findVips(); // 전체조회
 
   // ------------------------------ CUD ------------------------------
-  SuccessResponse<String> registerVip(VipRequest vipRequest); // vip 등록
+  String registerVip(VipRequest vipRequest); // vip 등록
 
-  SuccessResponse<String> deleteVip(Long id);
+  String deleteVip(Long id);
 
-  SuccessResponse<String> updateVip(Vip vip);
+  String updateVip(Vip vip);
 
 }
