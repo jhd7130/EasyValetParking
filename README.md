@@ -13,10 +13,7 @@ Java 11, Mysql, Mybatis, Redis, Spring Boot, Naver Cloud, IntelliJ, github actio
 ## Code Convention
 [Goolge code convention](https://google.github.io/styleguide/javaguide.html)을 따릅니다.
 [(한글번역은 여기)](https://newwisdom.tistory.com/96)
-\n
-\n
-\n    
-      
+
       
 ## Architecture
 <img width="1030" alt="스크린샷 2022-10-22 오후 5 43 03" src="https://user-images.githubusercontent.com/78134917/199229126-aa06b9c9-2b8c-474d-a968-cbe0c0b26b00.png">
