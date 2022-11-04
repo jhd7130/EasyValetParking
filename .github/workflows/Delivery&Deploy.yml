@@ -43,7 +43,7 @@ jobs:
          username: ${{ secrets.HOST_ID }}
          key: ${{ secrets.KEY }}
          port: ${{ secrets.HOST_PORT }}
-         source: "build/libs/*.jar"
+         source: "server/build/libs/*.jar"
          target: "source"
          rm: true
          
@@ -54,7 +54,7 @@ jobs:
          username: ${{ secrets.SECOND_HOST_ID }}
          password: ${{ secrets.SECOND_HOST_PASSWORD }}
          port: ${{ secrets.SECOND_HOST_PORT }}
-         source: "build/libs/*.jar"
+         source: "server/build/libs/*.jar"
          target: "source"
          rm: true
         
