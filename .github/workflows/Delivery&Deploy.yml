@@ -87,7 +87,7 @@ jobs:
                export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
                export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
-               nohup java -jar -Dserver.port=8080 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+               nohup java -jar -Dserver.port=8080 /root/source/server/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
   deploysecond:
     name: Build-Second
     runs-on: ubuntu-latest
@@ -151,5 +151,5 @@ jobs:
                 export VALET_REFRESHTOKENTIME=$VALET_REFRESHTOKENTIME
                 export VALET_ACCESSTOKENTIME=$VALET_ACCESSTOKENTIME
                 export VALET_REDIS_SESSION_URL=$VALET_REDIS_SESSION_URL  
-                nohup java -jar -Dserver.port=8081 /root/source/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
+                nohup java -jar -Dserver.port=8081 /root/source/server/build/libs/*.jar > nohup.out 2> nohup.err < /dev/null &
               
