@@ -1,0 +1,12 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+}
+
+// starter web이 bean을 등록하기 위해 의존하려 했다.
+// 하지만 빈 생성의 책임을 다른 객체에게 위임한다. to Infrastructure
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation project(path: ':user-api:user-application', configuration: 'default')
+}

@@ -1,0 +1,9 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.5'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+}
+
+
+dependencies {
+    implementation project(path: ':parking-api:parking-domain', configuration: 'default')
+}

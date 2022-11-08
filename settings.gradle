@@ -2,10 +2,18 @@ rootProject.name = 'valetparking'
 
 include('server')
 include('legacy-api')
-//include(
-//        'user-api',
-//        'user-api:user-domain',
-//        'user-api:user-application',
-//        'user-api:user-presentation',
-//        'user-api:user-infrastructure'
-//)
+include(
+        'user-api',
+        'user-api:user-domain',
+        'user-api:user-application',
+        'user-api:user-presentation',
+        'user-api:user-infrastructure'
+)
+
+include(
+        'parking-api',
+        'parking-api:parking-domain',
+        'parking-api:parking-application',
+        'parking-api:parking-presentation',
+        'parking-api:parking-infrastructure'
+)

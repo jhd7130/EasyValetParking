@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '2.7.1'
+	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
 }
@@ -20,6 +20,8 @@ repositories {
 
 dependencies {
 	implementation project(path: ':legacy-api', configuration: 'default')
+	implementation project(path: ':user-api:user-infrastructure', configuration: 'default')
+	implementation project(path: ':parking-api:parking-infrastructure', configuration: 'default')
 
 	// default
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
