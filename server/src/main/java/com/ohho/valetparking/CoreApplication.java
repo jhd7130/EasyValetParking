@@ -3,6 +3,7 @@ package com.ohho.valetparking;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 /*
       @EnableRedisHttpSession : 기존 서버 세션 저장소를 사용하지 않고
@@ -23,7 +24,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
       스프링이 CacheManager 인터페이스를 추상화하였기 때문에 RedisCacheManager,EhCacheManager등
       필요한 CacheManage로 갈아끼워 사용할 수 있습니다.
    */
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class, scanBasePackages = "com.ohho")
 public class CoreApplication {
 
 	public static void main(String[] args) {

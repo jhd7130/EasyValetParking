@@ -17,7 +17,7 @@ allprojects {
 }
 
 subprojects {
-
+	apply plugin: "java"
 }
 
 tasks.getByName('jar') {

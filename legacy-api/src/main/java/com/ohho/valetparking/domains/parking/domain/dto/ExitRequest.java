@@ -1,6 +1,7 @@
 package com.ohho.valetparking.domains.parking.domain.dto;
 
 import com.ohho.valetparking.domains.parking.domain.entity.Exit;
+import javax.validation.constraints.NotNull;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -17,11 +18,11 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 public class ExitRequest {
 
-    @NotBlank(message = "요청자 정보가 없습니다.")
+    @NotNull(message = "요청자 정보가 없습니다.")
     private long memberId;
-    @NotBlank(message = "주차 정보가 없습니다.")
+    @NotNull(message = "주차 정보가 없습니다.")
     private long parkingRecordId;
-    @NotBlank(message = "출차 유형 정보가 없습니다.") // 0,1 출차 요청은 0이 default
+    @NotNull(message = "출차 유형 정보가 없습니다.") // 0,1 출차 요청은 0이 default
     private int exitType;
 
     public Exit convertToExit(){

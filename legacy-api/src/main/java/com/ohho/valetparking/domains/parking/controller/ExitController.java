@@ -20,9 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Role : Responsibility : Cooperation with :
- **/
 @Slf4j
 @RestController
 @AllArgsConstructor
