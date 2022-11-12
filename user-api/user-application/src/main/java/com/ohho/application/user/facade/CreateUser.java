@@ -1,6 +1,6 @@
 package com.ohho.application.user.facade;
 
-import com.ohho.domain.user.Department;
+import com.ohho.valetparking.enums.Department;
 
 public class CreateUser {
   private final String email;

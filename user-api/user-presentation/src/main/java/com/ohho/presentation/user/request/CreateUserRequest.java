@@ -1,6 +1,6 @@
 package com.ohho.presentation.user.request;
 
-import com.ohho.domain.user.Department;
+import com.ohho.valetparking.enums.Department;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 

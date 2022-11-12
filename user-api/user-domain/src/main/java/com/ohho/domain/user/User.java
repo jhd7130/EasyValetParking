@@ -1,5 +1,6 @@
 package com.ohho.domain.user;
 
+import com.ohho.valetparking.enums.Department;
 import java.time.LocalDateTime;
 import java.util.Objects;
 

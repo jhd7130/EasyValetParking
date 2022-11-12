@@ -2,6 +2,7 @@ rootProject.name = 'valetparking'
 
 include('server')
 include('legacy-api')
+include('common')
 include(
         'user-api',
         'user-api:user-domain',

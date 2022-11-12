@@ -3,8 +3,10 @@ package com.ohho.presentation.user;
 import com.ohho.application.user.UserManager;
 import com.ohho.domain.user.User;
 import com.ohho.presentation.user.request.CreateUserRequest;
+import com.ohho.valetparking.response.ApiResponseWrapper;
+import java.util.List;
 import javax.validation.Valid;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +23,10 @@ public class UserApi {
   }
 
   @PostMapping("/create")
-  public ResponseEntity<User> create(@RequestBody @Valid CreateUserRequest request) {
+  public ApiResponseWrapper<User> create(@RequestBody @Valid CreateUserRequest request) {
     User user = userManager.create(request.getEmail(), request.getPassword(), request.getNickname(),
                         request.getDepartment());
-    return ResponseEntity.ok(user);
+    return ApiResponseWrapper.success(user);
   }
 
 }
