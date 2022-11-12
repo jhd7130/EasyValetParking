@@ -1,8 +1,8 @@
 package com.ohho.application.user.processor;
 
-import com.ohho.domain.user.Department;
 import com.ohho.domain.user.User;
 import com.ohho.domain.user.UserRepository;
+import com.ohho.valetparking.enums.Department;
 
 public class UserCreateProcessor {
 

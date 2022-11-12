@@ -1,4 +1,4 @@
-package com.ohho.domain.user;
+package com.ohho.valetparking.enums;
 
 import java.util.Arrays;
 

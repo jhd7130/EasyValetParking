@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+	implementation project(path: ':common', configuration: 'default')
 	implementation project(path: ':legacy-api', configuration: 'default')
 	implementation project(path: ':user-api:user-infrastructure', configuration: 'default')
 	implementation project(path: ':parking-api:parking-infrastructure', configuration: 'default')
